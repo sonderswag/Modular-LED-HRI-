@@ -10,6 +10,7 @@ Signalling::Signalling(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoP
 // Update the pattern
 void Signalling::Update(Update_Data *a)
 {
+
         if((millis() - a->lastUpdate) > a->Interval) // time to update
         {
             a->lastUpdate = millis();
@@ -86,7 +87,7 @@ void Signalling::RainbowCycleUpdate(Update_Data *b)
     {
         for(int i=0; i< b->groupLength; i++)
         {
-            setPixelColor(b->*(group+i), Wheel(((i * 256 / b->groupLength) + b->Index) & 255));
+            setPixelColor(b->group[i], Wheel(((i * 256 / b->groupLength) + b->Index) & 255));
         }
         show();
         Increment(b);
@@ -99,11 +100,11 @@ void Signalling::TheaterChaseUpdate(Update_Data *b)
         {
             if ((i + b->Index) % 3 == 0)
             {
-                setPixelColor(b->*(group+i), b->Color1);
+                setPixelColor(b->group[i], b->Color1);
             }
             else
             {
-                setPixelColor(b->*(group+i), b->Color2);
+                setPixelColor(b->group[i], b->Color2);
             }
         }
         show();
@@ -113,7 +114,7 @@ void Signalling::TheaterChaseUpdate(Update_Data *b)
 // Update the Color Wipe Pattern
 void Signalling::ColorWipeUpdate(Update_Data *b)
     {
-        setPixelColor(b->*(group+b->Index), b->Color1);
+        setPixelColor(b->group[b->Index], b->Color1);
         show();
         Increment(b);
     }
@@ -125,15 +126,15 @@ void Signalling::ColorWipeUpdate(Update_Data *b)
         {
             if (i == b->Index)  // Scan Pixel to the right
             {
-                 setPixelColor(b->*(group+i), b->Color1);
+                 setPixelColor(b->group[i], b->Color1);
             }
             else if (i == b->totalsteps - b->Index) // Scan Pixel to the left
             {
-                 setPixelColor(b->*(group+i), b->Color1);
+                 setPixelColor(b->group[i], b->Color1);
             }
             else // Fading tail
             {
-                 setPixelColor(b->*(group+i), DimColor(getPixelColor(b->*(group+i))));
+                 setPixelColor(b->group[i], DimColor(getPixelColor(b->group[i])));
             }
         }
         show();

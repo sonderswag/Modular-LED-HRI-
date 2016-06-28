@@ -3,7 +3,7 @@
 #ifndef SIGNALLING_h
 #define SIGNALLING_h
 
-#include <Ardunio.h>
+#include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 //#include <string>
 
@@ -32,7 +32,7 @@ unsigned long lastUpdate;       //time at which the pattern was last updated
 bool status;            //whether or not the pattern is currently running or not
 bool complete;         //whether or not the pattern is complete or not
 
-int *group;
+uint16_t group[100];
 int groupLength;        //length of the group
 };
 
