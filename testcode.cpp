@@ -1,4 +1,4 @@
-//Comment by Lancelot
+
 #include <iostream>
 
 using namespace std;
