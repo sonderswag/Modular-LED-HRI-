@@ -28,9 +28,8 @@ void setup() {
     Pattern2.brightness = 255;
     Pattern2.status = false;
     Pattern2.complete = false;
-    Pattern1.interval = 200;        //change every 100 ms
-    Pattern1.lastUpdate = 0;
-    
+    Pattern2.interval = 200;        //change every 100 ms
+    Pattern2.lastUpdate = 0;
     Pattern2.group = [2,4,6,8,10];
     Pattern2.groupLength = 5;
     
