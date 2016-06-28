@@ -1,3 +1,6 @@
+#include <Adafruit_NeoPixel.h>
+#include <Signalling.h>
+
 void setup() {
   // put your setup code here, to run once:
 
