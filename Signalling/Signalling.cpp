@@ -28,9 +28,9 @@ void Signalling::Update(Update_Data *a)
                 case SCANNER:
                     ScannerUpdate(a);
                     break;
-                case FADE:
-                    FadeUpdate(a);
-                    break;
+         //       case FADE:
+         //           FadeUpdate(a);
+         //           break;
               /*  case BLINK:
                     BlinkUpdate();
                     break;

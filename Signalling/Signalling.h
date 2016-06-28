@@ -55,9 +55,9 @@ public:
        void TheaterChaseUpdate(Update_Data *b);
        void ColorWipeUpdate(Update_Data *b);
        void ScannerUpdate(Update_Data *b);
-       void FadeUpdate(Update_Data *b);
+ //      void FadeUpdate(Update_Data *b);
        // Core Functionality
-    /*   void on_and_off();
+  /*   void on_and_off();
        void blink();
        void pulsating();
        void brightness();
