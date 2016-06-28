@@ -40,7 +40,7 @@ class Signalling : public Adafruit_NeoPixel{
 
 public:
        Signalling(uint16_t pixels, uint8_t pin, uint8_t type);
-     //  ~Signalling();
+//    ~Signalling();
 
        void Update(Update_Data *a);
        bool OnComplete(bool c);
