@@ -1,10 +1,11 @@
 /* Signalling.h - Library for Non-verbal signaliing by Robots */
 
-#ifndef Signalling_h
-#define Signalling_h
+#ifndef SIGNALLING_h
+#define SIGNALLING_h
 
-#include "Ardunio.h"
-#include "Adafruit_NeoPixel.h"
+#include <Ardunio.h>
+#include <Adafruit_NeoPixel.h>
+#include <string>
 
 struct Update_Data{
 string pattern;
@@ -34,6 +35,16 @@ class Signalling : public Adafruit_NeoPixel{
 
 public:
        Signalling();
+       ~Signalling();
+
+       void Update(Update_Data *a);
+       void Oncomplete(bool *c);
+       void Increment(Update_data *p);
+       uint32_t DimColor(uint32_t color);
+       uint8_t Red(uint32_t color);
+       uint8_t Green(uint32_t color);
+       uint8_t Blue(uint32_t color);
+       uint32_t Wheel(byte WheelPos);
 
        void RainbowCycleUpdate(Update_Data *b);
        void TheaterChaseUpdate(Update_Data *b);
@@ -41,7 +52,7 @@ public:
        void ScannerUpdate(Update_Data *b);
        void FadeUpdate(Update_Data *b);
        // Core Functionality
-       void on_and_off();
+    /*   void on_and_off();
        void blink();
        void pulsating();
        void brightness();
@@ -51,6 +62,7 @@ public:
        void rainbow();
        void loadingbar();
        void alternatingblink();
-       void policeblink();
+       void policeblink();*/
 
-}
+};
+#endif

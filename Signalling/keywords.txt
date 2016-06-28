@@ -1,0 +1,16 @@
+Signalling KEYWORD1
+Update KEYWORD2
+Update_Data KEYWORD3
+Oncomplete KEYWORD4
+Increment KEYWORD5
+DimColor KEYWORD6
+Red KEYWORD7
+Green KEYWORD8
+Blue KEYWORD9
+Wheel KEYWORD10
+RainbowCycleUpdate KEYWORD11
+TheaterChaseUpdate KEYWORD12
+ColorWipeUpdate KEYWORD13
+ScannerUpdate KEYWORD14
+FadeUpdate KEYWORD15
+
