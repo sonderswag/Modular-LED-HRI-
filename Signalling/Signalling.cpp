@@ -1,8 +1,8 @@
-#include <Signalling.h>
+#include "Signalling.h"
 
 const byte PIN=6;    //output PWM pin
 
-Signalling::Signalling(uint16_t pixels, uint8_t pin, uint8_t type, void (*callback)()):Adafruit_NeoPixel(pixels, pin, type){
+Signalling::Signalling(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPixel(pixels, pin, type){
 
 //OnComplete = callback;
 }
@@ -30,7 +30,7 @@ void Signalling::Update(Update_Data *a)
                 case FADE:
                     FadeUpdate(a);
                     break;
-                case BLINK:
+              /*  case BLINK:
                     BlinkUpdate();
                     break;
                 case ON_AND_OFF:
@@ -38,7 +38,7 @@ void Signalling::Update(Update_Data *a)
                     break;
                 case PULSATING:
                     PulsatingUpdate();
-                    break;
+                    break;*/
                 default:
                     break;
             }
@@ -46,23 +46,24 @@ void Signalling::Update(Update_Data *a)
     }
 
 //change the status of the  pattern
-void Signalling::Oncomplete(bool *c)
+bool Signalling::OnComplete(bool c)
 {
-    *c=true;
+    c=true;
+    return c;
 }
     // Increment the Index and reset at the end
-void Signalling::Increment(Update_data *p)
+void Signalling::Increment(Update_Data *p)
     {
-        if (p->Direction == FORWARD)
+        if (p->direction == FORWARD)
         {
            p->Index++;
             p->totalsteps++;
-           if (p->Index >= p->groupLengh)
+           if (p->Index >= p->groupLength)
             {
                 p->Index = 0;
-                if (p->totalsteps>=(p->grouplenght*p->cycles))
+                if (p->totalsteps>=(p->groupLength*p->cycles))
                 {
-                    OnComplete(p->complete); // call the comlpetion callback
+                    p->complete=OnComplete(p->complete); // call the comlpetion callback
                 }
             }
         }
@@ -71,17 +72,17 @@ void Signalling::Increment(Update_data *p)
             --p->Index;
             if (p->Index <= 0)
             {
-                p->Index = p->groupLenght-1;
-                if (p->totalsteps>=(p->grouplenght*p->cycles))
+                p->Index = p->groupLength-1;
+                if (p->totalsteps>=(p->groupLength*p->cycles))
                 {
-                    OnComplete(p->complete); // call the comlpetion callback
+                    p->complete=OnComplete(p->complete); // call the comlpetion callback
                 }
             }
         }
     }
 
 // Update the Rainbow Cycle Pattern
-void Signallinjg::RainbowCycleUpdate(Update_Data *b)
+void Signalling::RainbowCycleUpdate(Update_Data *b)
     {
         for(int i=0; i< b->groupLength; i++)
         {
@@ -112,7 +113,7 @@ void Signalling::TheaterChaseUpdate(Update_Data *b)
 // Update the Color Wipe Pattern
 void Signalling::ColorWipeUpdate(Update_Data *b)
     {
-        setPixelColor(b->*(group+Index), b->Color1);
+        setPixelColor(b->*(group+b->Index), b->Color1);
         show();
         Increment(b);
     }

@@ -5,11 +5,16 @@
 
 #include <Ardunio.h>
 #include <Adafruit_NeoPixel.h>
-#include <string>
+//#include <string>
+
+// Pattern types supported:
+enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, FADE };
+// Patern directions supported:
+enum  Direction { FORWARD, REVERSE };
 
 struct Update_Data{
-string pattern;
-string direction;
+ActivePattern pattern;
+Direction direction;
 
 int startTime;
 int cycles;             //no of times the pattern should run
@@ -21,7 +26,7 @@ int brightness;          //the current brightness of the LED's
 
 uint32_t Color1, Color2;    //required colors for the pattern
 
-unsigned long interval;
+unsigned long Interval;
 unsigned long lastUpdate;       //time at which the pattern was last updated
 
 bool status;            //whether or not the pattern is currently running or not
@@ -34,12 +39,12 @@ int groupLength;        //length of the group
 class Signalling : public Adafruit_NeoPixel{
 
 public:
-       Signalling();
+       Signalling(uint16_t pixels, uint8_t pin, uint8_t type);
        ~Signalling();
 
        void Update(Update_Data *a);
-       void Oncomplete(bool *c);
-       void Increment(Update_data *p);
+       bool OnComplete(bool c);
+       void Increment(Update_Data *p);
        uint32_t DimColor(uint32_t color);
        uint8_t Red(uint32_t color);
        uint8_t Green(uint32_t color);
