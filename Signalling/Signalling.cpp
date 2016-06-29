@@ -58,14 +58,14 @@ void Signalling::Increment(Update_Data *p)
         if (p->direction == FORWARD)
         {
            p->Index++;
-            p->totalsteps++;
+           // p->totalsteps++;
            if (p->Index >= p->groupLength)
             {
                 p->Index = 0;
-                if (p->totalsteps>=(p->groupLength*p->cycles))
+           /*     if (p->totalsteps>=(p->groupLength*p->cycles))
                 {
                     p->complete=OnComplete(p->complete); // call the comlpetion callback
-                }
+                }*/
             }
         }
         else // Direction == REVERSE
@@ -74,10 +74,10 @@ void Signalling::Increment(Update_Data *p)
             if (p->Index <= 0)
             {
                 p->Index = p->groupLength-1;
-                if (p->totalsteps>=(p->groupLength*p->cycles))
+             /*   if (p->totalsteps>=(p->groupLength*p->cycles))
                 {
                     p->complete=OnComplete(p->complete); // call the comlpetion callback
-                }
+                }*/
             }
         }
     }
@@ -85,9 +85,9 @@ void Signalling::Increment(Update_Data *p)
 // Update the Rainbow Cycle Pattern
 void Signalling::RainbowCycleUpdate(Update_Data *b)
     {
-        for(int i=0; i< b->groupLength; i++)
+        for(int i=0; i< (b->totalsteps); i++)
         {
-            setPixelColor(b->group[i], Wheel(((i * 256 / b->groupLength) + b->Index) & 255));
+            setPixelColor(b->group[i], Wheel(((i * 256 / b->totalsteps) + b->Index) & 255));
         }
         show();
         Increment(b);
