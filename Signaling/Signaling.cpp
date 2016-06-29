@@ -1,14 +1,14 @@
-#include "Signalling.h"
+#include "Signaling.h"
 
 const byte PIN=6;    //output PWM pin
 
-Signalling::Signalling(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPixel(pixels, pin, type){
+Signaling::Signaling(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPixel(pixels, pin, type){
 
 //OnComplete = callback;
 }
 
 // Update the pattern
-void Signalling::Update(Update_Data *a)
+void Signaling::Update(Update_Data *a)
 {
 
         if((millis() - a->lastUpdate) > a->Interval) // time to update
@@ -28,9 +28,9 @@ void Signalling::Update(Update_Data *a)
                 case SCANNER:
                     ScannerUpdate(a);
                     break;
-         //       case FADE:
-         //           FadeUpdate(a);
-         //           break;
+                case FADE:
+                    FadeUpdate(a);
+                    break;
               /*  case BLINK:
                     BlinkUpdate();
                     break;
@@ -47,19 +47,19 @@ void Signalling::Update(Update_Data *a)
     }
 
 //change the status of the  pattern
-bool Signalling::OnComplete(bool c)
+bool Signaling::OnComplete(bool c)
 {
     c=true;
     return c;
 }
     // Increment the Index and reset at the end
-void Signalling::Increment(Update_Data *p)
+void Signaling::Increment(Update_Data *p)
     {
         if (p->direction == FORWARD)
         {
            p->Index++;
            // p->totalsteps++;
-           if (p->Index >= p->groupLength)
+           if (p->Index >= p->totalsteps)
             {
                 p->Index = 0;
            /*     if (p->totalsteps>=(p->groupLength*p->cycles))
@@ -83,18 +83,18 @@ void Signalling::Increment(Update_Data *p)
     }
 
 // Update the Rainbow Cycle Pattern
-void Signalling::RainbowCycleUpdate(Update_Data *b)
+void Signaling::RainbowCycleUpdate(Update_Data *b)
     {
-        for(int i=0; i< (b->totalsteps); i++)
+        for(int i=0; i< (b->groupLength); i++)
         {
-            setPixelColor(b->group[i], Wheel(((i * 256 / b->totalsteps) + b->Index) & 255));
+            setPixelColor(b->group[i], Wheel(((i * 256 / b->groupLength) + b->Index) & 255));
         }
         show();
         Increment(b);
     }
 
 // Update the Theater Chase Pattern
-void Signalling::TheaterChaseUpdate(Update_Data *b)
+void Signaling::TheaterChaseUpdate(Update_Data *b)
     {
         for(int i=0; i< b->groupLength; i++)
         {
@@ -112,7 +112,7 @@ void Signalling::TheaterChaseUpdate(Update_Data *b)
     }
 
 // Update the Color Wipe Pattern
-void Signalling::ColorWipeUpdate(Update_Data *b)
+void Signaling::ColorWipeUpdate(Update_Data *b)
     {
         setPixelColor(b->group[b->Index], b->Color1);
         show();
@@ -120,7 +120,7 @@ void Signalling::ColorWipeUpdate(Update_Data *b)
     }
 
     // Update the Scanner Pattern
-    void Signalling::ScannerUpdate(Update_Data *b)
+void Signaling::ScannerUpdate(Update_Data *b)
     {
         for (int i = 0; i < b->groupLength; i++)
         {
@@ -141,33 +141,55 @@ void Signalling::ColorWipeUpdate(Update_Data *b)
         Increment(b);
     }
 
+void Signaling::FadeUpdate(Update_Data *b)
+    {
+        // Calculate linear interpolation between Color1 and Color2
+        // Optimise order of operations to minimize truncation error
+        uint8_t red = ((Red(b->Color1) * (b->totalsteps - b->Index)) + (Red(b->Color2) * b->Index)) / b->totalsteps;
+        uint8_t green = ((Green(b->Color1) * (b->totalsteps - b->Index)) + (Green(b->Color2) * b->Index)) / b->totalsteps;
+        uint8_t blue = ((Blue(b->Color1) * (b->totalsteps - b->Index)) + (Blue(b->Color2) * b->Index)) / b->totalsteps;
+
+        ColorSet(b,Color(red, green, blue));
+        show();
+        Increment(b);
+    }
+
+void Signaling::ColorSet(Update_Data *p, uint32_t color)
+    {
+        for (int i = 0; i < p->groupLength; i++)
+        {
+            setPixelColor(p->group[i], color);
+        }
+        show();
+    }
+
 // Calculate 50% dimmed version of a color (used by ScannerUpdate)
-    uint32_t Signalling::DimColor(uint32_t color)
+uint32_t Signaling::DimColor(uint32_t color)
     {
         // Shift R, G and B components one bit to the right
-        uint32_t dimColor = Color(Red(color) >> 1, Green(color) >> 1, Blue(color) >> 1);
+        uint32_t dimColor = Color(Red(color) >> 2, Green(color) >> 2, Blue(color) >> 2);
         return dimColor;
     }
 
     // Returns the Red component of a 32-bit color
-    uint8_t Signalling::Red(uint32_t color)
+    uint8_t Signaling::Red(uint32_t color)
     {
         return (color >> 16) & 0xFF;
     }
 
     // Returns the Green component of a 32-bit color
-    uint8_t Signalling::Green(uint32_t color)
+    uint8_t Signaling::Green(uint32_t color)
     {
         return (color >> 8) & 0xFF;
     }
 
     // Returns the Blue component of a 32-bit color
-    uint8_t Signalling::Blue(uint32_t color)
+    uint8_t Signaling::Blue(uint32_t color)
     {
         return color & 0xFF;
     }
 
-    uint32_t Signalling::Wheel(byte WheelPos)
+    uint32_t Signaling::Wheel(byte WheelPos)
     {
         WheelPos = 255 - WheelPos;
         if(WheelPos < 85)

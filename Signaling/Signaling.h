@@ -1,7 +1,7 @@
-/* Signalling.h - Library for Non-verbal signaliing by Robots */
+/* Signaling.h - Library for Non-verbal signaliing by Robots */
 
-#ifndef SIGNALLING_h
-#define SIGNALLING_h
+#ifndef SIGNALING_h
+#define SIGNALING_h
 
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
@@ -36,11 +36,11 @@ uint16_t group[100];
 int groupLength;        //length of the group
 };
 
-class Signalling : public Adafruit_NeoPixel{
+class Signaling : public Adafruit_NeoPixel{
 
 public:
-       Signalling(uint16_t pixels, uint8_t pin, uint8_t type);
-//    ~Signalling();
+       Signaling(uint16_t pixels, uint8_t pin, uint8_t type);
+//    ~Signaling();
 
        void Update(Update_Data *a);
        bool OnComplete(bool c);
@@ -50,12 +50,13 @@ public:
        uint8_t Green(uint32_t color);
        uint8_t Blue(uint32_t color);
        uint32_t Wheel(byte WheelPos);
+       void ColorSet(Update_Data *p, uint32_t color);
 
        void RainbowCycleUpdate(Update_Data *b);
        void TheaterChaseUpdate(Update_Data *b);
        void ColorWipeUpdate(Update_Data *b);
        void ScannerUpdate(Update_Data *b);
- //      void FadeUpdate(Update_Data *b);
+       void FadeUpdate(Update_Data *b);
        // Core Functionality
   /*   void on_and_off();
        void blink();
