@@ -36,9 +36,7 @@
 		</Build>
 		<Unit filename="../Signalling Modules/ArdcodeCreator.cpp" />
 		<Unit filename="../Signalling Modules/ArdcodeCreator.h" />
-		<Unit filename="main.c">
-			
-		</Unit>
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
