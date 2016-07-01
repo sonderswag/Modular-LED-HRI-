@@ -37,7 +37,7 @@
 		<Unit filename="../Signalling Modules/ArdcodeCreator.cpp" />
 		<Unit filename="../Signalling Modules/ArdcodeCreator.h" />
 		<Unit filename="main.c">
-			<Option compilerVar="CC" />
+			
 		</Unit>
 		<Extensions>
 			<code_completion />
