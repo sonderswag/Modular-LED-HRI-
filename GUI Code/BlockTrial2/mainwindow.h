@@ -21,12 +21,14 @@ public:
     void addNumLEDs(int n);
     void deleteNumLEDs(int n);
     int  getNumLEDs(){return LEDs.size();}
+    void setActiveLED(int n){ActiveLED = n;}
+    int getActiveLED(){return ActiveLED;}
 
 protected:
-//    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
-//    void dragMoveEvent(QDragMoveEvent *event) Q_DECL_OVERRIDE;
-//    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
-//    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent *event);// Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent *event);// Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event);// Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event);// Q_DECL_OVERRIDE;
 
 private slots:
 
@@ -43,10 +45,12 @@ private slots:
 
     void on_LEDNumEdit_editingFinished();
 
+    void on_clearLEDs_clicked();
+
 private:
     Ui::MainWindow *ui;
     QVector<QLabel*> LEDs ;
-
+    int ActiveLED;
 };
 
 
