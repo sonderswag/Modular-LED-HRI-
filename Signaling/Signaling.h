@@ -5,12 +5,15 @@
 
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
-//#include <string>
+#include <UpdateData.h>
+#include <string>
 
-// Pattern types supported:
+/*// Pattern types supported:
 enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, FADE };
 // Patern directions supported:
 enum  Direction { FORWARD, REVERSE };
+
+
 
 struct Update_Data{
 ActivePattern pattern;
@@ -35,7 +38,7 @@ bool complete;         //whether or not the pattern is complete or not
 uint16_t group[100];
 int groupLength;        //length of the group
 };
-
+*/
 class Signaling : public Adafruit_NeoPixel{
 
 public:
@@ -43,7 +46,7 @@ public:
 //    ~Signaling();
 
        void Update(Update_Data *a);
-       bool OnComplete(bool c);
+       void OnComplete(Update_Data *a);
        void Increment(Update_Data *p);
        uint32_t DimColor(uint32_t color);
        uint8_t Red(uint32_t color);
@@ -51,12 +54,18 @@ public:
        uint8_t Blue(uint32_t color);
        uint32_t Wheel(byte WheelPos);
        void ColorSet(Update_Data *p, uint32_t color);
+       uint32_t Brightness(uint32_t color1, uint32_t color2, uint32_t internsity);
 
        void RainbowCycleUpdate(Update_Data *b);
        void TheaterChaseUpdate(Update_Data *b);
        void ColorWipeUpdate(Update_Data *b);
        void ScannerUpdate(Update_Data *b);
        void FadeUpdate(Update_Data *b);
+       void BlinkUpdate(Update_Data *b);
+       void OnOffUpdate(Update_Data *b);
+       void PulsatingUpdate(Update_Data *b);
+       void LoadingUpdate(Update_Data *b);
+       void StepUpdate(Update_Data *b);
        // Core Functionality
   /*   void on_and_off();
        void blink();
