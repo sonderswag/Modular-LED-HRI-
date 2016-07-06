@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QDebug>
 int i = 0;
+//int i
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -18,8 +19,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QLabel *LEDIcon = new QLabel(this);
     LEDIcon->setFixedSize(35, 35);
-    QPixmap pix(":/images/LED.png");
-    LEDIcon->setPixmap(pix.scaled(LEDIcon->width(),LEDIcon->height(),Qt::KeepAspectRatio));
+    LEDIcon->setPixmap(LEDPic.scaled(LEDIcon->width(),LEDIcon->height(),Qt::KeepAspectRatio));
     LEDIcon->move(20, 70);         //(100 + 5*i, 100 + 5*i);
     LEDIcon->show();
     LEDIcon->setAttribute(Qt::WA_DeleteOnClose);
@@ -40,8 +40,7 @@ void MainWindow::addNumLEDs(int n)
         {
           QLabel *LEDIcon = new QLabel(this);
             LEDIcon->setFixedSize(35, 35);
-            QPixmap pix(":/images/LED.png");
-            LEDIcon->setPixmap(pix.scaled(LEDIcon->width(),LEDIcon->height(),Qt::KeepAspectRatio));
+            LEDIcon->setPixmap(LEDPic.scaled(LEDIcon->width(),LEDIcon->height(),Qt::KeepAspectRatio));
             LEDIcon->move(20 + 15*i, 70);
             LEDIcon->show();
             LEDIcon->setAttribute(Qt::WA_DeleteOnClose);
@@ -242,8 +241,17 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     QString PressedClassName = child->metaObject()->className();    // What type of object have you pressed?
     QString QLabelType = "QLabel";
 
-    if (!child || PressedClassName != QLabelType){                  //Exit if you didn't click a QLabel Type
+    if (!child){                  //Exit if you didn't click a QLabel Type
+        qDebug() << "Got to !Child";
         return;}
+    else if (PressedClassName != QLabelType)\
+    {
+        if (ui->actionSelect_Mode->isChecked())
+        {
+        clearSelectedLEDs();
+        }
+        return;
+    }
 
     for (int m = 0; m < LEDs.size(); m++)
     {
@@ -255,35 +263,15 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     ui->DisplayText->setText(QString("Selected LED %1").arg(getActiveLED()));
 
     QPixmap pixmap = *child->pixmap();
+
+
     if (ui->actionSelect_Mode->isChecked())
     {
-        for (int m = 0; m < selectedLEDs.size(); m++)
-        {
-            if (selectedLEDs.at(m) == LEDs.at(getActiveLED()))
-            {
-                QPixmap pic(":/images/LED.png");
-                LEDs.at(getActiveLED())->setPixmap(pic.scaled(LEDs.at(getActiveLED())->width(),LEDs.at(getActiveLED())->height(),Qt::KeepAspectRatio));
-                LEDs.at(getActiveLED())->show();
-                qDebug() << LEDs.at(getActiveLED());
-                qDebug() << "got here1";
-                selectedLEDs.erase(selectedLEDs.begin() + m);
-                qDebug() << "selected LEDs: " << selectedLEDs;
-                return;
-            }
-
-        }
-
-
-        QPixmap tempPixmap = pixmap;
-        QPainter painter;
-        painter.begin(&tempPixmap);
-        painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
-        painter.end();
-        child->setPixmap(tempPixmap);
-        child->show();
-
-        selectedLEDs.push_back(LEDs.at(getActiveLED()));
-        qDebug() << "selected LEDs: " << selectedLEDs;
+        selectLED(child);
+    }
+    else if (ui->actionAdd_Connector->isChecked())               // In this mode, we re-order selectedLEDs in accordance to distance. User selects 1st LED, and the algorithm finds next one until end of selected.
+    {
+//        getClosestLED(QLabel* desiredLED);
     }
     else if (ui->actionMove_and_Add_Mode->isChecked())
     {
@@ -327,6 +315,7 @@ void MainWindow::on_actionSelect_Mode_triggered()
         ui->menuSetMode->setWindowTitle("Mode: Select");
         enableEditButtons(false);
         ui->actionMove_and_Add_Mode->setChecked(false);
+        ui->actionAdd_Connector->setChecked(false);
     }
 }
 
@@ -337,9 +326,21 @@ void MainWindow::on_actionMove_and_Add_Mode_triggered()
         ui->menuSetMode->setWindowTitle("Mode: Move and Add");
         enableEditButtons(true);
         ui->actionSelect_Mode->setChecked(false);
+        ui->actionAdd_Connector->setChecked(false);
     }
     else
         enableEditButtons(false);
+}
+
+void MainWindow::on_actionAdd_Connector_triggered()
+{
+    if (ui->actionAdd_Connector->isChecked())
+    {
+        ui->menuSetMode->setWindowTitle("Mode: Add Connector");
+        enableEditButtons(false);
+        ui->actionMove_and_Add_Mode->setChecked(false);
+        ui->actionSelect_Mode->setChecked(false);
+    }
 }
 
 void MainWindow::enableEditButtons(bool x)
@@ -391,3 +392,41 @@ void MainWindow::on_DeleteSelectedButton_clicked()
     deletedLEDs.clear();
 
 }
+
+void MainWindow::selectLED(QLabel* desiredLED)
+{
+
+    QPixmap pixmap = *desiredLED->pixmap();
+
+    for (int m = 0; m < selectedLEDs.size(); m++)
+    {
+        if (selectedLEDs.at(m) == desiredLED)
+        {
+            desiredLED->setPixmap(LEDPic.scaled(desiredLED->width(),desiredLED->height(),Qt::KeepAspectRatio));
+            desiredLED->show();
+
+            selectedLEDs.erase(selectedLEDs.begin() + m);
+            return;
+        }
+    }
+    QPixmap tempPixmap = pixmap;
+    QPainter painter;
+    painter.begin(&tempPixmap);
+    painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
+    painter.end();
+    desiredLED->setPixmap(tempPixmap);
+    desiredLED->show();
+    selectedLEDs.push_back(desiredLED);
+}
+
+void MainWindow::clearSelectedLEDs()
+{
+    for (int m = 0; m < selectedLEDs.size(); m++)
+    {
+        selectedLEDs.at(m)->setPixmap(LEDPic.scaled(selectedLEDs.at(m)->width(),selectedLEDs.at(m)->height(),Qt::KeepAspectRatio));
+        selectedLEDs.at(m)->show();
+    }
+    selectedLEDs.clear();
+}
+
+

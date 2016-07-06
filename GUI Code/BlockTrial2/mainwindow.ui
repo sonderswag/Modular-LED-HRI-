@@ -3142,6 +3142,7 @@
     </property>
     <addaction name="actionSelect_Mode"/>
     <addaction name="actionMove_and_Add_Mode"/>
+    <addaction name="actionAdd_Connector"/>
    </widget>
    <addaction name="menuSetMode"/>
   </widget>
@@ -3158,8 +3159,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionSelect_Mode"/>
    <addaction name="actionMove_and_Add_Mode"/>
+   <addaction name="actionSelect_Mode"/>
+   <addaction name="actionAdd_Connector"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSelect_Mode">
@@ -3184,6 +3186,18 @@
    </property>
    <property name="text">
     <string>Move and Add</string>
+   </property>
+  </action>
+  <action name="actionAdd_Connector">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="draggableicons.qrc">
+     <normaloff>:/images/addBarIcon.png</normaloff>:/images/addBarIcon.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add Connector</string>
    </property>
   </action>
  </widget>
