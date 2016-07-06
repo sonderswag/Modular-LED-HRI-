@@ -23,6 +23,7 @@ public:
     int  getNumLEDs(){return LEDs.size();}
     void setActiveLED(int n){ActiveLED = n;}
     int getActiveLED(){return ActiveLED;}
+    void enableEditButtons(bool x);
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);// Q_DECL_OVERRIDE;
@@ -47,9 +48,17 @@ private slots:
 
     void on_clearLEDs_clicked();
 
+
+    void on_actionSelect_Mode_triggered();
+
+    void on_actionMove_and_Add_Mode_triggered();
+
+    void on_DeleteSelectedButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QVector<QLabel*> LEDs ;
+    QVector<QLabel*> selectedLEDs ;
     int ActiveLED;
 };
 
