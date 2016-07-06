@@ -31,6 +31,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
     enableEditButtons(false);
 
+    ui->actionMove_and_Add_Mode->setChecked(true);            //Set Mode to Move and Add
+    ui->actionSelect_Mode->setChecked(false);
+    ui->actionAdd_Connector->setChecked(false);
+    ui->menuSetMode->setWindowTitle("Mode: Move and Add");
+    enableEditButtons(true);
+
 }
 
 
@@ -166,6 +172,7 @@ void MainWindow::on_actionAdd_Connector_triggered()
     }
 }
 
+
 void MainWindow::enableEditButtons(bool x)
 {
     ui->clearLEDs->setEnabled(x);
@@ -175,6 +182,10 @@ void MainWindow::enableEditButtons(bool x)
     ui->upArrow->setEnabled(x);
     ui->DeleteSelectedButton->setEnabled(x);
 }
+
+
+
+//button functionality functions:
 
 void MainWindow::on_DeleteSelectedButton_clicked()               //Deletes all selected LEDs
 {
@@ -218,9 +229,6 @@ void MainWindow::on_DeleteSelectedButton_clicked()               //Deletes all s
 
 
 
-
-
-//button functionality functions:
 
 
 void MainWindow::on_upArrow_clicked()
