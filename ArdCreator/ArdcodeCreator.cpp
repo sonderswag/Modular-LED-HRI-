@@ -1,10 +1,11 @@
 #include "ArdcodeCreator.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <Update_Data.h>
 
 
-void ArdcodeCreator::create(UpdateData a[], int no_Leds, int no_Patterns)                      //function to create arduino code
+void ArdcodeCreator::create(vector<UpdateData> a, int no_Leds, int no_Patterns)                      //function to create arduino code
 {
     ofstream ofile("test.ino");
     ofile<<"#include <Adafruit_NeoPixel.h>\n#include <Signaling.h>\n#include <UpdateData.h>\n\nSignaling Strip("<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nUpdateData Pattern["<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";

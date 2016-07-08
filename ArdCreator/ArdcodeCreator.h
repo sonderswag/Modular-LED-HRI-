@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <vector>
 #include <Update_Data.h>
 
 using namespace std;
@@ -12,7 +13,7 @@ using namespace std;
 class ArdcodeCreator{
 
 public:
-    void create(UpdateData a[], int no_Leds, int no_Patterns);
+    void create(vector<UpdateData> b, int no_Leds, int no_Patterns);
     UpdateData initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[], int length);
     UpdateData initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[], int length);
     UpdateData initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, uint32_t color2, unsigned long interval, int g[], int length);              //initialization function(overloaded)

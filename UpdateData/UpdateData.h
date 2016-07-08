@@ -36,6 +36,7 @@ bool LedState;
 int group[100];
 int groupLength;        //length of the group
 
+//UpdateData();
 void initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int on, int off, int tsteps, int bright, uint32_t color1, uint32_t color2, unsigned long interval, int g[], int glength);
 };
 

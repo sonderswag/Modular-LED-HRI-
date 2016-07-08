@@ -3,11 +3,11 @@
 #include <UpdateData.h>
 
 Signaling Strip(16, 6, NEO_RGBW + NEO_KHZ800);   
-Update_Data Pattern1;
-Update_Data Pattern2;
-Update_Data Pattern4;
-Update_Data Pattern3;
-Update_Data Pattern5;
+UpdateData Pattern1;
+UpdateData Pattern2;
+UpdateData Pattern4;
+UpdateData Pattern3;
+UpdateData Pattern5;
 
 void setup() {
   // put your setup code here, to run once:
@@ -50,7 +50,7 @@ void setup() {
     Pattern2.group[2] = 7;
     Pattern2.group[3] = 8;
     Pattern2.group[4] = 9;
-    Pattern2.groupLength = 5;
+    Pattern2.groupLength = 5;*/
     
     Pattern3.pattern = SCANNER;
     Pattern3.direction = FORWARD;
@@ -70,9 +70,9 @@ void setup() {
     Pattern3.group[2] = 13;
     Pattern3.group[3] = 14;
     Pattern3.group[4] = 15;
-    Pattern3.totalsteps = (Pattern3.groupLength-1)*2;*/
+    Pattern3.totalsteps = (Pattern3.groupLength-1)*2;
     
-    Pattern4.pattern = PULSATING;
+  /*  Pattern4.pattern = PULSATING;
     Pattern4.direction = FORWARD;
     Pattern4.startTime = 3;
     Pattern4.on_time = 5;
@@ -104,19 +104,83 @@ void setup() {
     Pattern5.brightness = 255;
   //  Pattern2.status = false;
     Pattern5.complete = false;
-    Pattern5.Interval = 2000;        //change every 200 ms
+    Pattern5.Interval = 1000;        //change every 200 ms
     Pattern5.lastUpdate = 0;
     Pattern5.groupLength=5;
     Pattern5.Color1 = Strip.Color(255,255,0);
     Pattern5.Color2 = Strip.Color(0,0,50);
-    Pattern5.group[0] = 0;
+    Pattern5.group[0] = 1;
     Pattern5.group[1] = 2;
     Pattern5.group[2] = 3;
     Pattern5.group[3] = 4;
     Pattern5.group[4] = 5;
     Pattern5.totalsteps = Pattern5.groupLength;
     
-
+    Pattern5.pattern = BLINK;
+    Pattern5.direction = FORWARD;
+    Pattern5.startTime = 0;
+    Pattern5.on_time = 1000;
+    Pattern5.off_time = 3000;
+    Pattern5.Index = 0;
+    Pattern5.brightness = 255;
+  //  Pattern2.status = false;
+    Pattern5.complete = false;
+    Pattern5.Interval = 1000;        //change every 200 ms
+    Pattern5.lastUpdate = 0;
+    Pattern5.groupLength=5;
+    Pattern5.Color1 = Strip.Color(255,255,0);
+    Pattern5.Color2 = Strip.Color(0,0,50);
+    Pattern5.group[0] = 1;
+    Pattern5.group[1] = 2;
+    Pattern5.group[2] = 3;
+    Pattern5.group[3] = 4;
+    Pattern5.group[4] = 5;
+    Pattern5.totalsteps = Pattern5.groupLength;
+    
+    Pattern5.pattern = ON_AND_OFF;
+    Pattern5.direction = FORWARD;
+    Pattern5.startTime = 0;
+    Pattern5.on_time = 1000;
+    Pattern5.off_time = 3000;
+    Pattern5.Index = 0;
+    Pattern5.brightness = 255;
+  //  Pattern2.status = false;
+    Pattern5.complete = false;
+    Pattern5.Interval = 3000;        //change every 200 ms
+    Pattern5.lastUpdate = 0;
+    Pattern5.groupLength=5;
+    Pattern5.Color1 = Strip.Color(255,255,0);
+    Pattern5.Color2 = Strip.Color(0,0,50);
+    Pattern5.group[0] = 1;
+    Pattern5.group[1] = 2;
+    Pattern5.group[2] = 3;
+    Pattern5.group[3] = 4;
+    Pattern5.group[4] = 5;
+    Pattern5.totalsteps = Pattern5.groupLength;*/
+    
+    Pattern5.pattern = LOADING;
+    Pattern5.direction = FORWARD;
+    Pattern5.startTime = 0;
+    Pattern5.on_time = 1000;
+    Pattern5.off_time = 3000;
+    Pattern5.Index = 0;
+    Pattern5.brightness = 255;
+  //  Pattern2.status = false;
+    Pattern5.complete = false;
+    Pattern5.Interval = 500;        //change every 200 ms
+    Pattern5.lastUpdate = 0;
+    Pattern5.groupLength=5;
+    Pattern5.Color1 = Strip.Color(100,255,0);
+    Pattern5.Color2 = Strip.Color(0,0,50);
+    Pattern5.group[0] = 1;
+    Pattern5.group[1] = 2;
+    Pattern5.group[2] = 3;
+    Pattern5.group[3] = 4;
+    Pattern5.group[4] = 5;
+    Pattern5.totalsteps = 500
+    
+    ;
+    
 }
 
 void loop() 
@@ -124,7 +188,7 @@ void loop()
   // put your main code here, to run repeatedly:
 // Strip.Update(&Pattern1);
  //Strip.Update(&Pattern2);
+  Strip.Update(&Pattern3);
   Strip.Update(&Pattern5);
-  Strip.Update(&Pattern4);
   
 }

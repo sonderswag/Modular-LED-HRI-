@@ -4,7 +4,7 @@
 
 Signaling Strip(16, 6, NEO_RGBW + NEO_KHZ800);   
 
-UpdateData Pattern[2];
+UpdateData Pattern[3];
 
 void setup() {
   // put your setup code here, to run once:
@@ -56,6 +56,27 @@ void setup() {
     Pattern[0].stopTime = Pattern[0].startTime + (Pattern[0].cycles)*(Pattern[0].Interval);*/
     
      Pattern[0].initialize( THEATER_CHASE, FORWARD, 5000, 10, 0, 0, 0, 255, 255, Strip.Color(255,255,0), Strip.Color(0,0,50), 500, (int []){ 5,6,7,8,9}, 5);
+     
+    Pattern[2].pattern = SCANNER;
+    Pattern[2].direction = FORWARD;
+    Pattern[2].startTime = 3000;
+    Pattern[2].cycles = 3;
+    Pattern[2].on_time = 0;
+    Pattern[2].Index = 0;
+    Pattern[2].brightness = 255;
+  //  Pattern2.status = false;
+    Pattern[2].complete = -1;
+    Pattern[2].Interval = 500;        //change every 200 ms
+    Pattern[2].lastUpdate = 0;
+    Pattern[2].groupLength=5;
+    Pattern[2].Color1 = Strip.Color(0,200,20);
+  //  Pattern[2].Color2 = Strip.Color(0,0,50);
+    Pattern[2].group[0] = 11;
+    Pattern[2].group[1] = 12;
+    Pattern[2].group[2] = 13;
+    Pattern[2].group[3] = 14;
+    Pattern[2].group[4] = 15;
+    Pattern[2].totalsteps = (Pattern[2].groupLength-1)*2;
     
 }
 
@@ -63,7 +84,7 @@ void loop()
 {
   // put your main code here, to run repeatedly:
   
- for(int i = 0; i < 2; i++)
+ for(int i = 0; i < 3; i++)
  {
    Strip.mainLoop(&Pattern[i]);
    /*if( Pattern[i].startTime <= millis() && Pattern[i].complete == -1)                //checks if the pattern is suppose to start or not
