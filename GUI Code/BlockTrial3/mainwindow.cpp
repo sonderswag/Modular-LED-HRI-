@@ -1,13 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ledlabel.h"
 #include <QtWidgets>
 #include <QFrame>
 #include <QVector>
 #include <QDebug>
 #include <QtMath>
 
-int i = 0;         //i is a counter to displace every new LEDIcon created.
-//int i
+
+int LEDCount = 0;         //LEDCount is a counter to displace every new LEDIcon created.
+
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -19,17 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     setAcceptDrops(true);
 
     //Create the first LED Label
-    QLabel *LEDIcon = new QLabel(this);
-    LEDIcon->setFixedSize(35, 35);
-    LEDIcon->setPixmap(LEDPic.scaled(LEDIcon->width(),LEDIcon->height(),Qt::KeepAspectRatio));
-    LEDIcon->move(20, 70);         //(100 + 5*i, 100 + 5*i);
-//    LEDIcon->setTextFormat(QTextFormat::foreground());
-//    LEDIcon->setStyleSheet("QLabel { background-color : yellow; color : black; }");
-//    LEDIcon->setText("0");
-    LEDIcon->show();
-    LEDIcon->setAttribute(Qt::WA_DeleteOnClose);
-    LEDs.push_back(LEDIcon);       //push newest LED pointer to back of LEDIcon vector
-    i++;
+    LEDLabel *LEDIcon = new LEDLabel(LEDCount, this);
+    LEDs.push_back(LEDIcon);
 
     ui->DisplayText->setReadOnly(true);
     ui->DisplayText->setText("Action Information here");
@@ -47,7 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
-    for (int n = 0; n < LEDs.size(); i++)
+    for (int n = 0; n < LEDs.size(); n++)
     {
         delete LEDs.at(n);
 
@@ -58,20 +51,14 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs, displacing each 15 in +x direction
+void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs
 {
     for (int p = 0; p < n; p++)
     {
         if (getNumLEDs() < 99)
         {
-          QLabel *LEDIcon = new QLabel(this);
-            LEDIcon->setFixedSize(35, 35);
-            LEDIcon->setPixmap(LEDPic.scaled(LEDIcon->width(),LEDIcon->height(),Qt::KeepAspectRatio));
-            LEDIcon->move(20 + 15*i, 70);
-            LEDIcon->show();
-            LEDIcon->setAttribute(Qt::WA_DeleteOnClose);
+            LEDLabel *LEDIcon = new LEDLabel(LEDCount, this);
             LEDs.push_back(LEDIcon);
-            i++;
         }
     }
 
@@ -85,7 +72,7 @@ void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs f
         if (LEDs.size() == 1){
             delete LEDs.at(LEDs.size()-1);
             LEDs.pop_back();
-            i = 0;
+            LEDCount = 0;
         }
         else if (LEDs.size() > 1)
         {
@@ -93,7 +80,7 @@ void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs f
             delete LEDs.at(LEDs.size()-1);
 
             LEDs.pop_back();
-            --i;
+            --LEDCount;
         }
     }
     ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
@@ -101,22 +88,29 @@ void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs f
 
 
 
-void MainWindow::selectLED(QLabel* desiredLED) //Selects or de-selects specified LED
+void MainWindow::selectLED(LEDLabel *desiredLED) //Selects or de-selects specified LED
 {
-
+    qDebug() << "Got here1";
+    qDebug() << selectedLEDs;
     QPixmap pixmap = *desiredLED->pixmap();
 
-    for (int m = 0; m < selectedLEDs.size(); m++)
+    for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
+        qDebug() << "Got here2";
+        qDebug() << selectedLEDs;
         if (selectedLEDs.at(m) == desiredLED)
         {
-            desiredLED->setPixmap(LEDPic.scaled(desiredLED->width(),desiredLED->height(),Qt::KeepAspectRatio));
+            desiredLED->setLEDColor(QColor(255, 255, 0), desiredLED->getID());
             desiredLED->show();
 
             selectedLEDs.erase(selectedLEDs.begin() + m);
+            qDebug() << "Got here3";
+            qDebug() << selectedLEDs;
             return;
         }
     }
+    qDebug() << "Got here4";
+    qDebug() << selectedLEDs;
     QPixmap tempPixmap = pixmap;
     QPainter painter;
     painter.begin(&tempPixmap);
@@ -125,16 +119,23 @@ void MainWindow::selectLED(QLabel* desiredLED) //Selects or de-selects specified
     desiredLED->setPixmap(tempPixmap);
     desiredLED->show();
     selectedLEDs.push_back(desiredLED);
+    qDebug() << "Got here5";
+    qDebug() << selectedLEDs;
 }
 
 
 void MainWindow::clearSelectedLEDs()      //un-selects all selected LEDs
 {
-    for (int m = 0; m < selectedLEDs.size(); m++)
+    for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
-        selectedLEDs.at(m)->setPixmap(LEDPic.scaled(selectedLEDs.at(m)->width(),selectedLEDs.at(m)->height(),Qt::KeepAspectRatio));
+        //selectLED(selectedLEDs.at(m));
+        selectedLEDs.at(m)->setLEDColor(QColor(255, 255, 0), selectedLEDs.at(m)->getID());
         selectedLEDs.at(m)->show();
+        selectedLEDs.erase(selectedLEDs.begin() + m);
+        qDebug() << "Im Here " << m;
     }
+    qDebug() << "got out!!";
+    qDebug() << selectedLEDs;
     selectedLEDs.clear();
 }
 
@@ -185,7 +186,6 @@ void MainWindow::enableEditButtons(bool x)
     ui->deleteFive->setEnabled(x);
     ui->downArrow->setEnabled(x);
     ui->upArrow->setEnabled(x);
-    ui->DeleteSelectedButton->setEnabled(x);
 }
 
 
@@ -305,10 +305,35 @@ void MainWindow::on_clearLEDs_clicked()
     }
 }
 
+void MainWindow::on_resetID_clicked()
+{
+    for (int i = 0; i < LEDs.size() ; i++)
+    {
+        LEDs.at(i)->setLEDColor(LEDs.at(i)->getLEDColor(), -1);
+    }
+    orderedLEDs.clear();
+}
+
+
+void MainWindow::on_selectAllButton_clicked()
+{
+    for (int p = 0; p < LEDs.size(); p++)
+    {
+        for (int t = 0; t < selectedLEDs.size(); t++)
+        {
+            if (selectedLEDs.at(t) == LEDs.at(p))
+            {
+                return;
+            }
+        }
+        selectLED(LEDs.at(p));
+    }
+}
 
 
 
-void MainWindow::getOrderedLED(QLabel* firstLED)
+
+void MainWindow::getOrderedLED(LEDLabel *firstLED)
 {
     double firstx = firstLED->x();
     double firsty = firstLED->y();
@@ -321,7 +346,7 @@ void MainWindow::getOrderedLED(QLabel* firstLED)
     orderedLEDs.push_back(firstLED);
     qDebug() << "orderedLEDs: " << orderedLEDs;
     qDebug() << "selectedLEDs: " << selectedLEDs;
-    QLabel* closestLED;
+    LEDLabel* closestLED;
     double smallestDistance;
 
     while(selectedLEDs.size() != 0)
@@ -355,6 +380,10 @@ void MainWindow::getOrderedLED(QLabel* firstLED)
         firstx = closestLED->x();
         firsty = closestLED->y();
     }
+    for (int t = 0; t < orderedLEDs.size(); t++)
+    {
+        orderedLEDs.at(t)->setLEDColor(orderedLEDs.at(t)->getLEDColor(), t);
+    }
 
 }
 
@@ -364,14 +393,15 @@ void MainWindow::getOrderedLED(QLabel* firstLED)
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
 
-    QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
+    LEDLabel *child = static_cast<LEDLabel*>(childAt(event->pos()));
     QString PressedClassName = child->metaObject()->className();    // What type of object have you pressed?
-    QString QLabelType = "QLabel";
+    qDebug() << "type: " << PressedClassName;
+    QString QLabelType = "LEDLabel";
 
-    if (!child){                  //Exit if you didn't click a QLabel Type
+    if (!child){
         qDebug() << "Got to !Child";
         return;}
-    else if (PressedClassName != QLabelType)\
+    else if (PressedClassName != QLabelType) //Exit if you didn't click a LEDLabel Type
     {
         if (ui->actionSelect_Mode->isChecked())
         {
@@ -401,7 +431,9 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                                                             //User selects 1st LED, and the algorithm finds next ones until end of selected group.
     {
         qDebug() << "Got Here";
-        getOrderedLED(LEDs.at(getActiveLED()));
+        if (selectedLEDs.empty() == false){
+            getOrderedLED(LEDs.at(getActiveLED()));
+        }
     }
     else if (ui->actionMove_and_Add_Mode->isChecked())   //In this mode, a drag is started. Some Code borrowed from "Draggable Icons" Qt Example:
                                                          //http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
@@ -508,6 +540,7 @@ void MainWindow::dropEvent(QDropEvent *event)
     }
 
 }
+
 
 
 

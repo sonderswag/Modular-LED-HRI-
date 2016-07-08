@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QLabel>
 #include <QtWidgets>
+#include "ledlabel.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,9 +25,9 @@ public:
     int  getNumLEDs(){return LEDs.size();}
     void setActiveLED(int n){ActiveLED = n;}
     int getActiveLED(){return ActiveLED;}
-    void getOrderedLED(QLabel* firstLED);
+    void getOrderedLED(LEDLabel* firstLED);
     void enableEditButtons(bool x);
-    void selectLED(QLabel* desiredLED);
+    void selectLED(LEDLabel *desiredLED);
     void clearSelectedLEDs();               //unselects all selected LEDs (unshades them and clears the vector)
 
 protected:
@@ -61,13 +62,17 @@ private slots:
 
     void on_actionAdd_Connector_triggered();
 
+    void on_resetID_clicked();
+
+    void on_selectAllButton_clicked();
+
 private:
-    QPixmap LEDPic = QPixmap(":/images/LED.png");
     Ui::MainWindow *ui;
-    QVector<QLabel*> LEDs ;
-    QVector<QLabel*> selectedLEDs ;
-    QVector<QLabel*> orderedLEDs ;
+    QVector<LEDLabel*> LEDs ;
+    QVector<LEDLabel*> selectedLEDs ;
+    QVector<LEDLabel*> orderedLEDs ;
     int ActiveLED;
+ //   QPixmap LEDPic = QPixmap(":/images/LED.png");
 };
 
 
