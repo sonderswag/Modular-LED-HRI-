@@ -45,27 +45,29 @@ public:
        Signaling(uint16_t pixels, uint8_t pin, uint8_t type);
 //    ~Signaling();
 
-       void Update(Update_Data *a);
-       void OnComplete(Update_Data *a);
-       void Increment(Update_Data *p);
+
+       void Update(UpdateData *a);
+       void OnComplete(UpdateData *a);
+       void Increment(UpdateData *p);
        uint32_t DimColor(uint32_t color);
        uint8_t Red(uint32_t color);
        uint8_t Green(uint32_t color);
        uint8_t Blue(uint32_t color);
        uint32_t Wheel(byte WheelPos);
-       void ColorSet(Update_Data *p, uint32_t color);
+       void ColorSet(UpdateData *p, uint32_t color);
        uint32_t Brightness(uint32_t color1, uint32_t color2, uint32_t internsity);
+       void mainLoop(UpdateData *a);
 
-       void RainbowCycleUpdate(Update_Data *b);
-       void TheaterChaseUpdate(Update_Data *b);
-       void ColorWipeUpdate(Update_Data *b);
-       void ScannerUpdate(Update_Data *b);
-       void FadeUpdate(Update_Data *b);
-       void BlinkUpdate(Update_Data *b);
-       void OnOffUpdate(Update_Data *b);
-       void PulsatingUpdate(Update_Data *b);
-       void LoadingUpdate(Update_Data *b);
-       void StepUpdate(Update_Data *b);
+       void RainbowCycleUpdate(UpdateData *b);
+       void TheaterChaseUpdate(UpdateData *b);
+       void ColorWipeUpdate(UpdateData *b);
+       void ScannerUpdate(UpdateData *b);
+       void FadeUpdate(UpdateData *b);
+       void BlinkUpdate(UpdateData *b);
+       void OnOffUpdate(UpdateData *b);
+       void PulsatingUpdate(UpdateData *b);
+       void LoadingUpdate(UpdateData *b);
+       void StepUpdate(UpdateData *b);
        // Core Functionality
   /*   void on_and_off();
        void blink();

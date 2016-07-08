@@ -3,7 +3,6 @@
 
 #include <Arduino.h>
 
-//#include <iostream>
 
 //using namespace std;
 
@@ -12,7 +11,7 @@ enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, F
 // Patern directions supported:
 enum  Direction { FORWARD, REVERSE };
 
-struct Update_Data{
+struct UpdateData{
 ActivePattern pattern;
 Direction direction;
 
@@ -30,12 +29,14 @@ uint32_t Color1, Color2;    //required colors for the pattern
 unsigned long Interval;
 unsigned long lastUpdate;       //time at which the pattern was last updated
 
-bool status;            //whether or not the pattern is currently running or not
+//bool status;            //whether or not the pattern is currently running or not
 char complete;         //whether or not the pattern is complete or not
 bool LedState;
 
-uint16_t group[100];
+int group[100];
 int groupLength;        //length of the group
+
+void initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int on, int off, int tsteps, int bright, uint32_t color1, uint32_t color2, unsigned long interval, int g[], int glength);
 };
 
 class Add{

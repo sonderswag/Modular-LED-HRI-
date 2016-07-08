@@ -34,10 +34,8 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="../Signalling Modules/Update_Data.h" />
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="Update_Data.cpp" />
+		<Unit filename="Update_Data.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

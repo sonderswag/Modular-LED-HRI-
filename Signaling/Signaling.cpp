@@ -8,7 +8,7 @@ Signaling::Signaling(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPix
 }
 
 // Update the pattern
-void Signaling::Update(Update_Data *a)
+void Signaling::Update(UpdateData *a)
 {
 
         if((millis() - a->lastUpdate) > a->Interval) // time to update
@@ -18,24 +18,29 @@ void Signaling::Update(Update_Data *a)
             {
                 case RAINBOW_CYCLE:
                     RainbowCycleUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*(a->Interval);
                     break;
                 case THEATER_CHASE:
                     TheaterChaseUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*(a->Interval);
                     break;
                 case COLOR_WIPE:
                     ColorWipeUpdate(a);
                     break;
                 case SCANNER:
                     ScannerUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*((a->Interval)*(a->totalsteps));
                     break;
                 case FADE:
                     FadeUpdate(a);
                     break;
                 case BLINK:
                     BlinkUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*2*(a->Interval);
                     break;
                 case ON_AND_OFF:
                     OnOffUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*(a->on_time  + a->off_time);
                     break;
                 case PULSATING:
                     if( millis() < 100)
@@ -47,9 +52,11 @@ void Signaling::Update(Update_Data *a)
                     break;
                 case LOADING:
                     LoadingUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*((a->Interval)*(a->groupLength));
                     break;
                 case STEP:
                     StepUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*((a->Interval)*(a->groupLength));
                     break;
                 default:
                     break;
@@ -59,7 +66,7 @@ void Signaling::Update(Update_Data *a)
     }
 
 //change the status of the  pattern and make all the modules of that group blank
-void Signaling::OnComplete(Update_Data *a)
+void Signaling::OnComplete(UpdateData *a)
 {
     for( int i = 0; i < a->groupLength; i++)
     {
@@ -67,21 +74,38 @@ void Signaling::OnComplete(Update_Data *a)
     }
     show();
 }
+
+void Signaling::mainLoop(UpdateData *a)
+{
+    if( a->startTime <= millis() && a->complete == -1)                //checks if the pattern is suppose to start or not
+   {
+     a->complete = 1;
+   }
+   else if( a->stopTime <= millis() && a->complete == 1)              //checks if the pattern run time is over or not
+   {
+     a->complete = 0;
+     OnComplete(a);
+   }
+   if( a->complete == 1)                                                       //updates the pattern
+   {
+     Update(a);
+   }
+}
     // Increment the Index and reset at the end
-void Signaling::Increment(Update_Data *p)
+void Signaling::Increment(UpdateData *p)
     {
         if (p->direction == FORWARD)
         {
            p->Index++;
            // p->totalsteps++;
-          // if (p->Index >= p->totalsteps)
-        //    {
-         //       p->Index = 0;
+         if (p->Index >= p->totalsteps)
+            {
+                p->Index = 0;
            /*     if (p->totalsteps>=(p->groupLength*p->cycles))
                 {
                     p->complete=OnComplete(p->complete); // call the comlpetion callback
                 }*/
-           // }
+            }
         }
         else // Direction == REVERSE
         {
@@ -98,7 +122,7 @@ void Signaling::Increment(Update_Data *p)
     }
 
 // Update the Rainbow Cycle Pattern
-void Signaling::RainbowCycleUpdate(Update_Data *b)
+void Signaling::RainbowCycleUpdate(UpdateData *b)
     {
         for(int i=0; i< (b->groupLength); i++)
         {
@@ -109,7 +133,7 @@ void Signaling::RainbowCycleUpdate(Update_Data *b)
     }
 
 // Update the Theater Chase Pattern
-void Signaling::TheaterChaseUpdate(Update_Data *b)
+void Signaling::TheaterChaseUpdate(UpdateData *b)
     {
         for(int i=0; i< b->groupLength; i++)
         {
@@ -127,7 +151,7 @@ void Signaling::TheaterChaseUpdate(Update_Data *b)
 }
 
 // Update the Color Wipe Pattern
-void Signaling::ColorWipeUpdate(Update_Data *b)
+void Signaling::ColorWipeUpdate(UpdateData *b)
 {
         setPixelColor(b->group[b->Index], b->Color1);
         show();
@@ -135,7 +159,7 @@ void Signaling::ColorWipeUpdate(Update_Data *b)
 }
 
     // Update the Scanner Pattern
-void Signaling::ScannerUpdate(Update_Data *b)
+void Signaling::ScannerUpdate(UpdateData *b)
 {
         for (int i = 0; i < b->groupLength; i++)
         {
@@ -156,7 +180,7 @@ void Signaling::ScannerUpdate(Update_Data *b)
         Increment(b);
 }
 
-void Signaling::FadeUpdate(Update_Data *b)
+void Signaling::FadeUpdate(UpdateData *b)
 {
         // Calculate linear interpolation between Color1 and Color2
         // Optimise order of operations to minimize truncation error
@@ -169,7 +193,7 @@ void Signaling::FadeUpdate(Update_Data *b)
         Increment(b);
 }
 
-void Signaling::ColorSet(Update_Data *p, uint32_t color)
+void Signaling::ColorSet(UpdateData *p, uint32_t color)
 {
         for (int i = 0; i < p->groupLength; i++)
         {
@@ -223,7 +247,7 @@ uint32_t Signaling::Wheel(byte WheelPos)
         }
 }
 
-void Signaling::BlinkUpdate(Update_Data *b)
+void Signaling::BlinkUpdate(UpdateData *b)
 {
     for(int i=0; i < b->groupLength;i++)
     {
@@ -239,7 +263,7 @@ void Signaling::BlinkUpdate(Update_Data *b)
     show();
 }
 
-void Signaling::OnOffUpdate(Update_Data *b)
+void Signaling::OnOffUpdate(UpdateData *b)
 {
     for(int i=0; i < b->groupLength;i++)
     {
@@ -263,7 +287,7 @@ uint32_t Signaling::Brightness(uint32_t color1,uint32_t color2 ,uint32_t intensi
     return color;
 }
 
-void Signaling::PulsatingUpdate(Update_Data *b)
+void Signaling::PulsatingUpdate(UpdateData *b)
 {
     //setPixelColor(10, Brightness(b->Color1, b->Color1, 10));
     uint32_t color = getPixelColor(10);
@@ -297,7 +321,7 @@ void Signaling::PulsatingUpdate(Update_Data *b)
     show();
 }
 
-void Signaling::LoadingUpdate(Update_Data *b)                   //function for Loading bar
+void Signaling::LoadingUpdate(UpdateData *b)                   //function for Loading bar
 {
     if( b->Index < b->groupLength)
     {
@@ -319,7 +343,7 @@ void Signaling::LoadingUpdate(Update_Data *b)                   //function for L
 
 }
 
-void Signaling::StepUpdate(Update_Data *b)                          //function to turn one LED ON at a time in a group
+void Signaling::StepUpdate(UpdateData *b)                          //function to turn one LED ON at a time in a group
 {
     if(b->Index >= b->groupLength)
      {

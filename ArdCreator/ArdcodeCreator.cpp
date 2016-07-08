@@ -4,37 +4,95 @@
 #include <Update_Data.h>
 
 
-void ArdcodeCreator::create(Update_Data a[], int no_Leds, int no_Patterns)                      //function to create arduino code
+void ArdcodeCreator::create(UpdateData a[], int no_Leds, int no_Patterns)                      //function to create arduino code
 {
     ofstream ofile("test.ino");
-    ofile<<"#include <Adafruit_NeoPixel.h>\n#include <Signaling.h>\n#include <UpdateData.h>\n\nSignaling Strip("<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nUpdate_Data Pattern["<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
+    ofile<<"#include <Adafruit_NeoPixel.h>\n#include <Signaling.h>\n#include <UpdateData.h>\n\nSignaling Strip("<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nUpdateData Pattern["<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
     for( int i = 0; i < no_Patterns; i++)
     {
-        ofile<<"Pattern["<<i<<"].pattern ="<<a[i].pattern<<";\n";
+        ofile<<"Pattern["<<i<<"].initialize( ";
+        switch(a[i].pattern)
+        {
+        case 1:
+            ofile<<"RAINBOW_CYCLE";
+            break;
+        case 2:
+            ofile<<"THEATER_CHASE";
+            break;
+        case 3:
+            ofile<<"COLOR_WIPE";
+            break;
+        case 4:
+            ofile<<"SCANNER";
+            break;
+         case 5:
+            ofile<<"FADE";
+            break;
+         case 6:
+            ofile<<"BLINK";
+            break;
+         case 7:
+            ofile<<"ON_AND_OFF";
+            break;
+         case 8:
+            ofile<<"PULSATING";
+            break;
+         case 9:
+            ofile<<"LOADING";
+            break;
+         case 10:
+            ofile<<"STEP";
+            break;
+         default:
+            ofile<<"NONE";
+            break;
+        }
+        switch(a[i].direction)
+        {
+        case 0:
+            ofile<<", FORWARD";
+            break;
+        case 1:
+            ofile<<", REVERSE";
+            break;
+        }
+        ofile<<", "<<a[i].startTime<<", ";
+        ofile<<a[i].cycles<<", ";
+        ofile<<a[i].Index<<", ";
+        ofile<<a[i].on_time<<", ";
+        ofile<<a[i].off_time<<", ";
+        ofile<<a[i].totalsteps<<", ";
+        ofile<<a[i].brightness<<", ";
+        ofile<<a[i].Color1<<", ";
+        ofile<<a[i].Color2<<", ";
+        ofile<<a[i].Interval<<", ";
+        ofile<<"(int []){";
+
+        /*ofile<<"Pattern["<<i<<"].pattern ="<<a[i].pattern<<";\n";
         ofile<<"Pattern["<<i<<"].direction ="<<a[i].direction<<";\n";
         ofile<<"Pattern["<<i<<"].Interval ="<<a[i].Interval<<";\n";
         ofile<<"Pattern["<<i<<"].lastUpdate ="<<a[i].lastUpdate<<";\n";
         ofile<<"Pattern["<<i<<"].totalsteps ="<<a[i].totalsteps<<";\n";
         ofile<<"Pattern["<<i<<"].Color1 ="<<a[i].Color1<<";\n";
-        ofile<<"Pattern["<<i<<"].Color2 ="<<a[i].Color2<<";\n";
+        ofile<<"Pattern["<<i<<"].Color2 ="<<a[i].Color2<<";\n";*/
         for( int j = 0; j < a[i].groupLength; j++)
         {
-            ofile<<"Pattern["<<i<<"].group["<<j<<"] ="<<a[i].group[j]<<";\n";
+            ofile<<a[i].group[j]<<", ";
         }
-        ofile<<"Pattern["<<i<<"].groupLength ="<<a[i].groupLength<<";\n";
-        ofile<<"Pattern["<<i<<"].stopTime = Pattern["<<i<<"].cycles*Pattern["<<i<<"].Interval;\n\n";
+        ofile<<"}, "<<a[i].groupLength<<");\n";
+        //ofile<<"Pattern["<<i<<"].stopTime = Pattern["<<i<<"].cycles*Pattern["<<i<<"].Interval;\n\n";
     }
-    ofile<<"}\n\nvoid loop() {\nfor(int i = 0; i < "<<no_Patterns<<"; i++){\nif( Pattern[i].startTime >= millis() && Pattern[i].complete == -1){\nPattern[i].complete = 1;\n}\n";
-    ofile<<"else if( Pattern[i].stopTime <= millis() && Pattern[i].complete == 1){\nPattern[i].complete = 0;\n}\nif( Pattern[i].complete == 1){\nStrip.Update(&Pattern[i]);\n}\n}\n}";
+    ofile<<"}\n\nvoid loop() {\nfor(int i = 0; i < "<<no_Patterns<<"; i++){\n    Strip.mainLoop(&Pattern[i]);\n }\n}";
+
     ofile.close();
 }
 
-Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[])              //initialization function(overloaded)
+UpdateData ArdcodeCreator::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[],int length)              //initialization function(overloaded)
 {
-    Update_Data c;
+    UpdateData c;
 
     c.pattern = Pattern;
-    cout<<c.pattern;
+    cout<<c.pattern<<"y\n";
     c.direction = dir;
     c.startTime = start;
     c.cycles = cycle;
@@ -47,7 +105,7 @@ Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, in
     c.Color1 = color1;
     c.Color2 = 0;
     c.lastUpdate = 0;
-    c.groupLength = sizeof(g);
+    c.groupLength = length;
     cout<<sizeof(g)<<"\n"<<g[3]<<"\n";
     for( int i=0; i < c.groupLength; i++)
     {
@@ -58,9 +116,9 @@ Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, in
     return c;
 }
 
-Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, uint32_t color2, unsigned long interval, int g[])              //initialization function(overloaded)
+UpdateData ArdcodeCreator::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, uint32_t color2, unsigned long interval, int g[], int length)              //initialization function(overloaded)
 {
-    Update_Data c;
+    UpdateData c;
 
     c.pattern = Pattern;
     cout<<c.pattern;
@@ -76,7 +134,7 @@ Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, in
     c.Color1 = color1;
     c.Color2 = color2;
     c.lastUpdate = 0;
-    c.groupLength = sizeof(g);
+    c.groupLength = length;
     cout<<sizeof(g)<<"\n"<<g[3]<<"\n";
     for( int i=0; i < c.groupLength; i++)
     {
@@ -86,9 +144,9 @@ Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, in
 
     return c;
 }
-Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, int cycle, int on, int off, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[])
+UpdateData ArdcodeCreator::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[], int length)
 {
-    Update_Data c;
+    UpdateData c;
 
     c.pattern = Pattern;
     cout<<c.pattern;
@@ -106,7 +164,7 @@ Update_Data ArdcodeCreator::initialize(string Pattern, string dir, int start, in
     c.lastUpdate = 0;
     c.on_time = on;
     c.off_time = off;
-    c.groupLength = sizeof(g);
+    c.groupLength = length;
     cout<<sizeof(g)<<"\n"<<g[3]<<"\n";
     for( int i=0; i < c.groupLength; i++)
     {

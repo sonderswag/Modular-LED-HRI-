@@ -80,7 +80,7 @@ void setup() {
     Pattern4.brightness = 255;
   //  Pattern2.status = false;
     Pattern4.complete = false;
-    Pattern4.Interval = 50;        //change every 200 ms
+    Pattern4.Interval = 500;        //change every 200 ms
     Pattern4.lastUpdate = 0;
     Pattern4.groupLength=5;
     Pattern4.Color1 = Strip.Color(255,255,0);
@@ -90,10 +90,12 @@ void setup() {
     Pattern4.group[2] = 13;
     Pattern4.group[3] = 14;
     Pattern4.group[4] = 15;
-    Pattern4.LedState = false;
+    Pattern4.LedState = true;
     Pattern4.totalsteps = Pattern4.groupLength;
     
-  /*  Pattern5.pattern = STEP;
+    
+    
+    Pattern5.pattern = STEP;
     Pattern5.direction = FORWARD;
     Pattern5.startTime = 0;
     Pattern5.on_time = 1000;
@@ -112,7 +114,7 @@ void setup() {
     Pattern5.group[2] = 3;
     Pattern5.group[3] = 4;
     Pattern5.group[4] = 5;
-    Pattern5.totalsteps = Pattern5.groupLength;*/
+    Pattern5.totalsteps = Pattern5.groupLength;
     
 
 }
@@ -122,7 +124,7 @@ void loop()
   // put your main code here, to run repeatedly:
 // Strip.Update(&Pattern1);
  //Strip.Update(&Pattern2);
-  //Strip.Update(&Pattern3);
+  Strip.Update(&Pattern5);
   Strip.Update(&Pattern4);
   
 }
