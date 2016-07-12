@@ -100,7 +100,7 @@ void MainWindow::selectLED(LEDLabel *desiredLED) //Selects or de-selects specifi
         qDebug() << selectedLEDs;
         if (selectedLEDs.at(m) == desiredLED)
         {
-            desiredLED->setLEDColor(QColor(255, 255, 0), desiredLED->getID());
+            desiredLED->setLEDColor(desiredLED->getLEDColor(), desiredLED->getID());
             desiredLED->show();
 
             selectedLEDs.erase(selectedLEDs.begin() + m);
@@ -129,7 +129,7 @@ void MainWindow::clearSelectedLEDs()      //un-selects all selected LEDs
     for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
         //selectLED(selectedLEDs.at(m));
-        selectedLEDs.at(m)->setLEDColor(QColor(255, 255, 0), selectedLEDs.at(m)->getID());
+        selectedLEDs.at(m)->setLEDColor(selectedLEDs.at(m)->getLEDColor(), selectedLEDs.at(m)->getID());
         selectedLEDs.at(m)->show();
         selectedLEDs.erase(selectedLEDs.begin() + m);
         qDebug() << "Im Here " << m;
@@ -319,14 +319,18 @@ void MainWindow::on_selectAllButton_clicked()
 {
     for (int p = 0; p < LEDs.size(); p++)
     {
+        bool selected = false;
         for (int t = 0; t < selectedLEDs.size(); t++)
         {
             if (selectedLEDs.at(t) == LEDs.at(p))
             {
-                return;
+                selected = true;
             }
         }
-        selectLED(LEDs.at(p));
+        if (selected == false)
+        {
+            selectLED(LEDs.at(p));
+        }
     }
 }
 
@@ -551,3 +555,25 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 
 
+
+
+
+void MainWindow::on_addBehaviorButton_clicked()
+{
+    bWindow = new BehaviorWindow(selectedLEDs, this);
+
+    bWindow->setModal(true);
+    bWindow->show();
+//    BehaviorWindow bWindow(selectedLEDs, this);
+//    bWindow.setModal(true);  //Now can't access MainWindow with bWindow is open
+//    bWindow.exec();
+    clearSelectedLEDs();
+}
+
+void MainWindow::on_resetColor_clicked()
+{
+    for (int y = 0; y < LEDs.size(); y++)
+    {
+        LEDs.at(y)->setLEDColor(QColor(255, 255, 0), LEDs.at(y)->getID());
+    }
+}

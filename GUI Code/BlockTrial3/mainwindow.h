@@ -6,6 +6,7 @@
 #include <QLabel>
 #include <QtWidgets>
 #include "ledlabel.h"
+#include <behaviorwindow.h>
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,8 @@ public:
     void enableEditButtons(bool x);
     void selectLED(LEDLabel *desiredLED);
     void clearSelectedLEDs();               //unselects all selected LEDs (unshades them and clears the vector)
+
+    QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);// Q_DECL_OVERRIDE;
@@ -66,12 +69,17 @@ private slots:
 
     void on_selectAllButton_clicked();
 
+    void on_addBehaviorButton_clicked();
+
+    void on_resetColor_clicked();
+
 private:
     Ui::MainWindow *ui;
     QVector<LEDLabel*> LEDs ;
     QVector<LEDLabel*> selectedLEDs ;
     QVector<LEDLabel*> orderedLEDs ;
     int ActiveLED;
+    BehaviorWindow *bWindow;
  //   QPixmap LEDPic = QPixmap(":/images/LED.png");
 };
 

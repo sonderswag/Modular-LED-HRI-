@@ -3,6 +3,9 @@
 #include <QPainter>
 const int Offset = 35;
 
+LEDLabel::LEDLabel(QWidget *parent) : QLabel(parent)
+{
+}
 
 LEDLabel::LEDLabel(int &LEDCount, QWidget *parent) : QLabel(parent)
 {

@@ -15,13 +15,16 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp\
 #        dragwidget.cpp
-    ledlabel.cpp
+    ledlabel.cpp \
+    behaviorwindow.cpp
 
 HEADERS  += mainwindow.h\
 #         dragwidget.h
-    ledlabel.h
+    ledlabel.h \
+    behaviorwindow.h
 
 RESOURCES   = draggableicons.qrc
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    behaviorwindow.ui
 

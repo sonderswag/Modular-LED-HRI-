@@ -11,6 +11,7 @@ class LEDLabel : public QLabel
     Q_OBJECT
 
 public:
+    LEDLabel(QWidget *parent = 0);
     LEDLabel(int &LEDCount, QWidget * parent = 0);
     ~LEDLabel();
     QColor getLEDColor(){return LEDColor;}

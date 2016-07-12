@@ -2233,7 +2233,7 @@
       </property>
      </spacer>
     </item>
-    <item row="7" column="2">
+    <item row="8" column="2">
      <widget class="QPushButton" name="QuitButton">
       <property name="palette">
        <palette>
@@ -2655,7 +2655,7 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="1">
+    <item row="8" column="1">
      <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
@@ -2668,7 +2668,7 @@
       </property>
      </spacer>
     </item>
-    <item row="7" column="0">
+    <item row="8" column="0">
      <widget class="QLineEdit" name="DisplayText">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -3125,7 +3125,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="1">
+    <item row="7" column="1">
      <widget class="QPushButton" name="resetID">
       <property name="text">
        <string>Reset IDs</string>
@@ -3136,6 +3136,20 @@
      <widget class="QPushButton" name="selectAllButton">
       <property name="text">
        <string>Select All LEDs</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QPushButton" name="addBehaviorButton">
+      <property name="text">
+       <string>Add Behavior</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QPushButton" name="resetColor">
+      <property name="text">
+       <string>Reset Colors</string>
       </property>
      </widget>
     </item>
