@@ -7,7 +7,7 @@ const int Offset = 35;
 LEDLabel::LEDLabel(int &LEDCount, QWidget *parent) : QLabel(parent)
 {
 
-    this->setFixedSize(35, 35);
+    this->setFixedSize(32, 32);
 //    this->setID(0);
     this->setLEDColor(QColor(255,255,0), -1);  //-1 is a flag to clear the text ID
     //this->setPixmap(LEDPic.scaled(this->width(),this->height(),Qt::KeepAspectRatio));
@@ -37,12 +37,12 @@ void LEDLabel::setID(int id)
 void LEDLabel::setLEDColor(QColor color, int id)
 {
     LEDColor = color;
-    QPixmap *myPix = new QPixmap(QSize(35,35));
+    QPixmap *myPix = new QPixmap(QSize(32,32));
+    myPix->fill(Qt::transparent);
     QPainter paint(myPix);
     paint.setPen(Qt::black);
     paint.setBrush(LEDColor);
-    paint.setBackground(Qt::white);
-    QRect r = rect();           //QRect(8, 8, 17, 17)
+    QRect r = QRect(0, 0, 31, 31);   // QRect r = rect();
     paint.drawEllipse(r);
     if (id >= 0)
     {
@@ -51,6 +51,7 @@ void LEDLabel::setLEDColor(QColor color, int id)
     }
     else
     {
+        ID = id;
         paint.drawText(r, Qt::AlignCenter, QString(""));
     }
     setPixmap(*myPix);

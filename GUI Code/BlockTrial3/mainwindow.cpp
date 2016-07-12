@@ -390,7 +390,7 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
 //START CLICKING AND DRAGGING FUNCTIONS
 
 //int
-void MainWindow::mousePressEvent(QMouseEvent *event)
+void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse has been clicked (creates a mouse event with position event->pos()
 {
 
     LEDLabel *child = static_cast<LEDLabel*>(childAt(event->pos()));
@@ -431,8 +431,14 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
                                                             //User selects 1st LED, and the algorithm finds next ones until end of selected group.
     {
         qDebug() << "Got Here";
-        if (selectedLEDs.empty() == false){
-            getOrderedLED(LEDs.at(getActiveLED()));
+        if (selectedLEDs.empty() == false){                //Make sure SelectedLEDs isn't empty
+            for (int i = 0; i < selectedLEDs.size(); i++)
+            {
+                if (child == selectedLEDs.at(i))
+                {
+                    getOrderedLED(child);
+                }
+            }
         }
     }
     else if (ui->actionMove_and_Add_Mode->isChecked())   //In this mode, a drag is started. Some Code borrowed from "Draggable Icons" Qt Example:
