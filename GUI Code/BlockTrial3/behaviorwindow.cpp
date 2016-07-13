@@ -65,6 +65,7 @@ void BehaviorWindow::on_SetButton_clicked()
     for (int i = 0; i < listLEDs.size(); i++)
     {
         listLEDs.at(i)->setLEDColor(color, listLEDs.at(i)->getID());
+        listLEDs.at(i)->setShade(true);
     }
     close();
 }

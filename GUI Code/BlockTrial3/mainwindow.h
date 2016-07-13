@@ -7,6 +7,8 @@
 #include <QtWidgets>
 #include "ledlabel.h"
 #include <behaviorwindow.h>
+#include <LightParameter.h>
+
 
 namespace Ui {
 class MainWindow;

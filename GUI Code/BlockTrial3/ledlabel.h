@@ -17,6 +17,7 @@ public:
     QColor getLEDColor(){return LEDColor;}
     int getID(){return ID;}
     void setLEDColor(QColor color, int id); //{LEDColor = color;}
+    void setShade(bool shade);
     void setID(int id);
 
 private:

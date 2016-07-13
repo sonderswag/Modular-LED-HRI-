@@ -37,6 +37,25 @@ void LEDLabel::setID(int id)
 
 }
 
+void LEDLabel::setShade(bool shade)
+{
+    if (shade == true)
+    {
+        QPixmap pixmap = *this->pixmap();
+        QPixmap tempPixmap = pixmap;
+        QPainter painter;
+        painter.begin(&tempPixmap);
+        painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
+        painter.end();
+        this->setPixmap(tempPixmap);
+    }
+    else
+    {
+        this->setLEDColor(LEDColor, ID);
+    }
+    this->show();
+}
+
 void LEDLabel::setLEDColor(QColor color, int id)
 {
     LEDColor = color;

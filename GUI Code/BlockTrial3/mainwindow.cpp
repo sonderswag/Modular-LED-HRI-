@@ -92,7 +92,6 @@ void MainWindow::selectLED(LEDLabel *desiredLED) //Selects or de-selects specifi
 {
     qDebug() << "Got here1";
     qDebug() << selectedLEDs;
-    QPixmap pixmap = *desiredLED->pixmap();
 
     for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
@@ -100,9 +99,8 @@ void MainWindow::selectLED(LEDLabel *desiredLED) //Selects or de-selects specifi
         qDebug() << selectedLEDs;
         if (selectedLEDs.at(m) == desiredLED)
         {
-            desiredLED->setLEDColor(desiredLED->getLEDColor(), desiredLED->getID());
-            desiredLED->show();
 
+            desiredLED->setShade(false);
             selectedLEDs.erase(selectedLEDs.begin() + m);
             qDebug() << "Got here3";
             qDebug() << selectedLEDs;
@@ -111,13 +109,8 @@ void MainWindow::selectLED(LEDLabel *desiredLED) //Selects or de-selects specifi
     }
     qDebug() << "Got here4";
     qDebug() << selectedLEDs;
-    QPixmap tempPixmap = pixmap;
-    QPainter painter;
-    painter.begin(&tempPixmap);
-    painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
-    painter.end();
-    desiredLED->setPixmap(tempPixmap);
-    desiredLED->show();
+
+    desiredLED->setShade(true);
     selectedLEDs.push_back(desiredLED);
     qDebug() << "Got here5";
     qDebug() << selectedLEDs;
@@ -393,7 +386,6 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
 
 //START CLICKING AND DRAGGING FUNCTIONS
 
-//int
 void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse has been clicked (creates a mouse event with position event->pos()
 {
 
@@ -461,15 +453,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse ha
         drag->setPixmap(pixmap);
         drag->setHotSpot(event->pos() - child->pos());
 
-
-        QPixmap tempPixmap = pixmap;
-        QPainter painter;
-        painter.begin(&tempPixmap);
-        painter.fillRect(pixmap.rect(), QColor(127, 127, 127, 127));
-        painter.end();
-
-        child->setPixmap(tempPixmap);
-        child->show();
+        child->setShade(true);
 
 
         if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) != Qt::MoveAction) {
@@ -567,7 +551,7 @@ void MainWindow::on_addBehaviorButton_clicked()
 //    BehaviorWindow bWindow(selectedLEDs, this);
 //    bWindow.setModal(true);  //Now can't access MainWindow with bWindow is open
 //    bWindow.exec();
-    clearSelectedLEDs();
+//    clearSelectedLEDs();
 }
 
 void MainWindow::on_resetColor_clicked()

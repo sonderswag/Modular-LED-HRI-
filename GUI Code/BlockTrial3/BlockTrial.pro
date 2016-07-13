@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp\
 #        dragwidget.cpp
     ledlabel.cpp \
-    behaviorwindow.cpp
+    behaviorwindow.cpp\
+    LightParameter.cpp
 
 HEADERS  += mainwindow.h\
 #         dragwidget.h
     ledlabel.h \
-    behaviorwindow.h
+    behaviorwindow.h\
+    LightParameter.h\
 
 RESOURCES   = draggableicons.qrc
 
