@@ -16,7 +16,11 @@ BehaviorWindow::BehaviorWindow(QVector<LEDLabel*> orderedLEDs, QWidget *parent) 
 
     for(int p = 0; p < listLEDs.size(); p++)
     {
-        list = QString(list + QString::number(listLEDs.at(p)->getID()) + sep);
+        int id = listLEDs.at(p)->getID();
+        if(id >= 0)
+            list = QString(list + QString::number(id) + sep);
+        else
+            list = QString(list + QString("NA") + sep);
     }
     list.chop(3);
     ui->ListSelected->setText(list);
@@ -41,21 +45,18 @@ void BehaviorWindow::setColor(QColor desiredColor)
 void BehaviorWindow::on_RSlider_sliderReleased()
 {
     int r = (ui->RSlider->value()) * sliderFactor;
-//    qDebug() << "r: " << r << "  g: " << g << "  b: " << b;
     setColor(QColor(r, color.green(), color.blue()));
 }
 
 void BehaviorWindow::on_GSlider_sliderReleased()
 {
     int g = (ui->GSlider->value()) * sliderFactor;
-//    qDebug() << "r: " << r << "  g: " << g << "  b: " << b;
     setColor(QColor(color.red() ,g ,color.blue()));
 }
 
 void BehaviorWindow::on_BSlider_sliderReleased()
 {
     int b = (ui->BSlider->value()) * sliderFactor;
-//    qDebug() << "r: " << r << "  g: " << g << "  b: " << b;
     setColor(QColor(color.red(), color.green(), b));
 }
 

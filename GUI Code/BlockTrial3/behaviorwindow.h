@@ -32,6 +32,7 @@ private slots:
 
     void on_CancelButton_clicked();
 
+
 private:
     Ui::BehaviorWindow *ui;
     QVector<LEDLabel*> listLEDs;
