@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <ledlabel.h>
-//#include <>
+#include "LightParameter.h"
 
 
 namespace Ui {
@@ -15,9 +15,10 @@ class BehaviorWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit BehaviorWindow(QVector<LEDLabel*> orderedLEDs, QWidget *parent = 0);
+    explicit BehaviorWindow(QVector<LightParameter> *vecofStruct, QVector<LEDLabel*> orderedLEDs, QWidget *parent = 0);
     QColor getColor() {return color; }
     void setColor(QColor desiredColor);
+    void updateVect();
     ~BehaviorWindow();
 
 private slots:
@@ -31,6 +32,7 @@ private slots:
     void on_SetButton_clicked();
 
     void on_CancelButton_clicked();
+
 
 
 private:

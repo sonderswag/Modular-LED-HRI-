@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ledlabel.h"
+#include "LightParameter.h"
+#include "NeoPixelCodeConverter.h"
+
 #include <QtWidgets>
 #include <QFrame>
 #include <QVector>
@@ -9,6 +12,9 @@
 
 
 int LEDCount = 0;         //LEDCount is a counter to displace every new LEDIcon created.
+//QVector<LightParameter> a;
+QVector<LightParameter> *a = new QVector<LightParameter>;
+//NeoPixelCodeConverter b;
 
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -544,7 +550,7 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::on_addBehaviorButton_clicked()
 {
-    bWindow = new BehaviorWindow(selectedLEDs, this);
+    bWindow = new BehaviorWindow(a, selectedLEDs, this);
 
     bWindow->setModal(true);
     bWindow->show();
@@ -560,4 +566,15 @@ void MainWindow::on_resetColor_clicked()
     {
         LEDs.at(y)->setLEDColor(QColor(255, 255, 0), LEDs.at(y)->getID());
     }
+}
+
+void MainWindow::on_testPushBack_clicked()
+{
+//    uint32_t c = b.Color(255,255,0,0);
+//    uint32_t c1 = b.Color(0,0,50,0);
+//    int d[] = {5,6,7,8,9};
+//    //a[0] = b.initialize(THEATER_CHASE,FORWARD, 5000, 10, 0, 255, 255, c, c1, 500, d, sizeof(d)/4);
+
+//    a->push_back(LightParameter(THEATER_CHASE,FORWARD, 5000, 10, 0, 255, 255, c, c1, 500, d, sizeof(d)/4));
+    qDebug() << a->at(0).grouplength;
 }

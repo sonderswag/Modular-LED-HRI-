@@ -75,6 +75,8 @@ private slots:
 
     void on_resetColor_clicked();
 
+    void on_testPushBack_clicked();
+
 private:
     Ui::MainWindow *ui;
     QVector<LEDLabel*> LEDs ;
