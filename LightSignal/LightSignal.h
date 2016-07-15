@@ -43,8 +43,6 @@ class LightSignal : public Adafruit_NeoPixel{
 
 public:
        LightSignal(uint16_t pixels, uint8_t pin, uint8_t type);
-//    ~LightSignal();
-
 
        void Update(LightParameter *a);
        void OnComplete(LightParameter *a);

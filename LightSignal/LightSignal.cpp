@@ -1,13 +1,14 @@
 #include "LightSignal.h"
 
-const byte PIN=6;    //output PWM pin
+//output PWM pin
+const byte PIN=6;
 
+//LightSignal constructor which is used to initialize the number of pins, Arduino board pin number and the type of LED strip(i.e., RGB, RGBW etc.,)
 LightSignal::LightSignal(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPixel(pixels, pin, type){
 
-//OnComplete = callback;
 }
 
-// Update the pattern
+// Updates the pattern if the difference between current time and lastupdate is grater than the interval time
 void LightSignal::Update(LightParameter *a)
 {
 
@@ -75,6 +76,7 @@ void LightSignal::OnComplete(LightParameter *a)
     show();
 }
 
+//updates the function depending on pattern priority provided by user
 void LightSignal::mainLoop(LightParameter *a)
 {
     if( a->start_time <= millis() && a->complete == -1)                //checks if the pattern is suppose to start or not
@@ -91,7 +93,8 @@ void LightSignal::mainLoop(LightParameter *a)
      Update(a);
    }
 }
-    // Increment the index and reset at the end
+
+// Increment the index and reset at the end
 void LightSignal::Increment(LightParameter *p)
     {
         if (p->direction == FORWARD)
@@ -158,7 +161,7 @@ void LightSignal::ColorWipeUpdate(LightParameter *b)
         Increment(b);
 }
 
-    // Update the Scanner Pattern
+// Update the Scanner Pattern
 void LightSignal::ScannerUpdate(LightParameter *b)
 {
         for (int i = 0; i < b->grouplength; i++)
@@ -180,6 +183,7 @@ void LightSignal::ScannerUpdate(LightParameter *b)
         Increment(b);
 }
 
+//updates the Fade pattern
 void LightSignal::FadeUpdate(LightParameter *b)
 {
         // Calculate linear interpolation between Color1 and Color2
@@ -193,6 +197,7 @@ void LightSignal::FadeUpdate(LightParameter *b)
         Increment(b);
 }
 
+//Updates the Color set pattern
 void LightSignal::ColorSet(LightParameter *p, uint32_t color)
 {
         for (int i = 0; i < p->grouplength; i++)
@@ -210,19 +215,19 @@ uint32_t LightSignal::DimColor(uint32_t color)
         return dimColor;
 }
 
-    // Returns the Red component of a 32-bit color
+// Returns the Red component of a 32-bit color
 uint8_t LightSignal::Red(uint32_t color)
 {
         return (color >> 16) & 0xFF;
 }
 
-    // Returns the Green component of a 32-bit color
+// Returns the Green component of a 32-bit color
 uint8_t LightSignal::Green(uint32_t color)
 {
         return (color >> 8) & 0xFF;
 }
 
-    // Returns the Blue component of a 32-bit color
+// Returns the Blue component of a 32-bit color
 uint8_t LightSignal::Blue(uint32_t color)
 {
         return color & 0xFF;
@@ -247,6 +252,7 @@ uint32_t LightSignal::Wheel(byte WheelPos)
         }
 }
 
+//Updates the blink pattern
 void LightSignal::BlinkUpdate(LightParameter *b)
 {
     for(int i=0; i < b->grouplength;i++)
@@ -263,6 +269,7 @@ void LightSignal::BlinkUpdate(LightParameter *b)
     show();
 }
 
+//Updates the On and Off pattern
 void LightSignal::OnOffUpdate(LightParameter *b)
 {
     for(int i=0; i < b->grouplength;i++)
@@ -279,6 +286,7 @@ void LightSignal::OnOffUpdate(LightParameter *b)
     show();
 }
 
+//sets the brightness of the LED's
 uint32_t LightSignal::Brightness(uint32_t color1,uint32_t color2 ,uint32_t intensity)
 {
     uint32_t cul = max(max(Red(color2),Blue(color2)),Green(color2));
@@ -287,6 +295,7 @@ uint32_t LightSignal::Brightness(uint32_t color1,uint32_t color2 ,uint32_t inten
     return color;
 }
 
+//Updates the Pulsating pattern
 void LightSignal::PulsatingUpdate(LightParameter *b)
 {
     //setPixelColor(10, Brightness(b->Color1, b->Color1, 10));
@@ -321,6 +330,7 @@ void LightSignal::PulsatingUpdate(LightParameter *b)
     show();
 }
 
+//Updates the Loading bar pattern
 void LightSignal::LoadingUpdate(LightParameter *b)                   //function for Loading bar
 {
     if( b->index < b->grouplength)
@@ -343,6 +353,8 @@ void LightSignal::LoadingUpdate(LightParameter *b)                   //function 
 
 }
 
+
+//Updates the step pattern
 void LightSignal::StepUpdate(LightParameter *b)                          //function to turn one LED ON at a time in a group
 {
     if(b->index >= b->grouplength)
