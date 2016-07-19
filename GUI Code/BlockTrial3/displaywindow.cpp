@@ -55,10 +55,12 @@ void DisplayWindow::DisplayInfo()
                  .arg(vecOfStructures->at(m).interval));
         PrintTab(QString("Cycles: %1")
                  .arg(vecOfStructures->at(m).cycles));
-
+        if (vecOfStructures->at(m).pattern != RAINBOW_CYCLE)
+        {
         uint32_t c1 = vecOfStructures->at(m).Color1;
         PrintTab(QString("Color 1 RGB: (%1, %2,  %3)")
                  .arg(Red(c1)).arg(Green(c1)).arg(Blue(c1)));
+        }
         if (vecOfStructures->at(m).Color2 != 0)
         {
             uint32_t c2 = vecOfStructures->at(m).Color2;
