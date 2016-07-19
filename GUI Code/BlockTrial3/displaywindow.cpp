@@ -2,8 +2,8 @@
 #include "ui_displaywindow.h"
 #include <mainwindow.h>
 #include <ledlabel.h>
-#include "LightParameter.h"
-#include "NeoPixelCodeConverter.h"
+#include "Dependencies/LightParameter.h"
+#include "Dependencies/NeoPixelCodeConverter.h"
 #include <QtAlgorithms>
 
 QVector<LightParameter> *vecOfStructures;

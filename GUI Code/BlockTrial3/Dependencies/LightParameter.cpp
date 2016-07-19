@@ -1,4 +1,4 @@
-#include "LightParameter.h"
+#include "Dependencies/LightParameter.h"
 
 void LightParameter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int on, int off, int tsteps, int bright, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int glength)
 {

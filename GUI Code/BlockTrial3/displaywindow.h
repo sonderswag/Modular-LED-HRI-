@@ -1,7 +1,7 @@
 #ifndef DISPLAYWINDOW_H
 #define DISPLAYWINDOW_H
 
-#include "LightParameter.h"
+#include "Dependencies/LightParameter.h"
 #include <QDialog>
 
 namespace Ui {

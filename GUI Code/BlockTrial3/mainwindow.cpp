@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ledlabel.h"
-#include "LightParameter.h"
-#include "NeoPixelCodeConverter.h"
+#include "Dependencies/LightParameter.h"
+#include "Dependencies/NeoPixelCodeConverter.h"
 #include "displaywindow.h"
 
 #include <QtWidgets>

@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <ledlabel.h>
-#include "LightParameter.h"
+#include "Dependencies/LightParameter.h"
 #include <QLineEdit>
 
 namespace Ui {

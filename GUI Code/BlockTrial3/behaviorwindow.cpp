@@ -2,8 +2,8 @@
 #include "ui_behaviorwindow.h"
 #include <mainwindow.h>
 #include <ledlabel.h>
-#include "LightParameter.h"
-#include "NeoPixelCodeConverter.h"
+#include "Dependencies/LightParameter.h"
+#include "Dependencies/NeoPixelCodeConverter.h"
 #include <QtAlgorithms>
 #include <QColorDialog>
 

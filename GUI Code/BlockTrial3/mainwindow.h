@@ -7,7 +7,7 @@
 #include <QtWidgets>
 #include "ledlabel.h"
 #include <behaviorwindow.h>
-#include <LightParameter.h>
+#include "Dependencies/LightParameter.h"
 #include "displaywindow.h"
 
 
