@@ -15,8 +15,8 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="..\ArdCreator\bin\Debug\libArdCreator.a" />
-					<Add library="..\Update_Data\bin\Debug\libUpdate_Data.a" />
+					<Add library="..\NeoPixelCodeConverter\bin\Debug\libNeoPixelCodeConverter.a" />
+					<Add library="..\LightParameter\bin\Debug\libLightParameter.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">

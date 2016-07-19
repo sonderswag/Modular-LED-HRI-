@@ -44,12 +44,8 @@ void LightSignal::Update(LightParameter *a)
                     a->stop_time = a->start_time + (a->cycles)*(a->on_time  + a->off_time);
                     break;
                 case PULSATING:
-                    if( millis() < 100)
-                    {
-                        setPixelColor(10, Brightness(a->Color1, a->Color1, 20));
-                        show();
-                    }
                     PulsatingUpdate(a);
+                    a->stop_time = a->start_time + (a->cycles)*((a->interval)*2*max(max(Red(a->Color1),Blue(a->Color1)),Green(a->Color1)));
                     break;
                 case LOADING:
                     LoadingUpdate(a);
@@ -287,9 +283,9 @@ void LightSignal::OnOffUpdate(LightParameter *b)
 }
 
 //sets the brightness of the LED's
-uint32_t LightSignal::Brightness(uint32_t color1,uint32_t color2 ,uint32_t intensity)
+uint32_t LightSignal::Brightness(uint32_t color1 ,uint32_t intensity)
 {
-    uint32_t cul = max(max(Red(color2),Blue(color2)),Green(color2));
+    uint32_t cul = max(max(Red(color1),Blue(color1)),Green(color1));
 
     uint32_t color = Color((Red(color1)/cul)*intensity,(Green(color1)/cul)*intensity,(Blue(color1)/cul)*intensity);
     return color;
@@ -299,34 +295,35 @@ uint32_t LightSignal::Brightness(uint32_t color1,uint32_t color2 ,uint32_t inten
 void LightSignal::PulsatingUpdate(LightParameter *b)
 {
     //setPixelColor(10, Brightness(b->Color1, b->Color1, 10));
-    uint32_t color = getPixelColor(10);
-    uint32_t min1 = min(min(Red(color),Blue(color)),Green(color));
-    uint32_t min2 = min(min(Red(b->Color1),Blue(b->Color1)),Green(b->Color1));
-    uint32_t max1 = max(max(Red(color),Blue(color)),Green(color));
-    uint32_t max2 = max(max(Red(b->Color1),Blue(b->Color1)),Green(b->Color1));
-    setPixelColor(10, Brightness(color, b->Color1, 255));
-   /* if( b->ledstate == false)
+   // uint32_t color = getPixelColor(10);
+
+    uint32_t min1 = min(min(Red(b->Color1),Blue(b->Color1)),Green(b->Color1));
+    uint32_t max1 = max(max(Red(b->Color1),Blue(b->Color1)),Green(b->Color1));
+    //setPixelColor(10, Brightness(color, b->Color1, 255));
+    if( b->ledstate == false)
     {
+        (b->totalsteps)++;
         for(int i = 0; i < b->grouplength; i++)
         {
-            setPixelColor(b->group[i], Brightness(color, b->Color1, max1-3));
+            setPixelColor(b->group[i], Brightness(b->Color1, b->totalsteps));
         }
-        if( min1 < 8)
+        if( b->totalsteps >= max1)
         {
             b->ledstate = true;
         }
     }
     else if( b->ledstate == true)
     {
+        --b->totalsteps;
         for(int i = 0; i < b->grouplength; i++)
         {
-            setPixelColor(b->group[i], Brightness(color, b->Color1, max1+3));
+            setPixelColor(b->group[i], Brightness(b->Color1, b->totalsteps));
         }
-        if( max1 > max2)
+        if( b->totalsteps <= 1)
         {
             b->ledstate = false;
         }
-    }*/
+    }
     show();
 }
 
