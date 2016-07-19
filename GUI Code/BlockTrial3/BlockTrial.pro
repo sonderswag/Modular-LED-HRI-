@@ -17,16 +17,16 @@ SOURCES += main.cpp\
 #        dragwidget.cpp
     ledlabel.cpp \
     behaviorwindow.cpp\
-    LightParameter.cpp\
-    NeoPixelCodeConverter.cpp \
+    Dependencies/LightParameter.cpp\
+    Dependencies/NeoPixelCodeConverter.cpp \
     displaywindow.cpp
 
 HEADERS  += mainwindow.h\
 #         dragwidget.h
     ledlabel.h \
     behaviorwindow.h\
-    LightParameter.h\
-    NeoPixelCodeConverter.h \
+    Dependencies/LightParameter.h\
+    Dependencies/NeoPixelCodeConverter.h \
     displaywindow.h
 
 RESOURCES   = draggableicons.qrc

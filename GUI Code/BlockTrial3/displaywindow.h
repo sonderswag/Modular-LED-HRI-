@@ -18,7 +18,8 @@ public:
     void DisplayInfo();
     void Print(QString printthis);
     void PrintTab(QString printthis);
-    QString Pattern(int patternID);
+    QString getPattern(int patternID);
+    QString getDirection(int dirID);
 
     // Returns the Red component of a 32-bit color
     uint8_t Red(uint32_t color) { return (color >> 16) & 0xFF; }
