@@ -12,7 +12,7 @@ LEDLabel::LEDLabel(int &LEDCount, QWidget *parent) : QLabel(parent)
 
     this->setFixedSize(32, 32);
 //    this->setID(0);
-    this->setLEDColor(QColor(255,255,0), -1);  //-1 is a flag to clear the text ID
+    this->setLEDColor(QColor(255,255,255), -1);  //-1 is a flag to clear the text ID
     //this->setPixmap(LEDPic.scaled(this->width(),this->height(),Qt::KeepAspectRatio));
     this->move(20 + Offset*LEDCount, 70);
     this->show();
@@ -83,4 +83,8 @@ void LEDLabel::setLEDColor(QColor color, int id)
     show();
 
 }
+//QColor LEDLabel::getIdealTextColor
+//{
+
+//}
 

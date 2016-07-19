@@ -3,17 +3,22 @@
 #include "ledlabel.h"
 #include "LightParameter.h"
 #include "NeoPixelCodeConverter.h"
+#include "displaywindow.h"
 
 #include <QtWidgets>
 #include <QFrame>
 #include <QVector>
 #include <QDebug>
 #include <QtMath>
+#include <QMessageBox>
 
 
-int LEDCount = 0;         //LEDCount is a counter to displace every new LEDIcon created.
+int ledCount = 0;         //ledCount is a counter to displace every new ledIcon created.
 //QVector<LightParameter> a;
-QVector<LightParameter> *a = new QVector<LightParameter>;
+//QVector<LightParameter> *vectOfData = new QVector<LightParameter>;
+
+//dWindow
+//bWindow = new BehaviorWindow(vectOfData, selectedLEDs, this);
 //NeoPixelCodeConverter b;
 
 
@@ -22,17 +27,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->LEDNumEdit->setValidator(new QIntValidator(0, 99, this));
+    ui->ledNumEdit->setValidator(new QIntValidator(0, 99, this));
     setMinimumSize(200, 200);
     setAcceptDrops(true);
 
     //Create the first LED Label
-    LEDLabel *LEDIcon = new LEDLabel(LEDCount, this);
-    LEDs.push_back(LEDIcon);
+    LEDLabel *ledIcon = new LEDLabel(ledCount, this);
+    LEDs.push_back(ledIcon);
 
-    ui->DisplayText->setReadOnly(true);
-    ui->DisplayText->setText("Action Information here");
-    ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
+    ui->displayText->setReadOnly(true);
+    ui->displayText->setText("Action Information here");
+    ui->ledNumEdit->setText(QString::number(getNumLEDs()));
     enableEditButtons(false);
 
     ui->actionMove_and_Add_Mode->setChecked(true);            //Set Mode to Move and Add
@@ -40,6 +45,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->actionAdd_Connector->setChecked(false);
     ui->menuSetMode->setWindowTitle("Mode: Move and Add");
     enableEditButtons(true);
+
+    vectOfData = new QVector<LightParameter>;
+    dWindow = new DisplayWindow(vectOfData , this);
+    dWindow->setModal(false);
+
 
 }
 
@@ -63,12 +73,12 @@ void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs
     {
         if (getNumLEDs() < 99)
         {
-            LEDLabel *LEDIcon = new LEDLabel(LEDCount, this);
-            LEDs.push_back(LEDIcon);
+            LEDLabel *ledIcon = new LEDLabel(ledCount, this);
+            LEDs.push_back(ledIcon);
         }
     }
 
-    ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
+    ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
 void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs from the back of LEDs Vector
@@ -78,7 +88,7 @@ void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs f
         if (LEDs.size() == 1){
             delete LEDs.at(LEDs.size()-1);
             LEDs.pop_back();
-            LEDCount = 0;
+            ledCount = 0;
         }
         else if (LEDs.size() > 1)
         {
@@ -86,10 +96,10 @@ void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs f
             delete LEDs.at(LEDs.size()-1);
 
             LEDs.pop_back();
-            --LEDCount;
+            --ledCount;
         }
     }
-    ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
+    ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
 
@@ -191,7 +201,7 @@ void MainWindow::enableEditButtons(bool x)
 
 //button functionality functions:
 
-void MainWindow::on_DeleteSelectedButton_clicked()               //Deletes all selected LEDs
+void MainWindow::on_deleteSelectedButton_clicked()               //Deletes all selected LEDs
 {
 
     QString output = "Deleted LEDs: #";
@@ -224,9 +234,9 @@ void MainWindow::on_DeleteSelectedButton_clicked()               //Deletes all s
     }
     output.chop(3);
     output = QString(output + QString(". You have %1 LEDs Left.").arg(getNumLEDs()));
-    ui->DisplayText->setText(output);
+    ui->displayText->setText(output);
 
-    ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
+    ui->ledNumEdit->setText(QString::number(getNumLEDs()));
     deletedLEDs.clear();
 
 }
@@ -240,7 +250,7 @@ void MainWindow::on_upArrow_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         addNumLEDs(1);
-        ui->DisplayText->setText(QString("Added LED #%1").arg(getNumLEDs()));
+        ui->displayText->setText(QString("Added LED #%1").arg(getNumLEDs()));
     }
 }
 
@@ -249,12 +259,12 @@ void MainWindow::on_downArrow_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         deleteNumLEDs(1);
-        ui->DisplayText->setText(QString("Deleted LED #%1").arg(getNumLEDs()+1));
+        ui->displayText->setText(QString("Deleted LED #%1").arg(getNumLEDs()+1));
     }
 }
 
 
-void MainWindow::on_QuitButton_clicked()
+void MainWindow::on_quitButton_clicked()
 {
     QApplication::quit();
 }
@@ -265,7 +275,7 @@ void MainWindow::on_addFive_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         addNumLEDs(5);
-        ui->DisplayText->setText(QString("Added LED's #%1 to #%2").arg(getNumLEDs()-4).arg(getNumLEDs()));
+        ui->displayText->setText(QString("Added LED's #%1 to #%2").arg(getNumLEDs()-4).arg(getNumLEDs()));
     }
 }
 
@@ -274,15 +284,15 @@ void MainWindow::on_deleteFive_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         deleteNumLEDs(5);
-        ui->DisplayText->setText(QString("Deleted LED's #%1 to #%2").arg(getNumLEDs()+1).arg(getNumLEDs()+5));
+        ui->displayText->setText(QString("Deleted LED's #%1 to #%2").arg(getNumLEDs()+1).arg(getNumLEDs()+5));
     }
 }
 
-void MainWindow::on_LEDNumEdit_editingFinished()
+void MainWindow::on_ledNumEdit_editingFinished()
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
-        QString displayedText = ui->LEDNumEdit->displayText();
+        QString displayedText = ui->ledNumEdit->displayText();
         int desiredNumLEDs = displayedText.toInt();
         if (desiredNumLEDs > getNumLEDs()){
             addNumLEDs(desiredNumLEDs - getNumLEDs());
@@ -292,7 +302,7 @@ void MainWindow::on_LEDNumEdit_editingFinished()
         }
     }
     else
-        ui->LEDNumEdit->setText(QString::number(getNumLEDs()));
+        ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
 void MainWindow::on_clearLEDs_clicked()
@@ -300,7 +310,7 @@ void MainWindow::on_clearLEDs_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         deleteNumLEDs(getNumLEDs());
-        ui->DisplayText->setText("Cleared All LEDs");
+        ui->displayText->setText("Cleared All LEDs");
     }
 }
 
@@ -419,7 +429,7 @@ void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse ha
            setActiveLED(m);   // Which #ID LED we pressed
         }
     }
-    ui->DisplayText->setText(QString("Selected LED %1").arg(getActiveLED()));
+    ui->displayText->setText(QString("Selected LED %1").arg(getActiveLED()));
 
     QPixmap pixmap = *child->pixmap();
 
@@ -505,7 +515,7 @@ void MainWindow::dragMoveEvent(QDragMoveEvent *event)
             event->ignore();
         }
 
-        ui->DisplayText->setText(QString("Moving LED %1 to (%2,%3)").arg(getActiveLED()+1).arg(event->pos().rx()).arg(event->pos().ry()));
+        ui->displayText->setText(QString("Moving LED %1 to (%2,%3)").arg(getActiveLED()+1).arg(event->pos().rx()).arg(event->pos().ry()));
     }
 }
 
@@ -521,11 +531,11 @@ void MainWindow::dropEvent(QDropEvent *event)
             QPoint offset;
             dataStream >> pixmap >> offset;
 
-            int LEDtoMove = getActiveLED();                //Update new place for ActiveLED
-            LEDs.at(LEDtoMove)->setPixmap(pixmap);
-            LEDs.at(LEDtoMove)->move(event->pos() - offset);
-            LEDs.at(LEDtoMove)->show();
-            ui->DisplayText->setText(QString("Dropped LED %1 to (%2,%3)").arg(LEDtoMove + 1).arg(LEDs.at(getActiveLED())->pos().rx()).arg(LEDs.at(getActiveLED())->pos().ry()));
+            int ledtoMove = getActiveLED();                //Update new place for ActiveLED
+            LEDs.at(ledtoMove)->setPixmap(pixmap);
+            LEDs.at(ledtoMove)->move(event->pos() - offset);
+            LEDs.at(ledtoMove)->show();
+            ui->displayText->setText(QString("Dropped LED %1 to (%2,%3)").arg(ledtoMove + 1).arg(LEDs.at(getActiveLED())->pos().rx()).arg(LEDs.at(getActiveLED())->pos().ry()));
 
             if (event->source() == this) {
                 event->setDropAction(Qt::MoveAction);
@@ -550,31 +560,68 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 void MainWindow::on_addBehaviorButton_clicked()
 {
-    bWindow = new BehaviorWindow(a, selectedLEDs, this);
+    //Test if all LEDs selected have an ID
+    bool allLEDsHaveIDs = true;
+    for (int m = 0; m < selectedLEDs.size(); m++)
+    {
+        if (selectedLEDs.at(m)->getID() < 0)
+        {
+            allLEDsHaveIDs = false;
+        }
+    }
 
-    bWindow->setModal(true);
-    bWindow->show();
-//    BehaviorWindow bWindow(selectedLEDs, this);
-//    bWindow.setModal(true);  //Now can't access MainWindow with bWindow is open
-//    bWindow.exec();
-//    clearSelectedLEDs();
+    if (selectedLEDs.size() == 0)
+    {
+        QMessageBox::warning(this, "Warning", "Must Select at least 1 LED");
+        return;
+    }
+    else if (allLEDsHaveIDs == false)
+    {
+        QMessageBox::StandardButton query =
+                QMessageBox::question(this, "LED ID Problem",
+                                      "Not all LEDs selected have IDs. Continue?",
+                                      QMessageBox::Yes | QMessageBox::No);
+        if (query == QMessageBox::No){
+            return;
+        }
+    }
+    BehaviorWindow bWindow(vectOfData, selectedLEDs, this);
+    //Can't access MainWindow with bWindow is open:
+    bWindow.setModal(true);
+    QPoint here = this->pos();
+    bWindow.move(here + QPoint((this->width()-bWindow.width())/2, 300));
+    bWindow.exec();
+
 }
 
 void MainWindow::on_resetColor_clicked()
 {
     for (int y = 0; y < LEDs.size(); y++)
     {
-        LEDs.at(y)->setLEDColor(QColor(255, 255, 0), LEDs.at(y)->getID());
+        LEDs.at(y)->setLEDColor(QColor(255, 255, 255), LEDs.at(y)->getID());
     }
 }
 
-void MainWindow::on_testPushBack_clicked()
-{
-//    uint32_t c = b.Color(255,255,0,0);
-//    uint32_t c1 = b.Color(0,0,50,0);
-//    int d[] = {5,6,7,8,9};
-//    //a[0] = b.initialize(THEATER_CHASE,FORWARD, 5000, 10, 0, 255, 255, c, c1, 500, d, sizeof(d)/4);
 
-//    a->push_back(LightParameter(THEATER_CHASE,FORWARD, 5000, 10, 0, 255, 255, c, c1, 500, d, sizeof(d)/4));
-    qDebug() << a->at(0).grouplength;
+void MainWindow::on_displayWindowButton_toggled(bool checked)
+{
+    if (checked)
+    {
+        dWindow->DisplayInfo();
+        QPoint here = this->pos();
+        dWindow->move(here + QPoint(this->width() + 2, 0));
+        dWindow->show();
+    }
+    else
+        dWindow->hide();
+}
+
+void MainWindow::setDisplayWindowButton(bool checked)
+{
+    ui->displayWindowButton->setChecked(checked);
+}
+
+void MainWindow::on_resetGroupsButton_clicked()
+{
+    vectOfData->clear();
 }

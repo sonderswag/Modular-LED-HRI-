@@ -18,17 +18,20 @@ SOURCES += main.cpp\
     ledlabel.cpp \
     behaviorwindow.cpp\
     LightParameter.cpp\
-    NeoPixelCodeConverter.cpp
+    NeoPixelCodeConverter.cpp \
+    displaywindow.cpp
 
 HEADERS  += mainwindow.h\
 #         dragwidget.h
     ledlabel.h \
     behaviorwindow.h\
     LightParameter.h\
-    NeoPixelCodeConverter.h
+    NeoPixelCodeConverter.h \
+    displaywindow.h
 
 RESOURCES   = draggableicons.qrc
 
 FORMS    += mainwindow.ui \
-    behaviorwindow.ui
+    behaviorwindow.ui \
+    displaywindow.ui
 

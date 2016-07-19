@@ -8,6 +8,7 @@
 #include "ledlabel.h"
 #include <behaviorwindow.h>
 #include <LightParameter.h>
+#include "displaywindow.h"
 
 
 namespace Ui {
@@ -26,12 +27,13 @@ public:
     void addNumLEDs(int n);
     void deleteNumLEDs(int n);
     int  getNumLEDs(){return LEDs.size();}
-    void setActiveLED(int n){ActiveLED = n;}
-    int getActiveLED(){return ActiveLED;}
+    void setActiveLED(int n){activeLED = n;}
+    int getActiveLED(){return activeLED;}
     void getOrderedLED(LEDLabel* firstLED);
     void enableEditButtons(bool x);
     void selectLED(LEDLabel *desiredLED);
     void clearSelectedLEDs();               //unselects all selected LEDs (unshades them and clears the vector)
+    void setDisplayWindowButton(bool checked);
 
     QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
 
@@ -48,13 +50,13 @@ private slots:
     void on_downArrow_clicked();
 
 
-    void on_QuitButton_clicked();
+    void on_quitButton_clicked();
 
     void on_addFive_clicked();
 
     void on_deleteFive_clicked();
 
-    void on_LEDNumEdit_editingFinished();
+    void on_ledNumEdit_editingFinished();
 
     void on_clearLEDs_clicked();
 
@@ -63,7 +65,7 @@ private slots:
 
     void on_actionMove_and_Add_Mode_triggered();
 
-    void on_DeleteSelectedButton_clicked();
+    void on_deleteSelectedButton_clicked();
 
     void on_actionAdd_Connector_triggered();
 
@@ -75,15 +77,19 @@ private slots:
 
     void on_resetColor_clicked();
 
-    void on_testPushBack_clicked();
+    void on_displayWindowButton_toggled(bool checked);
+
+    void on_resetGroupsButton_clicked();
 
 private:
     Ui::MainWindow *ui;
     QVector<LEDLabel*> LEDs ;
     QVector<LEDLabel*> selectedLEDs ;
     QVector<LEDLabel*> orderedLEDs ;
-    int ActiveLED;
-    BehaviorWindow *bWindow;
+    int activeLED;
+    DisplayWindow *dWindow;
+    QVector<LightParameter> *vectOfData;
+ //   BehaviorWindow *bWindow;
  //   QPixmap LEDPic = QPixmap(":/images/LED.png");
 };
 
