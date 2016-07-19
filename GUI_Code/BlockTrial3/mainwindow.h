@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QVector>
+#include <vector>
 #include <QLabel>
 #include <QtWidgets>
 #include "ledlabel.h"
@@ -90,7 +90,7 @@ private:
     QVector<LEDLabel*> orderedLEDs ;
     int activeLED;
     DisplayWindow *dWindow;
-    QVector<LightParameter> *vectOfData;
+    std::vector<LightParameter> *vectOfData;
  //   BehaviorWindow *bWindow;
  //   QPixmap LEDPic = QPixmap(":/images/LED.png");
 };

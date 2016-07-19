@@ -8,11 +8,11 @@
 
 #include <vector>
 
-QVector<LightParameter> *vecOfStructures;
+std::vector<LightParameter> *vecOfStructures;
 NeoPixelCodeConverter codeConverter;
 
 
-DisplayWindow::DisplayWindow(QVector<LightParameter> *vecofStruct,
+DisplayWindow::DisplayWindow(std::vector<LightParameter> *vecofStruct,
                              QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DisplayWindow)
@@ -157,8 +157,8 @@ void DisplayWindow::on_createArduinoButton_clicked()
     }
 
     qDebug() << "Number of Modules: " << numberModules;
-    vector<LightParameter> stdVector = vecOfStructures->toStdVector();
-    int size = stdVector.size();
-    codeConverter.create(stdVector, numberModules , size);
+  //  vector<LightParameter> stdVector = vecOfStructures->toStdVector();
+    int size = vecOfStructures->size();
+    codeConverter.create(*vecOfStructures, numberModules , size);
     qDebug() << "Made File!!";
 }

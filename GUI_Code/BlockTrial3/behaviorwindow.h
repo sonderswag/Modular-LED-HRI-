@@ -5,6 +5,7 @@
 #include <ledlabel.h>
 #include "Dependencies/LightParameter.h"
 #include <QLineEdit>
+#include <vector>
 
 namespace Ui {
 class BehaviorWindow;
@@ -15,7 +16,7 @@ class BehaviorWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit BehaviorWindow(QVector<LightParameter> *vecOfStruct,
+    explicit BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
                             QVector<LEDLabel*> orderedLEDs, QWidget *parent = 0);
     QColor getColor1() {return color1; }
     QColor getColor2() {return color2; }

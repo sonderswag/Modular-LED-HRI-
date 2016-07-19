@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuSetMode->setWindowTitle("Mode: Move and Add");
     enableEditButtons(true);
 
-    vectOfData = new QVector<LightParameter>;
+    vectOfData = new std::vector<LightParameter>;
     dWindow = new DisplayWindow(vectOfData , this);
     dWindow->setModal(false);
 

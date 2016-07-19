@@ -6,16 +6,17 @@
 #include "Dependencies/NeoPixelCodeConverter.h"
 #include <QtAlgorithms>
 #include <QColorDialog>
+#include <vector>
 
 
 QColorDialog *color1Dialog;
 //QColorDialog *color2Dialog;
 const double sliderFactor = 255.0/99;
-QVector<LightParameter> *vectorOfStructs;
+std::vector<LightParameter> *vectorOfStructs;
 NeoPixelCodeConverter convertColor;
 QVector<int> vectOfIDs;
 
-BehaviorWindow::BehaviorWindow(QVector<LightParameter> *vecOfStruct,
+BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
                                QVector<LEDLabel*> orderedLEDs, QWidget *parent):
     QDialog(parent),
     ui(new Ui::BehaviorWindow)
@@ -88,7 +89,7 @@ BehaviorWindow::BehaviorWindow(QVector<LightParameter> *vecOfStruct,
     EnableInput(false, ui->offTimeInput);
 
     ui->startTimeInput->setValidator(new QIntValidator(0, 1000000, this));
-    ui->cyclesInput->setValidator(new QIntValidator(0, 100, this));
+    ui->cyclesInput->setValidator(new QIntValidator(0, 100000, this));
     ui->intervalInput->setValidator(new QIntValidator(0, 1000000, this));
     ui->onTimeInput->setValidator(new QIntValidator(0, 1000000, this));
     ui->offTimeInput->setValidator(new QIntValidator(0, 1000000, this));
@@ -142,8 +143,7 @@ void BehaviorWindow::on_setButton_clicked()
 void BehaviorWindow::on_cancelButton_clicked()
 {
     //return the color chosen by user
-    QColor chosenColor = QColorDialog::getColor();
-    //close();
+    close();
     //ui->color2Button->show();
 }
 

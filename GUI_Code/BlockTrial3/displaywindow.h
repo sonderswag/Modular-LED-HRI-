@@ -3,6 +3,7 @@
 
 #include "Dependencies/LightParameter.h"
 #include <QDialog>
+#include <vector>
 
 namespace Ui {
 class DisplayWindow;
@@ -13,7 +14,7 @@ class DisplayWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DisplayWindow(QVector<LightParameter> *vecofStruct,
+    explicit DisplayWindow(std::vector<LightParameter> *vecofStruct,
                            QWidget *parent = 0);
     ~DisplayWindow();
     void DisplayInfo();
