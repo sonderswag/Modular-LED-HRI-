@@ -3,7 +3,6 @@
 #include <fstream>
 #include <vector>
 #include <Dependencies/LightParameter.h>
-#include <QDebug>
 
 /* Name:  create
 Purpose:
@@ -13,7 +12,6 @@ Inputs:
 void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)                      //function to create arduino code
 {
     ofstream ofile("/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial3/testfile/testfile.ino");
-    qDebug() << "Got Here!!!!!";
     ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip("<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern["<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
     for( int i = 0; i < no_Patterns; i++)
     {

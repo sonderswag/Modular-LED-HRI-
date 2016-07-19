@@ -210,17 +210,13 @@ void BehaviorWindow::UpdateVect()
     int brightness = 255;
     qDebug() << "index: " << index;
     qDebug() << "brightness: " << brightness;
-    int totalSteps;
-    if (currentPatInt == 1)
-        totalSteps = 255;
-    else
-        totalSteps = 0;
+
 
 
     if (currentPatInt == THEATER_CHASE || currentPatInt == FADE)
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, totalSteps, brightness,
+                                                  index, brightness,
                                                   c1, c2, interval, arrayIDs,
                                                   arrayLength));
     }
@@ -228,14 +224,20 @@ void BehaviorWindow::UpdateVect()
     {
         vectorOfStructs->push_back(LightParameter( pat, dir, startTime, cyc,
                                                    onTime, offTime, index,
-                                                   totalSteps, brightness, c1,
+                                                   brightness, c1,
                                                    interval, arrayIDs,
                                                    arrayLength));
+    }
+    else if (currentPatInt == RAINBOW_CYCLE)
+    {
+        vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
+                                                  index, brightness,interval,
+                                                  arrayIDs, arrayLength));
     }
     else
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, totalSteps, brightness,
+                                                  index, brightness,
                                                   c1, interval, arrayIDs,
                                                   arrayLength));
     }
