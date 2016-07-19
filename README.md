@@ -3,3 +3,7 @@
 Readme file for our LED Modular System
 
 GUI interacts with an Arduino, which will control the RGBW LED Strip
+
+#LIBRARIES
+===========
+1. l
