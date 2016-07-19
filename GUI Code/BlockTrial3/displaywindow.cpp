@@ -8,7 +8,8 @@
 
 QVector<LightParameter> *vecOfStructures;
 
-DisplayWindow::DisplayWindow(QVector<LightParameter> *vecofStruct, QWidget *parent) :
+DisplayWindow::DisplayWindow(QVector<LightParameter> *vecofStruct,
+                             QWidget *parent) :
     QDialog(parent),
     ui(new Ui::DisplayWindow)
 {
@@ -40,25 +41,31 @@ void DisplayWindow::DisplayInfo()
             group = QString(group + id + sep);
         }
         group.chop(3);
+
         PrintTab(group);
-        PrintTab(QString("Grouplength: %1").arg(vecOfStructures->at(m).grouplength));
-        PrintTab(QString("Pattern: " + getPattern(vecOfStructures->at(m).pattern)));
-        PrintTab(QString("Direction: " + getDirection(vecOfStructures->at(m).direction)));
-        PrintTab(QString("Start Time: %1").arg(vecOfStructures->at(m).start_time));
-        PrintTab(QString("Interval: %1").arg(vecOfStructures->at(m).interval));
-        PrintTab(QString("Cycles: %1").arg(vecOfStructures->at(m).cycles));
+        PrintTab(QString("Grouplength: %1")
+                 .arg(vecOfStructures->at(m).grouplength));
+        PrintTab(QString("Pattern: " +
+                         getPattern(vecOfStructures->at(m).pattern)));
+        PrintTab(QString("Direction: " +
+                         getDirection(vecOfStructures->at(m).direction)));
+        PrintTab(QString("Start Time: %1")
+                 .arg(vecOfStructures->at(m).start_time));
+        PrintTab(QString("Interval: %1")
+                 .arg(vecOfStructures->at(m).interval));
+        PrintTab(QString("Cycles: %1")
+                 .arg(vecOfStructures->at(m).cycles));
 
         uint32_t c1 = vecOfStructures->at(m).Color1;
-        PrintTab(QString("Color 1 RGB: (%1, %2,  %3)").arg(Red(c1)).arg(Green(c1)).arg(Blue(c1)));
+        PrintTab(QString("Color 1 RGB: (%1, %2,  %3)")
+                 .arg(Red(c1)).arg(Green(c1)).arg(Blue(c1)));
         if (vecOfStructures->at(m).Color2 != 0)
         {
             uint32_t c2 = vecOfStructures->at(m).Color2;
-            PrintTab(QString("Color 2 RGB: (%1, %2,  %3)").arg(Red(c2)).arg(Green(c2)).arg(Blue(c2)));
+            PrintTab(QString("Color 2 RGB: (%1, %2,  %3)")
+                     .arg(Red(c2)).arg(Green(c2)).arg(Blue(c2)));
         }
-
-
     }
-
 }
 
 

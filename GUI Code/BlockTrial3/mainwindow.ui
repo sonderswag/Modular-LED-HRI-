@@ -3188,9 +3188,9 @@
     <property name="title">
      <string>Set Mode</string>
     </property>
-    <addaction name="actionSelect_Mode"/>
     <addaction name="actionMove_and_Add_Mode"/>
-    <addaction name="actionAdd_Connector"/>
+    <addaction name="actionSelect_Mode"/>
+    <addaction name="actionAssign_IDs"/>
    </widget>
    <addaction name="menuSetMode"/>
   </widget>
@@ -3209,7 +3209,7 @@
    </attribute>
    <addaction name="actionMove_and_Add_Mode"/>
    <addaction name="actionSelect_Mode"/>
-   <addaction name="actionAdd_Connector"/>
+   <addaction name="actionAssign_IDs"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionSelect_Mode">
@@ -3236,7 +3236,7 @@
     <string>Move and Add</string>
    </property>
   </action>
-  <action name="actionAdd_Connector">
+  <action name="actionAssign_IDs">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -3245,7 +3245,10 @@
      <normaloff>:/images/addBarIcon.png</normaloff>:/images/addBarIcon.png</iconset>
    </property>
    <property name="text">
-    <string>Add Connector</string>
+    <string>Assign IDs</string>
+   </property>
+   <property name="toolTip">
+    <string>Assign IDs</string>
    </property>
   </action>
  </widget>

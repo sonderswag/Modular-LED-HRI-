@@ -32,7 +32,9 @@ public:
     void getOrderedLED(LEDLabel* firstLED);
     void enableEditButtons(bool x);
     void selectLED(LEDLabel *desiredLED);
-    void clearSelectedLEDs();               //unselects all selected LEDs (unshades them and clears the vector)
+
+    //unselects all selected LEDs (unshades them and clears the vector)
+    void clearSelectedLEDs();
     void setDisplayWindowButton(bool checked);
 
     QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
@@ -67,7 +69,7 @@ private slots:
 
     void on_deleteSelectedButton_clicked();
 
-    void on_actionAdd_Connector_triggered();
+    void on_actionAssign_IDs_triggered();
 
     void on_resetID_clicked();
 

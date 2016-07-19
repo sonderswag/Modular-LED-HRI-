@@ -13,7 +13,8 @@ class DisplayWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit DisplayWindow(QVector<LightParameter> *vecofStruct, QWidget *parent = 0);
+    explicit DisplayWindow(QVector<LightParameter> *vecofStruct,
+                           QWidget *parent = 0);
     ~DisplayWindow();
     void DisplayInfo();
     void Print(QString printthis);

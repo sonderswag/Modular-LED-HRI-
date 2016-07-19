@@ -15,7 +15,8 @@ class BehaviorWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit BehaviorWindow(QVector<LightParameter> *vecOfStruct, QVector<LEDLabel*> orderedLEDs, QWidget *parent = 0);
+    explicit BehaviorWindow(QVector<LightParameter> *vecOfStruct,
+                            QVector<LEDLabel*> orderedLEDs, QWidget *parent = 0);
     QColor getColor1() {return color1; }
     QColor getColor2() {return color2; }
     void setColor(int whichLED, QColor desiredColor);

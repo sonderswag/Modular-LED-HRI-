@@ -14,7 +14,8 @@ QVector<LightParameter> *vectorOfStructs;
 NeoPixelCodeConverter convertColor;
 QVector<int> vectOfIDs;
 
-BehaviorWindow::BehaviorWindow(QVector<LightParameter> *vecOfStruct, QVector<LEDLabel*> orderedLEDs, QWidget *parent) :
+BehaviorWindow::BehaviorWindow(QVector<LightParameter> *vecOfStruct,
+                               QVector<LEDLabel*> orderedLEDs, QWidget *parent):
     QDialog(parent),
     ui(new Ui::BehaviorWindow)
 {
@@ -55,7 +56,9 @@ BehaviorWindow::BehaviorWindow(QVector<LightParameter> *vecOfStruct, QVector<LED
     ui->color2Button->hide();
 
 
-//enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, FADE, BLINK, ON_AND_OFF, PULSATING, LOADING, STEP};
+//enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE,
+                      //SCANNER, FADE, BLINK, ON_AND_OFF, PULSATING,
+                      //LOADING, STEP};
 
 
     ui->patternMenuBox->addItem("NONE");
@@ -117,7 +120,9 @@ void BehaviorWindow::setColor(int whichLED, QColor desiredColor)
         color2 = desiredColor;
     }
 
-//    ui->showRGB->setText(QString("RGB = (%1, %2, %3)").arg(desiredColor.red()).arg(desiredColor.green()).arg(desiredColor.blue()));
+//    ui->showRGB->setText(QString("RGB = (%1, %2, %3)").arg(desiredColor.red())
+                                    //.arg(desiredColor.green())
+                                    //.arg(desiredColor.blue()));
 }
 
 void BehaviorWindow::on_setButton_clicked()
@@ -135,7 +140,8 @@ void BehaviorWindow::on_setButton_clicked()
 
 void BehaviorWindow::on_cancelButton_clicked()
 {
-    QColor chosenColor = QColorDialog::getColor(); //return the color chosen by user
+    //return the color chosen by user
+    QColor chosenColor = QColorDialog::getColor();
     //close();
     //ui->color2Button->show();
 }
@@ -178,8 +184,10 @@ void BehaviorWindow::UpdateVect()
     qDebug() << "Cycles: " << cyc;
 
 
-    uint32_t c1 = convertColor.Color(color1.red(),color1.green(),color1.blue(),0);
-    uint32_t c2 = convertColor.Color(color2.red(),color2.green(),color2.blue(),0);
+    uint32_t c1 = convertColor.Color(color1.red(),color1.green(),
+                                     color1.blue(),0);
+    uint32_t c2 = convertColor.Color(color2.red(),color2.green(),
+                                     color2.blue(),0);
 
     qDebug() << "Color1: " << c1;
     qDebug() << "Color2: " << c2;
@@ -212,20 +220,23 @@ void BehaviorWindow::UpdateVect()
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
                                                   index, totalSteps, brightness,
-                                                  c1, c2, interval, arrayIDs, arrayLength));
+                                                  c1, c2, interval, arrayIDs,
+                                                  arrayLength));
     }
     else if (currentPatInt == ON_AND_OFF)
     {
         vectorOfStructs->push_back(LightParameter( pat, dir, startTime, cyc,
                                                    onTime, offTime, index,
                                                    totalSteps, brightness, c1,
-                                                   interval, arrayIDs, arrayLength));
+                                                   interval, arrayIDs,
+                                                   arrayLength));
     }
     else
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
                                                   index, totalSteps, brightness,
-                                                  c1, interval, arrayIDs, arrayLength));
+                                                  c1, interval, arrayIDs,
+                                                  arrayLength));
     }
 
 
@@ -234,8 +245,8 @@ void BehaviorWindow::UpdateVect()
 
 void BehaviorWindow::on_patternMenuBox_activated(int index)
 {
-    /* 0: NONE, 1: RAINBOW_CYCLE,2: THEATER_CHASE,3: COLOR_WIPE,
-    4: SCANNER,5: FADE,6: BLINK,7: ON_AND_OFF,8: PULSATING,9: LOADING,10: STEP};*/
+  //  0: NONE, 1: RAINBOW_CYCLE,2: THEATER_CHASE,3: COLOR_WIPE,4: SCANNER,
+  //  5: FADE,6: BLINK,7: ON_AND_OFF,8: PULSATING,9: LOADING,10: STEP
 
     if (index == 1)
     {

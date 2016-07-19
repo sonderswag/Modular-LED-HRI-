@@ -12,8 +12,9 @@
 #include <QtMath>
 #include <QMessageBox>
 
+//ledCount is a counter to displace every new ledIcon created.
+int ledCount = 0;
 
-int ledCount = 0;         //ledCount is a counter to displace every new ledIcon created.
 //QVector<LightParameter> a;
 //QVector<LightParameter> *vectOfData = new QVector<LightParameter>;
 
@@ -40,9 +41,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
     enableEditButtons(false);
 
-    ui->actionMove_and_Add_Mode->setChecked(true);            //Set Mode to Move and Add
+    //Set Mode to Move and Add
+    ui->actionMove_and_Add_Mode->setChecked(true);
     ui->actionSelect_Mode->setChecked(false);
-    ui->actionAdd_Connector->setChecked(false);
+    ui->actionAssign_IDs->setChecked(false);
     ui->menuSetMode->setWindowTitle("Mode: Move and Add");
     enableEditButtons(true);
 
@@ -81,7 +83,8 @@ void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
-void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs from the back of LEDs Vector
+//deletes n number of LEDs from the back of LEDs Vector
+void MainWindow::deleteNumLEDs(int n)
 {
     for (int p = 0; p < n; p++)
     {
@@ -103,8 +106,8 @@ void MainWindow::deleteNumLEDs(int n)               //deletes n number of LEDs f
 }
 
 
-
-void MainWindow::selectLED(LEDLabel *desiredLED) //Selects or de-selects specified LED
+//Selects or de-selects specified LED
+void MainWindow::selectLED(LEDLabel *desiredLED)
 {
     qDebug() << "Got here1";
     qDebug() << selectedLEDs;
@@ -138,7 +141,8 @@ void MainWindow::clearSelectedLEDs()      //un-selects all selected LEDs
     for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
         //selectLED(selectedLEDs.at(m));
-        selectedLEDs.at(m)->setLEDColor(selectedLEDs.at(m)->getLEDColor(), selectedLEDs.at(m)->getID());
+        selectedLEDs.at(m)->setLEDColor(selectedLEDs.at(m)->getLEDColor(),
+                                        selectedLEDs.at(m)->getID());
         selectedLEDs.at(m)->show();
         selectedLEDs.erase(selectedLEDs.begin() + m);
         qDebug() << "Im Here " << m;
@@ -159,7 +163,7 @@ void MainWindow::on_actionSelect_Mode_triggered()
         ui->menuSetMode->setWindowTitle("Mode: Select");
         enableEditButtons(false);
         ui->actionMove_and_Add_Mode->setChecked(false);
-        ui->actionAdd_Connector->setChecked(false);
+        ui->actionAssign_IDs->setChecked(false);
     }
 }
 
@@ -170,15 +174,15 @@ void MainWindow::on_actionMove_and_Add_Mode_triggered()
         ui->menuSetMode->setWindowTitle("Mode: Move and Add");
         enableEditButtons(true);
         ui->actionSelect_Mode->setChecked(false);
-        ui->actionAdd_Connector->setChecked(false);
+        ui->actionAssign_IDs->setChecked(false);
     }
     else
         enableEditButtons(false);
 }
 
-void MainWindow::on_actionAdd_Connector_triggered()
+void MainWindow::on_actionAssign_IDs_triggered()
 {
-    if (ui->actionAdd_Connector->isChecked())
+    if (ui->actionAssign_IDs->isChecked())
     {
         ui->menuSetMode->setWindowTitle("Mode: Add Connector");
         enableEditButtons(false);
@@ -201,14 +205,16 @@ void MainWindow::enableEditButtons(bool x)
 
 //button functionality functions:
 
-void MainWindow::on_deleteSelectedButton_clicked()               //Deletes all selected LEDs
+ //Deletes all selected LEDs
+void MainWindow::on_deleteSelectedButton_clicked()
 {
 
     QString output = "Deleted LEDs: #";
     QString sep = ", #";
 
     QVector<int> deletedLEDs;
-    for(int m = 0; m < selectedLEDs.size(); m++)            //run through selectedLEDs, deallocate the memory and delete index
+    //run through selectedLEDs, deallocate the memory and delete index
+    for(int m = 0; m < selectedLEDs.size(); m++)
     {
         for(int t = 0;  t < LEDs.size(); t++)
         {
@@ -225,7 +231,8 @@ void MainWindow::on_deleteSelectedButton_clicked()               //Deletes all s
     {
         delete LEDs.at(deletedLEDs.at(n));
         LEDs.erase(LEDs.begin() + deletedLEDs.at(n));
-        qDebug() << QString("loop #%1, Deleted ID #%2, LED Size: %3").arg(n).arg(deletedLEDs.at(n)).arg(LEDs.size());
+        qDebug() << QString("loop #%1, Deleted ID #%2, LED Size: %3")
+                    .arg(n).arg(deletedLEDs.at(n)).arg(LEDs.size());
     }
 
     for(int p = 0; p < deletedLEDs.size(); p++)
@@ -233,7 +240,8 @@ void MainWindow::on_deleteSelectedButton_clicked()               //Deletes all s
         output = QString(output + QString::number(deletedLEDs.at(p)) + sep);
     }
     output.chop(3);
-    output = QString(output + QString(". You have %1 LEDs Left.").arg(getNumLEDs()));
+    output = QString(output + QString(". You have %1 LEDs Left.")
+                     .arg(getNumLEDs()));
     ui->displayText->setText(output);
 
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
@@ -259,7 +267,8 @@ void MainWindow::on_downArrow_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         deleteNumLEDs(1);
-        ui->displayText->setText(QString("Deleted LED #%1").arg(getNumLEDs()+1));
+        ui->displayText->setText(QString("Deleted LED #%1")
+                                 .arg(getNumLEDs()+1));
     }
 }
 
@@ -275,7 +284,8 @@ void MainWindow::on_addFive_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         addNumLEDs(5);
-        ui->displayText->setText(QString("Added LED's #%1 to #%2").arg(getNumLEDs()-4).arg(getNumLEDs()));
+        ui->displayText->setText(QString("Added LED's #%1 to #%2")
+                                 .arg(getNumLEDs()-4).arg(getNumLEDs()));
     }
 }
 
@@ -284,7 +294,8 @@ void MainWindow::on_deleteFive_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         deleteNumLEDs(5);
-        ui->displayText->setText(QString("Deleted LED's #%1 to #%2").arg(getNumLEDs()+1).arg(getNumLEDs()+5));
+        ui->displayText->setText(QString("Deleted LED's #%1 to #%2")
+                                 .arg(getNumLEDs()+1).arg(getNumLEDs()+5));
     }
 }
 
@@ -369,7 +380,8 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
 
         for (int m = 0; m < selectedLEDs.size(); m++)
         {
-            double distance = qSqrt(qPow(selectedLEDs.at(m)->x()-firstx, 2) + qPow(selectedLEDs.at(m)->y()-firsty, 2));
+            double distance = qSqrt(qPow(selectedLEDs.at(m)->x()-firstx, 2) +
+                                    qPow(selectedLEDs.at(m)->y()-firsty, 2));
             qDebug() << distance;
 
 
@@ -402,22 +414,28 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
 
 //START CLICKING AND DRAGGING FUNCTIONS
 
-void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse has been clicked (creates a mouse event with position event->pos()
-{
 
+ //mouse has been clicked (creates a mouse event with position event->pos()
+void MainWindow::mousePressEvent(QMouseEvent *event)
+{
     LEDLabel *child = static_cast<LEDLabel*>(childAt(event->pos()));
-    QString PressedClassName = child->metaObject()->className();    // What type of object have you pressed?
+    // What type of object have you pressed?
+    QString PressedClassName = child->metaObject()->className();
     qDebug() << "type: " << PressedClassName;
     QString QLabelType = "LEDLabel";
 
     if (!child){
         qDebug() << "Got to !Child";
         return;}
-    else if (PressedClassName != QLabelType) //Exit if you didn't click a LEDLabel Type
+
+    //Exit if you didn't click a LEDLabel Type. If you press the background
+    //instead of LED Label, will clear the selected LEDs
+    else if (PressedClassName != QLabelType)
     {
         if (ui->actionSelect_Mode->isChecked())
         {
-        clearSelectedLEDs(); //If you press the background instead of LED Label, will clear the selected LEDs
+
+        clearSelectedLEDs();
         }
         return;
     }
@@ -433,17 +451,20 @@ void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse ha
 
     QPixmap pixmap = *child->pixmap();
 
-
-    if (ui->actionSelect_Mode->isChecked())               //In select mode, any label which we click on will be selected or deselected
+    //In select mode, any label which we click on will be selected or deselected
+    if (ui->actionSelect_Mode->isChecked())
     {
         selectLED(child);
     }
 
-    else if (ui->actionAdd_Connector->isChecked())         // In this mode, will re-order selectedLEDs in accordance to distance.
-                                                            //User selects 1st LED, and the algorithm finds next ones until end of selected group.
+    // In this mode, will re-order selectedLEDs in accordance to distance.
+    else if (ui->actionAssign_IDs->isChecked())
+
     {
+        //User selects 1st LED, and the algorithm
+        //finds next ones until end of selected group.
         qDebug() << "Got Here";
-        if (selectedLEDs.empty() == false){                //Make sure SelectedLEDs isn't empty
+        if (selectedLEDs.empty() == false){
             for (int i = 0; i < selectedLEDs.size(); i++)
             {
                 if (child == selectedLEDs.at(i))
@@ -453,8 +474,11 @@ void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse ha
             }
         }
     }
-    else if (ui->actionMove_and_Add_Mode->isChecked())   //In this mode, a drag is started. Some Code borrowed from "Draggable Icons" Qt Example:
-                                                         //http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
+
+    //In this mode, a drag is started. Code primarily borrowed from "Draggable
+    //Icons" Qt Example:
+    //http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
+    else if (ui->actionMove_and_Add_Mode->isChecked())
 
     {
         QByteArray itemData;
@@ -472,7 +496,8 @@ void MainWindow::mousePressEvent(QMouseEvent *event)                  //mouse ha
         child->setShade(true);
 
 
-        if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) != Qt::MoveAction) {
+        if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) !=
+                Qt::MoveAction) {
             child->show();
             child->setPixmap(pixmap);
             qDebug() << "didn't work??";
@@ -515,7 +540,9 @@ void MainWindow::dragMoveEvent(QDragMoveEvent *event)
             event->ignore();
         }
 
-        ui->displayText->setText(QString("Moving LED %1 to (%2,%3)").arg(getActiveLED()+1).arg(event->pos().rx()).arg(event->pos().ry()));
+        ui->displayText->setText(QString("Moving LED %1 to (%2,%3)")
+                                 .arg(getActiveLED()+1).arg(event->pos().rx())
+                                 .arg(event->pos().ry()));
     }
 }
 
@@ -524,18 +551,23 @@ void MainWindow::dropEvent(QDropEvent *event)
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-            QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
+            QByteArray itemData =
+                    event->mimeData()->data("application/x-dnditemdata");
             QDataStream dataStream(&itemData, QIODevice::ReadOnly);
 
             QPixmap pixmap;
             QPoint offset;
             dataStream >> pixmap >> offset;
 
-            int ledtoMove = getActiveLED();                //Update new place for ActiveLED
+            //Update new place for ActiveLED
+            int ledtoMove = getActiveLED();
             LEDs.at(ledtoMove)->setPixmap(pixmap);
             LEDs.at(ledtoMove)->move(event->pos() - offset);
             LEDs.at(ledtoMove)->show();
-            ui->displayText->setText(QString("Dropped LED %1 to (%2,%3)").arg(ledtoMove + 1).arg(LEDs.at(getActiveLED())->pos().rx()).arg(LEDs.at(getActiveLED())->pos().ry()));
+            ui->displayText->setText(QString("Dropped LED %1 to (%2,%3)")
+                                     .arg(ledtoMove + 1)
+                                     .arg(LEDs.at(getActiveLED())->pos().rx())
+                                     .arg(LEDs.at(getActiveLED())->pos().ry()));
 
             if (event->source() == this) {
                 event->setDropAction(Qt::MoveAction);
