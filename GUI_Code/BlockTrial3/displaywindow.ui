@@ -49,6 +49,19 @@
     <string>Log of Patterns</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="createArduinoButton">
+   <property name="geometry">
+    <rect>
+     <x>490</x>
+     <y>380</y>
+     <width>151</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Create Arduino File</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

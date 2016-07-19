@@ -6,7 +6,11 @@
 #include "Dependencies/NeoPixelCodeConverter.h"
 #include <QtAlgorithms>
 
+#include <vector>
+
 QVector<LightParameter> *vecOfStructures;
+NeoPixelCodeConverter codeConverter;
+
 
 DisplayWindow::DisplayWindow(QVector<LightParameter> *vecofStruct,
                              QWidget *parent) :
@@ -33,7 +37,7 @@ void DisplayWindow::DisplayInfo()
     {
         qDebug() << "got here";
         Print(QString("Group %1:").arg(m));
-        QString group = "LEDs: ";
+        QString group = "LEDs: #";
         QString sep = ", #";
         for(int n = 0; n < vecOfStructures->at(m).grouplength; n++)
         {
@@ -140,3 +144,21 @@ void DisplayWindow::on_refreshButton_clicked()
     DisplayInfo();
 }
 
+
+void DisplayWindow::on_createArduinoButton_clicked()
+{
+    int numberModules = 0;
+    for (int p = 0; p < vecOfStructures->size(); p++)
+    {
+        int groupLength = vecOfStructures->at(p).grouplength;
+        int highestID = vecOfStructures->at(p).group[groupLength-1];
+        if ((highestID+1) > numberModules)
+            numberModules = highestID + 1;
+    }
+
+    qDebug() << "Number of Modules: " << numberModules;
+    vector<LightParameter> stdVector = vecOfStructures->toStdVector();
+    int size = stdVector.size();
+    codeConverter.create(stdVector, numberModules , size);
+    qDebug() << "Made File!!";
+}

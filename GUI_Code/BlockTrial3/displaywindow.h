@@ -32,6 +32,8 @@ public:
 private slots:
     void on_refreshButton_clicked();
 
+    void on_createArduinoButton_clicked();
+
 private:
     Ui::DisplayWindow *ui;
 };

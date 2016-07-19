@@ -7,6 +7,7 @@
 #include <QtAlgorithms>
 #include <QColorDialog>
 
+
 QColorDialog *color1Dialog;
 //QColorDialog *color2Dialog;
 const double sliderFactor = 255.0/99;
