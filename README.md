@@ -26,7 +26,7 @@ or like this (on Mac and Linux):
   
   Documents/Arduino/libraries/LightSiganl/LightSignal.h
   
-  #2. LightParameter
+#2. LightParameter
   
   The procedure is same as above except instead of copying the whole folder, copy just the .h and .cpp file and put them in a "LightParameter" folder and then follow the above procedure
   
