@@ -7,7 +7,7 @@ GUI interacts with an Arduino, which will control the RGBW LED Strip
 #SETUP
 =============
 #Arduino Library
-===========
+
 #1. LightSignal
 
 To install the library, first quit the Arduino application. Then download the package and copy the "LightSignal" folder containing the .h and .cpp files from the LightSignal folder. Drag the LightSignal folder into this folder (your libraries folder). Under Windows, it will likely be called "My Documents\Arduino\libraries". For Mac users, it will likely be called "Documents/Arduino/libraries". On Linux, it will be the "libraries" folder in your sketchbook. 
@@ -31,7 +31,7 @@ or like this (on Mac and Linux):
   The procedure is same as above except instead of copying the whole folder, copy just the .h and .cpp file and put them in a "LightParameter" folder and then follow the above procedure
   
 #C++ Library
-============
+
 Copy the "NeoPixelCodeConverter" and "LightParameter" folder into any directory you desire.
 
 #USAGE
