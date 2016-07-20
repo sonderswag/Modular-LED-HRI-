@@ -3,7 +3,8 @@
 //output PWM pin
 const byte PIN=6;
 
-//LightSignal constructor which is used to initialize the number of pins, Arduino board pin number and the type of LED strip(i.e., RGB, RGBW etc.,)
+//LightSignal constructor which is used to initialize the number of pins
+// Arduino board pin number and the type of LED strip(i.e., RGB, RGBW etc.,)
 LightSignal::LightSignal(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPixel(pixels, pin, type){
 
 }
@@ -19,41 +20,43 @@ void LightSignal::Update(LightParameter *a)
             {
                 case RAINBOW_CYCLE:
                     RainbowCycleUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*(a->interval);
+                    a->stopTime = a->startTime + (a->cycles)*(a->interval);
                     break;
                 case THEATER_CHASE:
                     TheaterChaseUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*(a->interval);
+                    a->stopTime = a->startTime + (a->cycles)*(a->interval);
                     break;
                 case COLOR_WIPE:
                     ColorWipeUpdate(a);
                     break;
                 case SCANNER:
                     ScannerUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*((a->interval)*(a->totalsteps));
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->totalsteps));
                     break;
                 case FADE:
                     FadeUpdate(a);
                     break;
                 case BLINK:
                     BlinkUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*2*(a->interval);
+                    a->stopTime = a->startTime + (a->cycles)*2*(a->interval);
                     break;
                 case ON_AND_OFF:
                     OnOffUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*(a->on_time  + a->off_time);
+                    a->stopTime = a->startTime + (a->cycles)*(a->onTime  + a->offTime);
                     break;
                 case PULSATING:
                     PulsatingUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*((a->interval)*2*max(max(Red(a->Color1),Blue(a->Color1)),Green(a->Color1)));
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*2*max(max(Red(a->Color1),
+                                                                                      Blue(a->Color1)),
+                                                                                        Green(a->Color1)));
                     break;
                 case LOADING:
                     LoadingUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*((a->interval)*(a->grouplength));
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength));
                     break;
                 case STEP:
                     StepUpdate(a);
-                    a->stop_time = a->start_time + (a->cycles)*((a->interval)*(a->grouplength));
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength));
                     break;
                 default:
                     break;
@@ -75,16 +78,16 @@ void LightSignal::OnComplete(LightParameter *a)
 //updates the function depending on pattern priority provided by user
 void LightSignal::mainLoop(LightParameter *a)
 {
-    if( a->start_time <= millis() && a->complete == -1)                //checks if the pattern is suppose to start or not
+    if( a->startTime <= millis() && a->complete == -1)                //checks if the pattern is suppose to start or not
    {
      a->complete = 1;
    }
-   else if( a->stop_time <= millis() && a->complete == 1)              //checks if the pattern run time is over or not
+   else if( a->stopTime <= millis() && a->complete == 1)              //checks if the pattern run time is over or not
    {
      a->complete = 0;
      OnComplete(a);
    }
-   if( a->complete == 1)                                                       //updates the pattern
+   if( a->complete == 1)                                               //updates the pattern
    {
      Update(a);
    }
@@ -270,12 +273,12 @@ void LightSignal::OnOffUpdate(LightParameter *b)
 {
     for(int i=0; i < b->grouplength;i++)
     {
-      if(getPixelColor(b->group[i]) == 0 && (millis() - b->lastupdate) > b->off_time)                    //setting LED's to state HIGH
-      {b->interval = b->on_time;
+      if(getPixelColor(b->group[i]) == 0 && (millis() - b->lastupdate) > b->offTime)                    //setting LED's to state HIGH
+      {b->interval = b->onTime;
         setPixelColor(b->group[i], b->Color1);
       }
-      else if(getPixelColor(b->group[i]) > 0 && (millis() - b->lastupdate) > b->on_time)                  //setting LED's to LOW state
-      {b->interval = b->off_time;
+      else if(getPixelColor(b->group[i]) > 0 && (millis() - b->lastupdate) > b->onTime)                  //setting LED's to LOW state
+      {b->interval = b->offTime;
           setPixelColor(b->group[i],0,0,0,0);
       }
     }
@@ -287,14 +290,14 @@ uint32_t LightSignal::Brightness(uint32_t color1 ,uint32_t intensity)
 {
     uint32_t cul = max(max(Red(color1),Blue(color1)),Green(color1));
 
-    uint32_t color = Color((Red(color1)/cul)*intensity,(Green(color1)/cul)*intensity,(Blue(color1)/cul)*intensity);
+    uint32_t color = Color((Green(color1)/cul)*intensity,(Red(color1)/cul)*intensity,(Blue(color1)/cul)*intensity);
     return color;
 }
 
 //Updates the Pulsating pattern
 void LightSignal::PulsatingUpdate(LightParameter *b)
 {
-    //setPixelColor(10, Brightness(b->Color1, b->Color1, 10));
+    setPixelColor(8,b->Color1);
    // uint32_t color = getPixelColor(10);
 
     uint32_t min1 = min(min(Red(b->Color1),Blue(b->Color1)),Green(b->Color1));
@@ -319,7 +322,7 @@ void LightSignal::PulsatingUpdate(LightParameter *b)
         {
             setPixelColor(b->group[i], Brightness(b->Color1, b->totalsteps));
         }
-        if( b->totalsteps <= 1)
+        if( b->totalsteps <= min1)
         {
             b->ledstate = false;
         }

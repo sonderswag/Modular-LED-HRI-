@@ -9,10 +9,14 @@ Purpose:
 Inputs:
 
 */
-void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)                      //function to create arduino code
+ //function to create arduino code
+void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)
 {
     ofstream ofile("test.ino");
-    ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip("<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern["<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
+    ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip(";
+    ofile<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern[";
+    ofile<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
+
     for( int i = 0; i < no_Patterns; i++)
     {
         ofile<<"Pattern["<<i<<"].initialize( ";
@@ -63,25 +67,17 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
             ofile<<", REVERSE";
             break;
         }
-        ofile<<", "<<a[i].start_time<<", ";
+        ofile<<", "<<a[i].startTime<<", ";
         ofile<<a[i].cycles<<", ";
         ofile<<a[i].index<<", ";
-        ofile<<a[i].on_time<<", ";
-        ofile<<a[i].off_time<<", ";
-        ofile<<a[i].totalsteps<<", ";
+        ofile<<a[i].onTime<<", ";
+        ofile<<a[i].offTime<<", ";
         ofile<<a[i].brightness<<", ";
         ofile<<a[i].Color1<<", ";
         ofile<<a[i].Color2<<", ";
         ofile<<a[i].interval<<", ";
         ofile<<"(int []){";
 
-        /*ofile<<"Pattern["<<i<<"].pattern ="<<a[i].pattern<<";\n";
-        ofile<<"Pattern["<<i<<"].direction ="<<a[i].direction<<";\n";
-        ofile<<"Pattern["<<i<<"].Interval ="<<a[i].Interval<<";\n";
-        ofile<<"Pattern["<<i<<"].lastUpdate ="<<a[i].lastUpdate<<";\n";
-        ofile<<"Pattern["<<i<<"].totalsteps ="<<a[i].totalsteps<<";\n";
-        ofile<<"Pattern["<<i<<"].Color1 ="<<a[i].Color1<<";\n";
-        ofile<<"Pattern["<<i<<"].Color2 ="<<a[i].Color2<<";\n";*/
         for( int j = 0; j < a[i].grouplength; j++)
         {
             ofile<<a[i].group[j]<<", ";
@@ -101,6 +97,14 @@ uint32_t NeoPixelCodeConverter::Color(uint8_t r, uint8_t g, uint8_t b) {
 uint32_t NeoPixelCodeConverter::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
   return ((uint32_t)w << 24) | ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }
+
+
+
+
+
+
+
+
 
 
 /*UpdateData NeoPixelCodeConverter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[],int length)              //initialization function(overloaded)

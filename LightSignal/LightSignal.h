@@ -7,7 +7,7 @@
 #include <Adafruit_NeoPixel.h>
 #include <LightParameter.h>
 //#include <string>
-#include <math.h>
+//#include <math.h>
 
 
 
@@ -39,15 +39,9 @@ public:
        void LoadingUpdate(LightParameter *b);
        void StepUpdate(LightParameter *b);
        // Core Functionality
-  /*   void on_and_off();
-       void blink();
-       void pulsating();
-       void brightness();
+/*
 
        // Group Behaviour
-       void step();
-       void rainbow();
-       void loadingbar();
        void alternatingblink();
        void policeblink();*/
 

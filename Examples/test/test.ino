@@ -10,7 +10,7 @@ void setup() {
 Serial.begin(115200);
 Strip.begin();
 
-Pattern[0].initialize( PULSATING, FORWARD, 0, 300, 0, 0, 0, 255, 9830400, 0, 3, (int []){0, 1, 2, 3, }, 4);
+Pattern[0].initialize( PULSATING, FORWARD, 0, 3000, 0, 0, 0,255, 16711680, 0, 10, (int []){0, 1, 2, 3, }, 4);
 }
 
 void loop() {

@@ -25,8 +25,8 @@ int main()
     //a.push_back(LightParameter(RAINBOW_CYCLE,FORWARD, 0, 3000, 0, 255, 255, 0, 3, d1,sizeof(d1)/4));
  // a.push_back(UpdateData(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int index, int Totalsteps, int Brightness, uint32_t color1, unsigned long interval, int g[], int length)
 
-    uint32_t c = b.Color(255,0,0,0);
-    uint32_t c1 = b.Color(0,0,50,0);
+    uint32_t c = b.Color(150,0,0);
+    uint32_t c1 = b.Color(0,0,50);
     cout<<c1<<"\n";
     //cout<<a[1].pattern<<"y\n";
     cout<<"af\n";
