@@ -2,21 +2,17 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <LightParameter.h>
+#include <Dependencies/LightParameter.h>
 
 /* Name:  create
 Purpose:
 Inputs:
 
 */
- //function to create arduino code
-void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)
+void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)                      //function to create arduino code
 {
-    ofstream ofile("test.ino");
-    ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip(";
-    ofile<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern[";
-    ofile<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
-
+    ofstream ofile("/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial3/testfile/testfile.ino");
+    ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip("<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern["<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
     for( int i = 0; i < no_Patterns; i++)
     {
         ofile<<"Pattern["<<i<<"].initialize( ";
@@ -24,34 +20,34 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
 
         switch(a[i].pattern)
         {
-        case RAINBOW_CYCLE:
+        case 1:
             ofile<<"RAINBOW_CYCLE";
             break;
-        case THEATER_CHASE:
+        case 2:
             ofile<<"THEATER_CHASE";
             break;
-        case COLOR_WIPE:
+        case 3:
             ofile<<"COLOR_WIPE";
             break;
-        case SCANNER:
+        case 4:
             ofile<<"SCANNER";
             break;
-         case FADE:
+         case 5:
             ofile<<"FADE";
             break;
-         case BLINK:
+         case 6:
             ofile<<"BLINK";
             break;
-         case ON_AND_OFF:
+         case 7:
             ofile<<"ON_AND_OFF";
             break;
-         case PULSATING:
+         case 8:
             ofile<<"PULSATING";
             break;
-         case LOADING:
+         case 9:
             ofile<<"LOADING";
             break;
-         case STEP:
+         case 10:
             ofile<<"STEP";
             break;
          default:
@@ -69,18 +65,27 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
         default:
            ofile<<"NO_DIR";
            break;
+
         }
         ofile<<", "<<a[i].startTime<<", ";
         ofile<<a[i].cycles<<", ";
         ofile<<a[i].index<<", ";
         ofile<<a[i].onTime<<", ";
         ofile<<a[i].offTime<<", ";
+        ofile<<a[i].totalsteps<<", ";
         ofile<<a[i].brightness<<", ";
         ofile<<a[i].Color1<<", ";
         ofile<<a[i].Color2<<", ";
         ofile<<a[i].interval<<", ";
         ofile<<"(int []){";
 
+        /*ofile<<"Pattern["<<i<<"].pattern ="<<a[i].pattern<<";\n";
+        ofile<<"Pattern["<<i<<"].direction ="<<a[i].direction<<";\n";
+        ofile<<"Pattern["<<i<<"].Interval ="<<a[i].Interval<<";\n";
+        ofile<<"Pattern["<<i<<"].lastUpdate ="<<a[i].lastUpdate<<";\n";
+        ofile<<"Pattern["<<i<<"].totalsteps ="<<a[i].totalsteps<<";\n";
+        ofile<<"Pattern["<<i<<"].Color1 ="<<a[i].Color1<<";\n";
+        ofile<<"Pattern["<<i<<"].Color2 ="<<a[i].Color2<<";\n";*/
         for( int j = 0; j < a[i].grouplength; j++)
         {
             ofile<<a[i].group[j]<<", ";
@@ -100,14 +105,6 @@ uint32_t NeoPixelCodeConverter::Color(uint8_t r, uint8_t g, uint8_t b) {
 uint32_t NeoPixelCodeConverter::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
   return ((uint32_t)w << 24) | ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }
-
-
-
-
-
-
-
-
 
 
 /*UpdateData NeoPixelCodeConverter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[],int length)              //initialization function(overloaded)

@@ -58,7 +58,7 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     ui->color2Button->hide();
 
 
-//enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE,
+//enum  ActivePattern { NO_PAT, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE,
                       //SCANNER, FADE, BLINK, ON_AND_OFF, PULSATING,
                       //LOADING, STEP};
 
@@ -75,6 +75,7 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     ui->patternMenuBox->addItem("LOADING");
     ui->patternMenuBox->addItem("STEP");
 
+    ui->directionMenuBox->addItem("NONE");
     ui->directionMenuBox->addItem("FORWARD");
     ui->directionMenuBox->addItem("REVERSE");
 
@@ -216,29 +217,30 @@ void BehaviorWindow::UpdateVect()
     if (currentPatInt == THEATER_CHASE || currentPatInt == FADE)
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, brightness,
+                                                  index, 0, 0, brightness,
                                                   c1, c2, interval, arrayIDs,
                                                   arrayLength));
     }
     else if (currentPatInt == ON_AND_OFF)
     {
         vectorOfStructs->push_back(LightParameter( pat, dir, startTime, cyc,
-                                                   onTime, offTime, index,
-                                                   brightness, c1,
+                                                   index, onTime, offTime,
+                                                   brightness, c1, 0,
                                                    interval, arrayIDs,
                                                    arrayLength));
     }
     else if (currentPatInt == RAINBOW_CYCLE)
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, brightness,interval,
-                                                  arrayIDs, arrayLength));
+                                                  index, 0, 0, brightness, 0, 0,
+                                                  interval, arrayIDs,
+                                                  arrayLength));
     }
     else
     {
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, brightness,
-                                                  c1, interval, arrayIDs,
+                                                  index, 0, 0, brightness,
+                                                  c1, 0, interval, arrayIDs,
                                                   arrayLength));
     }
 
@@ -256,6 +258,7 @@ void BehaviorWindow::on_patternMenuBox_activated(int index)
         ui->color2Button->hide();
         ui->color2Test->hide();
         ui->color1Button->hide();
+        setColor(1, QColor(255,220,220));
         ui->color1Test->hide();
         EnableInput(false, ui->onTimeInput);
         EnableInput(false, ui->offTimeInput);

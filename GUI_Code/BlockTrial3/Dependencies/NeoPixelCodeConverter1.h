@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <LightParameter.h>
+#include <Dependencies/LightParameter.h>
 
 using namespace std;
 

@@ -54,7 +54,7 @@ void DisplayWindow::DisplayInfo()
         PrintTab(QString("Direction: " +
                          getDirection(vecOfStructures->at(m).direction)));
         PrintTab(QString("Start Time: %1")
-                 .arg(vecOfStructures->at(m).start_time));
+                 .arg(vecOfStructures->at(m).startTime));
         PrintTab(QString("Interval: %1")
                  .arg(vecOfStructures->at(m).interval));
         PrintTab(QString("Cycles: %1")
@@ -90,6 +90,9 @@ QString DisplayWindow::getDirection(int dirID)
 {
     switch (dirID)
     {
+        case NO_DIR:
+            return "NONE";
+            break;
         case FORWARD:
             return "FORWARD";
             break;
@@ -103,7 +106,7 @@ QString DisplayWindow::getPattern(int patternID)
 {
     switch (patternID)
     {
-        case NONE:
+        case NO_PAT:
             return "NONE";
             break;
         case RAINBOW_CYCLE:
