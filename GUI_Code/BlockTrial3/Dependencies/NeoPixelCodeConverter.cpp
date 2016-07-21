@@ -12,11 +12,10 @@ Inputs:
  //function to create arduino code
 void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)
 {
-    ofstream ofile("/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial3/testfile2/testfile2.ino");
+    ofstream ofile("/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial3/testfile/testfile.ino");
     ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip(";
     ofile<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern[";
     ofile<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
-
     ofile<<"int* ";
 
     for( int i = 0; i < no_Patterns; i++)
