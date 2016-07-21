@@ -24,7 +24,7 @@ enum  ActivePattern { NO_PAT,
                       STEP};
 
 // Patern directions supported:
-enum  Direction { NO_DIR
+enum  Direction { NO_DIR,
 		  FORWARD,
                   REVERSE };
 
@@ -82,7 +82,7 @@ int grouplength;        //length of the group
 
 LightParameter();
 
-LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
+LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
                                 int on, int off, int Brightness, uint32_t color1, uint32_t color2,
                                 unsigned long Interval, int g[], int length);
 /*LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, unsigned long Interval, int g[], int length);

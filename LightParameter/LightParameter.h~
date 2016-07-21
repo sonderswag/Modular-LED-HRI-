@@ -11,7 +11,7 @@
 //using namespace std;
 
 // Pattern types supported:
-enum  ActivePattern { NONE,
+enum  ActivePattern { NO_PAT,
                       RAINBOW_CYCLE,
                       THEATER_CHASE,
                       COLOR_WIPE,
@@ -24,7 +24,8 @@ enum  ActivePattern { NONE,
                       STEP};
 
 // Patern directions supported:
-enum  Direction { FORWARD,
+enum  Direction { NO_DIR,
+		  FORWARD,
                   REVERSE };
 
 
@@ -81,7 +82,7 @@ int grouplength;        //length of the group
 
 LightParameter();
 
-LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
+LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
                                 int on, int off, int Brightness, uint32_t color1, uint32_t color2,
                                 unsigned long Interval, int g[], int length);
 /*LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, unsigned long Interval, int g[], int length);
