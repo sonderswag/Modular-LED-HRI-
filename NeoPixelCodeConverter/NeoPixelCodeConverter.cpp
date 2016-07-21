@@ -24,34 +24,34 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
 
         switch(a[i].pattern)
         {
-        case 1:
+        case RAINBOW_CYCLE:
             ofile<<"RAINBOW_CYCLE";
             break;
-        case 2:
+        case THEATER_CHASE:
             ofile<<"THEATER_CHASE";
             break;
-        case 3:
+        case COLOR_WIPE:
             ofile<<"COLOR_WIPE";
             break;
-        case 4:
+        case SCANNER:
             ofile<<"SCANNER";
             break;
-         case 5:
+         case FADE:
             ofile<<"FADE";
             break;
-         case 6:
+         case BLINK:
             ofile<<"BLINK";
             break;
-         case 7:
+         case ON_AND_OFF:
             ofile<<"ON_AND_OFF";
             break;
-         case 8:
+         case PULSATING:
             ofile<<"PULSATING";
             break;
-         case 9:
+         case LOADING:
             ofile<<"LOADING";
             break;
-         case 10:
+         case STEP:
             ofile<<"STEP";
             break;
          default:

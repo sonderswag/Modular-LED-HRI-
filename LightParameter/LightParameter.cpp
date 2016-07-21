@@ -49,7 +49,108 @@ void LightParameter::initialize(ActivePattern Pattern, Direction dir, int start,
 LightParameter::LightParameter(){
 }
 
-LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
+void LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
+                                int on, int off, int Brightness, uint32_t color1, uint32_t color2,
+                                unsigned long Interval, int g[], int length)
+{
+    pattern = Pattern;
+    startTime = start;
+    cycles = cycle;
+    index = Index;
+    onTime = on;
+    switch(Pattern)
+        {
+        case RAINBOW_CYCLE:
+            onTime = 0;
+            offTime = 0;
+            direction = NONE;
+            Color1 = 0;
+            Color2 = 0;
+            totalsteps = 255;
+            break;
+        case THEATER_CHASE:
+            onTime = 0;
+            offTime = 0;
+            direction = NONE;
+            Color1 = color1;
+            Color2 = Color2;
+            totalsteps = 0;
+            break;
+        case COLOR_WIPE:
+            onTime = 0;
+            offTime = 0;
+            direction = dir;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+        case SCANNER:
+            onTime = 0;
+            offTime = 0;
+            direction = dir;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+         case FADE:
+            break;
+         case BLINK:
+            onTime = 0;
+            offTime = 0;
+            direction = NONE;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+         case ON_AND_OFF:
+            onTime = on;
+            offTime = off;
+            direction = NONE;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+         case PULSATING:
+            onTime = 0;
+            offTime = 0;
+            direction = NONE;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+         case LOADING:
+            onTime = 0;
+            offTime = 0;
+            direction = dir;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+         case STEP:
+            onTime = 0;
+            offTime = 0;
+            direction = dir;
+            Color1 = color1;
+            Color2 = 0;
+            totalsteps = 0;
+            break;
+         default:
+            break;
+        }
+    brightness = Brightness;
+    interval = Interval;
+    for( int i = 0; i < length; i++)
+    {
+        group[i] = g[i];
+    }
+    grouplength = length;
+    lastupdate = 0;
+    complete = -1;
+    ledstate = false;
+}
+
+
+/*LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
                                 int Brightness, unsigned long Interval, int g[], int length)
 {
     pattern = Pattern;
@@ -147,4 +248,4 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
     {
         group[i] = g[i];
     }
-}
+}*/

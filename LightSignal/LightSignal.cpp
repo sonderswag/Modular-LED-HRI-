@@ -13,7 +13,7 @@ LightSignal::LightSignal(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_Ne
 void LightSignal::Update(LightParameter *a)
 {
 
-        if((millis() - a->lastupdate) > a->interval) // time to update
+        if((millis() - a->lastupdate) > a->interval || a->stopTime == 100) // time to update
         {
 
             switch(a->pattern)
@@ -28,13 +28,16 @@ void LightSignal::Update(LightParameter *a)
                     break;
                 case COLOR_WIPE:
                     ColorWipeUpdate(a);
+                    a->stopTime = a->startTime + ((a->interval)*(a->grouplength));
                     break;
                 case SCANNER:
                     ScannerUpdate(a);
-                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->totalsteps));
+                    a->totalsteps = (a->grouplength-1)*2;
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*a->totalsteps);
                     break;
                 case FADE:
                     FadeUpdate(a);
+                    a->stopTime = a->startTime + (a->cycles)*(a->interval);
                     break;
                 case BLINK:
                     BlinkUpdate(a);
@@ -52,7 +55,7 @@ void LightSignal::Update(LightParameter *a)
                     break;
                 case LOADING:
                     LoadingUpdate(a);
-                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength));
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength)) + (a->cycles*a->interval);
                     break;
                 case STEP:
                     StepUpdate(a);
@@ -273,11 +276,11 @@ void LightSignal::OnOffUpdate(LightParameter *b)
 {
     for(int i=0; i < b->grouplength;i++)
     {
-      if(getPixelColor(b->group[i]) == 0 && (millis() - b->lastupdate) > b->offTime)                    //setting LED's to state HIGH
+      if(getPixelColor(b->group[i]) == 0)                 //setting LED's to state HIGH
       {b->interval = b->onTime;
         setPixelColor(b->group[i], b->Color1);
       }
-      else if(getPixelColor(b->group[i]) > 0 && (millis() - b->lastupdate) > b->onTime)                  //setting LED's to LOW state
+      else if(getPixelColor(b->group[i]) > 0 )            //setting LED's to LOW state
       {b->interval = b->offTime;
           setPixelColor(b->group[i],0,0,0,0);
       }
@@ -341,11 +344,7 @@ void LightSignal::LoadingUpdate(LightParameter *b)                   //function 
     }
     else if(b->index >= b->grouplength)
     {
-        for( int i = 0; i < b->grouplength; i++)
-        {
-          setPixelColor(b->group[i], 0, 0, 0, 0);
-        }
-        show();
+        OnComplete(b);
         b->index = 0;
 
         //Increment(b);

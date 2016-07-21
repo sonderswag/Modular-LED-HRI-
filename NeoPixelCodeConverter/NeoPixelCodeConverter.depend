@@ -1,14 +1,14 @@
 # depslib dependency file v1.0
-1468360662 source:c:\users\tushar\documents\neopixelcodeconverter\neopixelcodeconverter.cpp
+1469061108 source:c:\users\tushar\documents\neopixelcodeconverter\neopixelcodeconverter.cpp
 	"NeoPixelCodeConverter.h"
 	<iostream>
 	<fstream>
 	<vector>
-	<Update_Data.h>
+	<LightParameter.h>
 
-1468348837 c:\users\tushar\documents\neopixelcodeconverter\neopixelcodeconverter.h
+1468363352 c:\users\tushar\documents\neopixelcodeconverter\neopixelcodeconverter.h
 	<iostream>
 	<fstream>
 	<vector>
-	<Update_Data.h>
+	<LightParameter.h>
 

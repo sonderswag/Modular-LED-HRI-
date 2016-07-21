@@ -11,9 +11,21 @@
 //using namespace std;
 
 // Pattern types supported:
-enum  ActivePattern { NONE, RAINBOW_CYCLE, THEATER_CHASE, COLOR_WIPE, SCANNER, FADE, BLINK, ON_AND_OFF, PULSATING, LOADING, STEP};
+enum  ActivePattern { NONE,
+                      RAINBOW_CYCLE,
+                      THEATER_CHASE,
+                      COLOR_WIPE,
+                      SCANNER,
+                      FADE,
+                      BLINK,
+                      ON_AND_OFF,
+                      PULSATING,
+                      LOADING,
+                      STEP};
+
 // Patern directions supported:
-enum  Direction { FORWARD, REVERSE };
+enum  Direction { FORWARD,
+                  REVERSE };
 
 
 /* Name:  LightParameter( struct)
