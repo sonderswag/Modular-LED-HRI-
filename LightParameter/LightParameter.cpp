@@ -49,7 +49,7 @@ void LightParameter::initialize(ActivePattern Pattern, Direction dir, int start,
 LightParameter::LightParameter(){
 }
 
-void LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
+LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
                                 int on, int off, int Brightness, uint32_t color1, uint32_t color2,
                                 unsigned long Interval, int g[], int length)
 {

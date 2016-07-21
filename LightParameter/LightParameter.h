@@ -80,10 +80,14 @@ int grouplength;        //length of the group
 
 
 LightParameter();
-LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, unsigned long Interval, int g[], int length);
+
+LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
+                                int on, int off, int Brightness, uint32_t color1, uint32_t color2,
+                                unsigned long Interval, int g[], int length);
+/*LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, unsigned long Interval, int g[], int length);
 LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, uint32_t color1, unsigned long Interval, int g[], int length);
 LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int length);
-LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int Index, int Brightness, uint32_t color1, unsigned long Interval, int g[], int length);
+LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int Index, int Brightness, uint32_t color1, unsigned long Interval, int g[], int length);*/
 
 void initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int on, int off, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int length);
 };
