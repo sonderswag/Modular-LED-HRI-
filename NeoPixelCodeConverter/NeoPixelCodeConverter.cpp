@@ -67,7 +67,7 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
             ofile<<", REVERSE";
             break;
         default:
-           ofile<<"NO_DIR";
+           ofile<<", NO_DIR";
            break;
         }
         ofile<<", "<<a[i].startTime<<", ";
