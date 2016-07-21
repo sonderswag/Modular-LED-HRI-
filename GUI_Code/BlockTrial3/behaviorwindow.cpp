@@ -258,7 +258,7 @@ void BehaviorWindow::on_patternMenuBox_activated(int index)
         ui->color2Button->hide();
         ui->color2Test->hide();
         ui->color1Button->hide();
-        setColor(1, QColor(255,220,220));
+        color1 = QColor(255,220,220);
         ui->color1Test->hide();
         EnableInput(false, ui->onTimeInput);
         EnableInput(false, ui->offTimeInput);
