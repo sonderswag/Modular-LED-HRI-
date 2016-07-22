@@ -36,7 +36,19 @@ void DisplayWindow::DisplayInfo()
     for (int m = 0; m < vecOfStructures->size(); m++)
     {
         qDebug() << "got here";
-        Print(QString("Group %1 (Edit) :").arg(m));
+        
+        
+        PrintNewLn(QString("Group %1 ").arg(m));
+
+        QTextCharFormat format;
+        format.setFontWeight(QFont::Bold);
+        format.setForeground(QBrush(QColor(200,0,0)));
+        PrintSameLn(format, QString("(EDIT)"));
+
+        format.setFontWeight(QFont::Normal);
+        format.setForeground(QBrush(Qt::black));
+        PrintSameLn(format, QString(" :"));
+
         QString group = "LEDs: #";
         QString sep = ", #";
         for(int n = 0; n < vecOfStructures->at(m).grouplength; n++)
@@ -46,42 +58,59 @@ void DisplayWindow::DisplayInfo()
         }
         group.chop(3);
 
-        PrintTab(group);
-        PrintTab(QString("Grouplength: %1")
+        PrintNewLnTab(group);
+        PrintNewLnTab(QString("Grouplength: %1")
                  .arg(vecOfStructures->at(m).grouplength));
-        PrintTab(QString("Pattern: " +
+        PrintNewLnTab(QString("Pattern: " +
                          getPattern(vecOfStructures->at(m).pattern)));
-        PrintTab(QString("Direction: " +
+        PrintNewLnTab(QString("Direction: " +
                          getDirection(vecOfStructures->at(m).direction)));
-        PrintTab(QString("Start Time: %1")
+        PrintNewLnTab(QString("Start Time: %1")
                  .arg(vecOfStructures->at(m).startTime));
-        PrintTab(QString("Interval: %1")
+        PrintNewLnTab(QString("Interval: %1")
                  .arg(vecOfStructures->at(m).interval));
-        PrintTab(QString("Cycles: %1")
+        PrintNewLnTab(QString("Cycles: %1")
                  .arg(vecOfStructures->at(m).cycles));
         if (vecOfStructures->at(m).pattern != RAINBOW_CYCLE)
         {
         uint32_t c1 = vecOfStructures->at(m).Color1;
-        PrintTab(QString("Color 1 RGB: (%1, %2,  %3)")
+        PrintNewLnTab(QString("Color 1 RGB: (%1, %2,  %3)")
                  .arg(Red(c1)).arg(Green(c1)).arg(Blue(c1)));
         }
         if (vecOfStructures->at(m).Color2 != 0)
         {
             uint32_t c2 = vecOfStructures->at(m).Color2;
-            PrintTab(QString("Color 2 RGB: (%1, %2,  %3)")
+            PrintNewLnTab(QString("Color 2 RGB: (%1, %2,  %3)")
                      .arg(Red(c2)).arg(Green(c2)).arg(Blue(c2)));
         }
-        Print(QString(""));
+        PrintNewLn(QString(""));
     }
 }
 
+void DisplayWindow::PrintSameLn(QTextCharFormat format, QString printthis)
+{
+//    ui->displayInfo->moveCursor (QTextCursor::End);
+//    ui->displayInfo->insertPlainText (printthis);
+//    ui->displayInfo->moveCursor (QTextCursor::End);
 
-void DisplayWindow::Print(QString printthis)
+    // textEdit->moveCursor( QTextCursor::End );
+    QTextCursor cursor( ui->displayInfo->textCursor() );
+
+    cursor.setCharFormat(format);
+
+    cursor.insertText(printthis);
+    ui->displayInfo->moveCursor(QTextCursor::End);
+
+
+}
+
+
+void DisplayWindow::PrintNewLn(QString printthis)
 {
     ui->displayInfo->append(printthis);
 }
 
-void DisplayWindow::PrintTab(QString printthis)
+void DisplayWindow::PrintNewLnTab(QString printthis)
 {
     QString tab = "      ";
     ui->displayInfo->append(QString(tab + printthis));

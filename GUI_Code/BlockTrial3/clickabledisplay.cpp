@@ -24,7 +24,7 @@ void ClickableDisplay::mousePressEvent( QMouseEvent * event )
     tc.select( QTextCursor::WordUnderCursor );
     QString strWord = tc.selectedText();
     qDebug() << "word: " << strWord;
-    if (strWord == "Edit")
+    if (strWord == "EDIT")
     {
         qDebug() << "Clicked Edit!!";
         tc.select( QTextCursor::LineUnderCursor );

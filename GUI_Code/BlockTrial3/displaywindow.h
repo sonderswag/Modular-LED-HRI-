@@ -4,6 +4,7 @@
 #include "Dependencies/LightParameter.h"
 #include <QDialog>
 #include <vector>
+#include <QTextCharFormat>
 
 namespace Ui {
 class DisplayWindow;
@@ -18,8 +19,9 @@ public:
                            QWidget *parent = 0);
     ~DisplayWindow();
     void DisplayInfo();
-    void Print(QString printthis);
-    void PrintTab(QString printthis);
+    void PrintNewLn(QString printthis);
+    void PrintNewLnTab(QString printthis);
+    void PrintSameLn(QTextCharFormat format, QString printthis);
     QString getPattern(int patternID);
     QString getDirection(int dirID);
 

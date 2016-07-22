@@ -8,10 +8,6 @@
 #include <QColorDialog>
 #include <vector>
 
-
-QColorDialog *color1Dialog;
-//QColorDialog *color2Dialog;
-const double sliderFactor = 255.0/99;
 std::vector<LightParameter> *vectorOfStructs;
 NeoPixelCodeConverter convertColor;
 QVector<int> vectOfIDs;
@@ -21,8 +17,6 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     QDialog(parent),
     ui(new Ui::BehaviorWindow)
 {
-    color1Dialog = new QColorDialog;
-//    color2Dialog = new QColorDialog;
 
     vectorOfStructs = vecOfStruct;
     ui->setupUi(this);
@@ -48,7 +42,51 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     list.chop(3);
     ui->listSelected->setText(list);
 
+    SetUpUi();
 
+
+}
+
+BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
+                               int strucGroupNum, QWidget *parent):
+    QDialog(parent),
+    ui(new Ui::BehaviorWindow)
+{
+//    vectorOfStructs = vecOfStruct;
+//    ui->setupUi(this);
+//    for (int p = 0; p < vectorOfStructs->at(strucGroupNum).grouplength; p++)
+//    {
+//        int ID = vectorOfStructs->at(strucGroupNum).group[p];
+//        this->listLEDs.push_back(ID);
+//    }
+//    qDebug() << "listLEDs: " << this->listLEDs;
+//    QString list = "IDs: #";
+//    QString sep = ", #";
+//    for (int p = 0; p < listLEDs.size(); p++)
+//    {
+//        int id = listLEDs.at(p)->getID();
+//        vectOfIDs.push_back(id);
+//    }
+
+//    qSort(vectOfIDs.begin(), vectOfIDs.begin()+(vectOfIDs.size()));
+
+//    for (int i = 0; i < vectOfIDs.size(); i++)
+//    {
+//        if(vectOfIDs.at(i) >= 0)
+//            list = QString(list + QString::number(vectOfIDs.at(i)) + sep);
+//        else
+//            list = QString(list + QString("NA") + sep);
+//    }
+//    list.chop(3);
+//    ui->listSelected->setText(list);
+
+//    SetUpUi();
+
+
+}
+
+void BehaviorWindow::SetUpUi()
+{
 
 
     setColor(1, Qt::white);
@@ -94,7 +132,6 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     ui->intervalInput->setValidator(new QIntValidator(0, 1000000, this));
     ui->onTimeInput->setValidator(new QIntValidator(0, 1000000, this));
     ui->offTimeInput->setValidator(new QIntValidator(0, 1000000, this));
-
 
 }
 
