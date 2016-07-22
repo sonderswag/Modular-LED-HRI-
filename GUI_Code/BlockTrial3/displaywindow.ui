@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QTextBrowser" name="displayInfo">
+  <widget class="ClickableDisplay" name="displayInfo">
    <property name="geometry">
     <rect>
      <x>50</x>
@@ -63,6 +63,13 @@
    </property>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ClickableDisplay</class>
+   <extends>QTextBrowser</extends>
+   <header location="global">clickabledisplay.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

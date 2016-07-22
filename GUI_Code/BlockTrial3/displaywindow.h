@@ -30,6 +30,7 @@ public:
     // Returns the Blue component of a 32-bit color
     uint8_t Blue(uint32_t color) { return color & 0xFF; }
 
+
 private slots:
     void on_refreshButton_clicked();
 

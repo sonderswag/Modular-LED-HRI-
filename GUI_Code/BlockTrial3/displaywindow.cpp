@@ -36,7 +36,7 @@ void DisplayWindow::DisplayInfo()
     for (int m = 0; m < vecOfStructures->size(); m++)
     {
         qDebug() << "got here";
-        Print(QString("Group %1:").arg(m));
+        Print(QString("Group %1 (Edit) :").arg(m));
         QString group = "LEDs: #";
         QString sep = ", #";
         for(int n = 0; n < vecOfStructures->at(m).grouplength; n++)
@@ -71,6 +71,7 @@ void DisplayWindow::DisplayInfo()
             PrintTab(QString("Color 2 RGB: (%1, %2,  %3)")
                      .arg(Red(c2)).arg(Green(c2)).arg(Blue(c2)));
         }
+        Print(QString(""));
     }
 }
 
@@ -165,3 +166,5 @@ void DisplayWindow::on_createArduinoButton_clicked()
     codeConverter.create(*vecOfStructures, numberModules , size);
     qDebug() << "Made File!!";
 }
+
+

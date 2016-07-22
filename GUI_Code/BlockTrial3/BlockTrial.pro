@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     behaviorwindow.cpp\
     Dependencies/LightParameter.cpp\
     Dependencies/NeoPixelCodeConverter.cpp \
-    displaywindow.cpp
+    displaywindow.cpp \
+    clickabledisplay.cpp
 
 HEADERS  += mainwindow.h\
 #         dragwidget.h
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h\
     behaviorwindow.h\
     Dependencies/LightParameter.h\
     Dependencies/NeoPixelCodeConverter.h \
-    displaywindow.h
+    displaywindow.h \
+    clickabledisplay.h
 
 RESOURCES   = draggableicons.qrc
 
