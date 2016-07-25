@@ -120,9 +120,7 @@ QString DisplayWindow::getDirection(int dirID)
 {
     switch (dirID)
     {
-        case NO_DIR:
-            return "NONE";
-            break;
+
         case FORWARD:
             return "FORWARD";
             break;

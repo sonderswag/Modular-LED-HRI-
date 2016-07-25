@@ -24,7 +24,8 @@ enum  ActivePattern { NO_PAT,
                       STEP};
 
 // Patern directions supported:
-enum  Direction { FORWARD,
+enum  Direction { NO_DIR,
+                  FORWARD,
                   REVERSE };
 
 

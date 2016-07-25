@@ -113,7 +113,6 @@ void BehaviorWindow::SetUpUi()
     ui->patternMenuBox->addItem("LOADING");
     ui->patternMenuBox->addItem("STEP");
 
-    ui->directionMenuBox->addItem("NONE");
     ui->directionMenuBox->addItem("FORWARD");
     ui->directionMenuBox->addItem("REVERSE");
 

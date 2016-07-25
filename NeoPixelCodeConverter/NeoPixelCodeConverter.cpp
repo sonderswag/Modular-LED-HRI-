@@ -14,11 +14,19 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
 {
     ofstream ofile("test.ino");
     ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip(";
-    ofile<<no_Leds<<", 6, NEO_RGBW + NEO_KHZ800);\n\nLightParameter Pattern[";
+    ofile<<no_Leds<<", 6, NEO_GRBW + NEO_KHZ800);\n\nLightParameter Pattern[";
     ofile<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
+    ofile<<"int* ";
 
     for( int i = 0; i < no_Patterns; i++)
     {
+        ofile<<"a = new int["<<a[i].grouplength<<"] {";
+        for( int j = 0; j < a[i].grouplength; j++)
+        {
+            ofile<<a[i].group[j]<<", ";
+        }
+        ofile<<"};\n";
+
         ofile<<"Pattern["<<i<<"].initialize( ";
 
 
@@ -76,13 +84,10 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
         ofile<<a[i].Color1<<", ";
         ofile<<a[i].Color2<<", ";
         ofile<<a[i].interval<<", ";
-        ofile<<"(int []){";
+        ofile<<"a, ";
+        ofile<<a[i].grouplength<<");\n";
+        ofile<<"delete [] a;\n\n";
 
-        for( int j = 0; j < a[i].grouplength; j++)
-        {
-            ofile<<a[i].group[j]<<", ";
-        }
-        ofile<<"}, "<<a[i].grouplength<<");\n";
         //ofile<<"Pattern["<<i<<"].stopTime = Pattern["<<i<<"].cycles*Pattern["<<i<<"].Interval;\n\n";
     }
     ofile<<"}\n\nvoid loop() {\nfor(int i = 0; i < "<<no_Patterns<<"; i++){\n    Strip.mainLoop(&Pattern[i]);\n }\n}";

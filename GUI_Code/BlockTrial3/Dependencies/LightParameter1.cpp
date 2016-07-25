@@ -63,7 +63,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
         case RAINBOW_CYCLE:
             onTime = 0;
             offTime = 0;
-            direction = FORWARD;
+            direction = NO_DIR;
             Color1 = 0;
             Color2 = 0;
             totalsteps = 255;
@@ -71,7 +71,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
         case THEATER_CHASE:
             onTime = 0;
             offTime = 0;
-            direction = FORWARD;
+            direction = NO_DIR;
             Color1 = color1;
             Color2 = Color2;
             totalsteps = 0;
@@ -97,7 +97,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
          case BLINK:
             onTime = 0;
             offTime = 0;
-            direction = FORWARD;
+            direction = NO_DIR;
             Color1 = color1;
             Color2 = 0;
             totalsteps = 0;
@@ -105,7 +105,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
          case ON_AND_OFF:
             onTime = on;
             offTime = off;
-            direction = FORWARD;
+            direction = NO_DIR;
             Color1 = color1;
             Color2 = 0;
             totalsteps = 0;
@@ -113,7 +113,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
          case PULSATING:
             onTime = 0;
             offTime = 0;
-            direction = FORWARD;
+            direction = NO_DIR;
             Color1 = color1;
             Color2 = 0;
             totalsteps = 0;
