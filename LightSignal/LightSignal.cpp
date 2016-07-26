@@ -1,15 +1,25 @@
 #include "LightSignal.h"
 
-//output PWM pin
-const byte PIN=6;
+const byte PIN=6;       /**< output PWM pin of the arduino */
 
-//LightSignal constructor which is used to initialize the number of pins
-// Arduino board pin number and the type of LED strip(i.e., RGB, RGBW etc.,)
+/** Constructor
+ * \brief Used to initialize parameters for the LED's being used
+ *
+ * \param pixels No. of LED's being used
+ * \param pin Specifies the pin no. of the arduino that is being for feeding data into the modules/LED's
+ * \param type Specifies the type of LED being used (i.e., NEO_GRBW + NEO_KHZ800, NEO_RGBW + NEO_KHZ800 etc.,)
+ */
 LightSignal::LightSignal(uint16_t pixels, uint8_t pin, uint8_t type):Adafruit_NeoPixel(pixels, pin, type){
 
 }
 
-// Updates the pattern if the difference between current time and lastupdate is grater than the interval time
+/** \brief Updates the pattern if the difference between current time and lastupdate is grater than the interval time
+ *
+ * \param a Contains all the LED parameters
+ * \return void
+ *
+ */
+
 void LightSignal::Update(LightParameter *a)
 {
 
@@ -77,7 +87,13 @@ void LightSignal::Update(LightParameter *a)
         }
     }
 
-//change the status of the  pattern and make all the modules of that group blank
+
+/** \brief Changes the status of the  pattern and makes all the modules of that particular group blank
+ *
+ * \param a Consists of all the LED parameters
+ * \return void
+ *
+ */
 void LightSignal::OnComplete(LightParameter *a)
 {
     for( int i = 0; i < a->grouplength; i++)
@@ -87,7 +103,12 @@ void LightSignal::OnComplete(LightParameter *a)
     show();
 }
 
-//updates the function depending on pattern priority provided by user
+/** \brief Updates the function depending upon pattern priority provided by user
+ *
+ * \param a Consists of all the LED parameters
+ * \return void
+ *
+ */
 void LightSignal::mainLoop(LightParameter *a)
 {
     if( a->startTime <= millis() && a->complete == -1)                //checks if the pattern is suppose to start or not
@@ -105,7 +126,12 @@ void LightSignal::mainLoop(LightParameter *a)
    }
 }
 
-// Increment the index and reset at the end
+/** \brief Increments or decrements the index and resets the index at the end conditions
+ *
+ * \param p Consists of all the LED parameter
+ * \return void
+ *
+ */
 void LightSignal::Increment(LightParameter *p)
     {
         if (p->direction == FORWARD)
@@ -138,7 +164,13 @@ void LightSignal::Increment(LightParameter *p)
         }
     }
 
-// Update the Rainbow Cycle Pattern
+/** \brief Update the Rainbow Cycle Pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::RainbowCycleUpdate(LightParameter *b)
     {
         for(int i=0; i< (b->grouplength); i++)
@@ -149,7 +181,13 @@ void LightSignal::RainbowCycleUpdate(LightParameter *b)
         Increment(b);
     }
 
-// Update the Theater Chase Pattern
+/** \brief Update the Theater Chase Pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::TheaterChaseUpdate(LightParameter *b)
     {
         for(int i=0; i< b->grouplength; i++)
@@ -167,7 +205,13 @@ void LightSignal::TheaterChaseUpdate(LightParameter *b)
         Increment(b);
 }
 
-// Update the Color Wipe Pattern
+/** \brief Update the Color Wipe Pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::ColorWipeUpdate(LightParameter *b)
 {
         setPixelColor(b->group[b->index], b->Color1);
@@ -175,7 +219,13 @@ void LightSignal::ColorWipeUpdate(LightParameter *b)
         Increment(b);
 }
 
-// Update the Scanner Pattern
+/** \brief Update the Scanner Pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::ScannerUpdate(LightParameter *b)
 {
         for (int i = 0; i < b->grouplength; i++)
@@ -197,7 +247,13 @@ void LightSignal::ScannerUpdate(LightParameter *b)
         Increment(b);
 }
 
-//updates the Fade pattern
+/** \brief Updates the Fade pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::FadeUpdate(LightParameter *b)
 {
         // Calculate linear interpolation between Color1 and Color2
@@ -211,17 +267,29 @@ void LightSignal::FadeUpdate(LightParameter *b)
         Increment(b);
 }
 
-//Updates the Color set pattern
-void LightSignal::ColorSet(LightParameter *p, uint32_t color)
+/** \brief Updates the Color set pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
+void LightSignal::ColorSet(LightParameter *p)
 {
         for (int i = 0; i < p->grouplength; i++)
         {
-            setPixelColor(p->group[i], color);
+            setPixelColor(p->group[i], p->color);
         }
         show();
 }
 
-// Calculate 50% dimmed version of a color (used by ScannerUpdate)
+/** \brief Calculate 50% dimmed version of a color (used by ScannerUpdate)
+ *
+ * \param color 32-bit color
+ * \param
+ * \return uint32_t
+ *
+ */
 uint32_t LightSignal::DimColor(uint32_t color)
 {
         // Shift R, G and B components one bit to the right
@@ -229,19 +297,34 @@ uint32_t LightSignal::DimColor(uint32_t color)
         return dimColor;
 }
 
-// Returns the Red component of a 32-bit color
+/** \brief Returns the Red component of a 32-bit color
+ *
+ * \param color 32-bit color
+ * \return uint8_t
+ *
+ */
 uint8_t LightSignal::Red(uint32_t color)
 {
         return (color >> 16) & 0xFF;
 }
 
-// Returns the Green component of a 32-bit color
+/** \brief Returns the Green component of a 32-bit color
+ *
+ * \param color 32-bit color
+ * \return uint8_t
+ *
+ */
 uint8_t LightSignal::Green(uint32_t color)
 {
         return (color >> 8) & 0xFF;
 }
 
-// Returns the Blue component of a 32-bit color
+/** \brief Returns the Blue component of a 32-bit color
+ *
+ * \param color 32-bit color
+ * \return uint8_t
+ *
+ */
 uint8_t LightSignal::Blue(uint32_t color)
 {
         return color & 0xFF;
@@ -266,7 +349,13 @@ uint32_t LightSignal::Wheel(byte WheelPos)
         }
 }
 
-//Updates the blink pattern
+/** \brief Updates the blink pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::BlinkUpdate(LightParameter *b)
 {
     for(int i=0; i < b->grouplength;i++)
@@ -283,7 +372,13 @@ void LightSignal::BlinkUpdate(LightParameter *b)
     show();
 }
 
-//Updates the On and Off pattern
+/** \brief Updates the On and Off pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::OnOffUpdate(LightParameter *b)
 {
     for(int i=0; i < b->grouplength;i++)
@@ -300,7 +395,13 @@ void LightSignal::OnOffUpdate(LightParameter *b)
     show();
 }
 
-//sets the brightness of the LED's
+/** \brief Sets the brightness of the LED's
+ *
+ * \param color1 Specifies the color of the pattern
+ * \param intensity Specifies the brightness of the color to displayed on the LEDs
+ * \return uint32_t
+ *
+ */
 uint32_t LightSignal::Brightness(uint32_t color1 ,uint32_t intensity)
 {
     uint32_t cul = max(max(Red(color1),Blue(color1)),Green(color1));
@@ -309,7 +410,13 @@ uint32_t LightSignal::Brightness(uint32_t color1 ,uint32_t intensity)
     return color;
 }
 
-//Updates the Pulsating pattern
+/** \brief Updates the Pulsating pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::PulsatingUpdate(LightParameter *b)
 {
     //setPixelColor(8,b->Color1);
@@ -345,7 +452,13 @@ void LightSignal::PulsatingUpdate(LightParameter *b)
     show();
 }
 
-//Updates the Loading bar pattern
+/** \brief Updates the Loading bar pattern
+ *
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::LoadingUpdate(LightParameter *b)                   //function for Loading bar
 {
    /* if( b->index < b->grouplength)
@@ -373,8 +486,14 @@ void LightSignal::LoadingUpdate(LightParameter *b)                   //function 
 }
 
 
-//Updates the step pattern
-//function to turn one LED ON at a time in a group
+/** \brief Updates the step pattern
+ *
+ * function to turn one LED ON at a time in a group after a certain time interval
+ * \param
+ * \param
+ * \return void
+ *
+ */
 void LightSignal::StepUpdate(LightParameter *b)
 {
     /*if(b->index >= b->grouplength)
