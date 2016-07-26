@@ -72,7 +72,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Generate C++ Code to Desktop</string>
+    <string>Generate C++ Code</string>
    </property>
   </widget>
  </widget>

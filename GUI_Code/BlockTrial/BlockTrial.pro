@@ -13,23 +13,21 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp\
-#        dragwidget.cpp
+    mainwindow.cpp\
     ledlabel.cpp \
     behaviorwindow.cpp\
-    Dependencies/LightParameter.cpp\
-    Dependencies/NeoPixelCodeConverter.cpp \
     displaywindow.cpp \
-    clickabledisplay.cpp
+    clickabledisplay.cpp \
+    Dependencies/NeoPixelCodeConverter.cpp \
+    Dependencies/LightParameter.cpp
 
 HEADERS  += mainwindow.h\
-#         dragwidget.h
     ledlabel.h \
     behaviorwindow.h\
-    Dependencies/LightParameter.h\
-    Dependencies/NeoPixelCodeConverter.h \
     displaywindow.h \
-    clickabledisplay.h
+    clickabledisplay.h \
+    Dependencies/NeoPixelCodeConverter.h \
+    Dependencies/LightParameter.h
 
 RESOURCES   = draggableicons.qrc
 

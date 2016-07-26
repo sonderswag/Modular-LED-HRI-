@@ -7,6 +7,7 @@
 #include <QtAlgorithms>
 #include <iostream>
 #include <fstream>
+#include <QFileDialog>
 
 
 #include <vector>
@@ -181,19 +182,15 @@ void DisplayWindow::on_refreshButton_clicked()
 
 void DisplayWindow::on_createArduinoButton_clicked()
 {
-    int numberModules = 0;
-    for (int p = 0; p < vecOfStructures->size(); p++)
-    {
-        int groupLength = vecOfStructures->at(p).grouplength;
-        int highestID = vecOfStructures->at(p).group[groupLength-1];
-        if ((highestID+1) > numberModules)
-            numberModules = highestID + 1;
-    }
-
-    qDebug() << "Number of Modules: " << numberModules;
-  //  vector<LightParameter> stdVector = vecOfStructures->toStdVector();
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                    "/home",
+                                                    QFileDialog::ShowDirsOnly
+                                                    | QFileDialog::DontResolveSymlinks);
+    string file = QString(dir + "/ledarduinofile.ino").toStdString();
+   // qDebug() << "file: " << file;
     int size = vecOfStructures->size();
-    codeConverter.create(*vecOfStructures, numberModules , size);
+//    string file = "/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial/testfile/testfile.ino";
+    codeConverter.create(*vecOfStructures, getNumModules() , size, file);
     qDebug() << "Made File!!";
 }
 
@@ -201,17 +198,12 @@ void DisplayWindow::on_createArduinoButton_clicked()
 
 void DisplayWindow::on_createCppCode_clicked()
 {
-    int numberModules = 0;
-    for (int p = 0; p < vecOfStructures->size(); p++)
-    {
-        int groupLength = vecOfStructures->at(p).grouplength;
-        int highestID = vecOfStructures->at(p).group[groupLength-1];
-        if ((highestID+1) > numberModules)
-            numberModules = highestID + 1;
-    }
-
-    qDebug() << "Number of Modules: " << numberModules;
-    ofstream ofile("/home/lwathieu/Desktop/generatedcode.cpp");
+    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+                                                    "/home",
+                                                    QFileDialog::ShowDirsOnly
+                                                    | QFileDialog::DontResolveSymlinks);
+    string file = QString(dir + "/ledcppfile.cpp").toStdString();
+    ofstream ofile(file.c_str());
     ofile << "#include <fstream>\n#include <string>\n#include <LightParameter.h>\n#include <NeoPixelCodeConverter.h>\n#include <vector>\n\n";
     ofile << "using namespace std;\n\n";
     ofile << "NeoPixelCodeConverter b;\nvector<LightParameter> a;\n\n";
@@ -242,32 +234,24 @@ void DisplayWindow::on_createCppCode_clicked()
         ofile<< "b.Color(" <<int(Red(c1))<<","<< int(Green(c1))<<","<<int(Blue(c1))<<"), ";
         ofile<< "b.Color(" <<int(Red(c2))<<","<< int(Green(c2))<<","<<int(Blue(c2))<<"), ";
         ofile<< vecOfStructures->at(t).interval << ", ";
-        ofile<< "arr, " << vecOfStructures->at(t).grouplength << ");\n";
+        ofile<< "arr, " << vecOfStructures->at(t).grouplength << "));\n";
         ofile<<"delete [] arr;\n\n";
     }
-    ofile<< "b.create(a, " << numberModules << ", " << vecOfStructures->size();
+    ofile<< "b.create(a, " << getNumModules() << ", " << vecOfStructures->size();
     ofile<< ");\n\n}";
 
     ofile.close();
 }
-//                 pattern = Pattern;
-//                 direction = dir;
-//                 startTime = start;
-//                 stopTime = 100;
-//                 cycles = cycle;
-//                 index = Index;
-//                 onTime = on;
-//                 offTime = off;
-//                 totalsteps = 255;
-//                 brightness = Brightness;
-//                 Color1 = color1;
-//                 Color2 = color2;
-//                 interval = Interval;
-//                 for( int i = 0; i < length; i++)
-//                 {
-//                     group[i] = g[i];
-//                 }
-//                 grouplength = length;
-//                 lastupdate = 0;
-//                 complete = -1;
-//                 ledstate = false;
+
+int DisplayWindow::getNumModules()
+{
+    int numberModules = 0;
+    for (int p = 0; p < vecOfStructures->size(); p++)
+    {
+        int groupLength = vecOfStructures->at(p).grouplength;
+        int highestID = vecOfStructures->at(p).group[groupLength-1];
+        if ((highestID+1) > numberModules)
+            numberModules = highestID + 1;
+    }
+    return numberModules;
+}

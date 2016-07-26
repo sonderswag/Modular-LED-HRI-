@@ -19,9 +19,6 @@ public:
     BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
                              QVector<LEDLabel*> orderedLEDs, QWidget *parent = 0);
 
-    BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
-                            int strucGroupNum, QWidget *parent = 0);
-
     QColor getColor1() {return color1; }
     QColor getColor2() {return color2; }
     void setColor(int whichLED, QColor desiredColor);

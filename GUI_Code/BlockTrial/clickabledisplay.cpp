@@ -39,8 +39,7 @@ void ClickableDisplay::mousePressEvent( QMouseEvent * event )
     {
         DisplayWindow* parent = ((DisplayWindow*)(this->parentWidget()));
         MainWindow* grandparent = ((MainWindow*)(parent->parentWidget()));
-      //  DisplayWindow* parent = qobject_cast<DisplayWindow>(this->parentWidget());
-       // MainWindow* grandparent = qobject_cast<MainWindow>(parent->parentWidget());
+
         grandparent->showBWindow(selectedGroup);
     }
 

@@ -24,6 +24,7 @@ public:
     void PrintSameLn(QTextCharFormat format, QString printthis);
     QString getPattern(int patternID);
     QString getDirection(int dirID);
+    int getNumModules();
 
     // Returns the Red component of a 32-bit color
     uint8_t Red(uint32_t color) { return (color >> 16) & 0xFF; }

@@ -17,9 +17,11 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     QDialog(parent),
     ui(new Ui::BehaviorWindow)
 {
+    ui->setupUi(this);
+
     bWindowID = -1;
     vectorOfStructs = vecOfStruct;
-    ui->setupUi(this);
+    this->setWindowTitle(QString("Group #%1").arg(vectorOfStructs->size()));
     this->listLEDs = orderedLEDs;
     QString list = "IDs: #";
     QString sep = ", #";
@@ -43,44 +45,6 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     ui->listSelected->setText(list);
 
     SetUpUi();
-
-
-}
-
-BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
-                               int strucGroupNum, QWidget *parent):
-    QDialog(parent),
-    ui(new Ui::BehaviorWindow)
-{
-//    vectorOfStructs = vecOfStruct;
-//    ui->setupUi(this);
-//    for (int p = 0; p < vectorOfStructs->at(strucGroupNum).grouplength; p++)
-//    {
-//        int ID = vectorOfStructs->at(strucGroupNum).group[p];
-//        this->listLEDs.push_back(ID);
-//    }
-//    qDebug() << "listLEDs: " << this->listLEDs;
-//    QString list = "IDs: #";
-//    QString sep = ", #";
-//    for (int p = 0; p < listLEDs.size(); p++)
-//    {
-//        int id = listLEDs.at(p)->getID();
-//        vectOfIDs.push_back(id);
-//    }
-
-//    qSort(vectOfIDs.begin(), vectOfIDs.begin()+(vectOfIDs.size()));
-
-//    for (int i = 0; i < vectOfIDs.size(); i++)
-//    {
-//        if(vectOfIDs.at(i) >= 0)
-//            list = QString(list + QString::number(vectOfIDs.at(i)) + sep);
-//        else
-//            list = QString(list + QString("NA") + sep);
-//    }
-//    list.chop(3);
-//    ui->listSelected->setText(list);
-
-//    SetUpUi();
 
 
 }

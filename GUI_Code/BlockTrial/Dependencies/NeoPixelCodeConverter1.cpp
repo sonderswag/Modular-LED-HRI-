@@ -20,7 +20,6 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
 
     for( int i = 0; i < no_Patterns; i++)
     {
-
         ofile<<"a = new int["<<a[i].grouplength<<"] {";
         for( int j = 0; j < a[i].grouplength; j++)
         {
@@ -29,6 +28,7 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
         ofile<<"};\n";
 
         ofile<<"Pattern["<<i<<"].initialize( ";
+
 
         switch(a[i].pattern)
         {
@@ -63,20 +63,17 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
             ofile<<"STEP";
             break;
          default:
-            ofile<<"NO_PAT";
+            ofile<<"NONE";
             break;
         }
         switch(a[i].direction)
         {
-        case 1:
+        case FORWARD:
             ofile<<", FORWARD";
             break;
-        case 2:
+        case REVERSE:
             ofile<<", REVERSE";
             break;
-        default:
-           ofile<<", NO_DIR";
-           break;
         }
         ofile<<", "<<a[i].startTime<<", ";
         ofile<<a[i].cycles<<", ";
