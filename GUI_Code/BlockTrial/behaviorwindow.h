@@ -65,6 +65,7 @@ private:
     QVector<LEDLabel*> listLEDs;
     QColor color1;
     QColor color2;
+    int bWindowID;
  //   LightParameter selectedParameters;
 };
 

@@ -2,6 +2,8 @@
 #include <QTextCursor>
 #include <QTextBrowser>
 #include <QDebug>
+#include "displaywindow.h"
+#include "mainwindow.h"
 
 //How many non-integer characters in "Group n:" line
 const int extraCharacters = 15;
@@ -33,7 +35,14 @@ void ClickableDisplay::mousePressEvent( QMouseEvent * event )
         selectedGroup = getGroupNum(strLine);
     }
     qDebug() << "Selected Group: " << selectedGroup;
-    // do something with text here...?
+    if (selectedGroup >= 0)
+    {
+        DisplayWindow* parent = ((DisplayWindow*)(this->parentWidget()));
+        MainWindow* grandparent = ((MainWindow*)(parent->parentWidget()));
+      //  DisplayWindow* parent = qobject_cast<DisplayWindow>(this->parentWidget());
+       // MainWindow* grandparent = qobject_cast<MainWindow>(parent->parentWidget());
+        grandparent->showBWindow(selectedGroup);
+    }
 
 }
 

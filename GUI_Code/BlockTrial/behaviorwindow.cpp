@@ -1,6 +1,6 @@
 #include "behaviorwindow.h"
 #include "ui_behaviorwindow.h"
-#include <mainwindow.h>
+#include "mainwindow.h"
 #include <ledlabel.h>
 #include "Dependencies/LightParameter.h"
 #include "Dependencies/NeoPixelCodeConverter.h"
@@ -17,7 +17,7 @@ BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
     QDialog(parent),
     ui(new Ui::BehaviorWindow)
 {
-
+    bWindowID = -1;
     vectorOfStructs = vecOfStruct;
     ui->setupUi(this);
     this->listLEDs = orderedLEDs;
@@ -169,11 +169,14 @@ void BehaviorWindow::on_setButton_clicked()
     for (int i = 0; i < listLEDs.size(); i++)
     {
         listLEDs.at(i)->setLEDColor(color1, listLEDs.at(i)->getID());
-        listLEDs.at(i)->setShade(true);
+        //listLEDs.at(i)->setShade(true);
     }
 
     UpdateVect();
 
+    MainWindow* parent = ((MainWindow*)(this->parentWidget()));
+    parent->updateDisplay();
+    parent->clearSelectedLEDs();
     close();
 }
 
@@ -221,24 +224,36 @@ void BehaviorWindow::UpdateVect()
         cyc = 0;
     qDebug() << "Cycles: " << cyc;
 
+    uint32_t c1;
+    uint32_t c2;
+    if (ui->color1Test->isVisible())
+        c1 = convertColor.Color(color1.red(),color1.green(), color1.blue(),0);
+    else
+        c1 = 0;
 
-    uint32_t c1 = convertColor.Color(color1.red(),color1.green(),
-                                     color1.blue(),0);
-    uint32_t c2 = convertColor.Color(color2.red(),color2.green(),
-                                     color2.blue(),0);
+    if (ui->color2Test->isVisible())
+        c2 = convertColor.Color(color2.red(),color2.green(),color2.blue(),0);
+    else
+        c2 = 0;
 
     qDebug() << "Color1: " << c1;
     qDebug() << "Color2: " << c2;
 
     int onTime;
     int offTime;
-    if (!(ui->onTimeInput->isReadOnly()))
+    if (ui->onTimeInput->isReadOnly())
     {
+        onTime = 0;
+    }
+    else{
         onTime = (ui->onTimeInput->text()).toInt();
         qDebug() << "Ontime: " << onTime;
     }
-    if (!(ui->offTimeInput->isReadOnly()))
+    if (ui->offTimeInput->isReadOnly())
     {
+        offTime = 0;
+    }
+    else{
         offTime = (ui->offTimeInput->text()).toInt();
         qDebug() << "Offtime: " << offTime;
     }
@@ -250,36 +265,59 @@ void BehaviorWindow::UpdateVect()
 
 
 
-    if (currentPatInt == THEATER_CHASE || currentPatInt == FADE)
-    {
+    if (bWindowID == -1){
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, 0, 0, brightness,
-                                                  c1, c2, interval, arrayIDs,
-                                                  arrayLength));
+                                                  index, onTime, offTime,
+                                                  brightness, c1, c2, interval,
+                                                  arrayIDs, arrayLength));
+
+        bWindowID = vectorOfStructs->size()-1;
     }
-    else if (currentPatInt == ON_AND_OFF)
-    {
-        vectorOfStructs->push_back(LightParameter( pat, dir, startTime, cyc,
-                                                   index, onTime, offTime,
-                                                   brightness, c1, 0,
-                                                   interval, arrayIDs,
-                                                   arrayLength));
-    }
-    else if (currentPatInt == RAINBOW_CYCLE)
-    {
-        vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, 0, 0, brightness, 0, 0,
-                                                  interval, arrayIDs,
-                                                  arrayLength));
-    }
-    else
-    {
-        vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
-                                                  index, 0, 0, brightness,
-                                                  c1, 0, interval, arrayIDs,
-                                                  arrayLength));
+    else if (bWindowID >= 0){
+        vectorOfStructs->at(bWindowID).pattern = pat;
+        vectorOfStructs->at(bWindowID).direction = dir;
+        vectorOfStructs->at(bWindowID).startTime = startTime;
+        vectorOfStructs->at(bWindowID).cycles = cyc;
+        vectorOfStructs->at(bWindowID).index = index;
+        vectorOfStructs->at(bWindowID).onTime = onTime;
+        vectorOfStructs->at(bWindowID).offTime = offTime;
+        vectorOfStructs->at(bWindowID).brightness = brightness;
+        vectorOfStructs->at(bWindowID).Color1 = c1;
+        vectorOfStructs->at(bWindowID).Color2 = c2;
+        vectorOfStructs->at(bWindowID).interval = interval;
+        //vectorOfStructs->at(bWindowID).group = arrayIDs;
+        //ectorOfStructs->at(bWindowID).grouplength = arrayLength;
     }
 
+//        if (currentPatInt == THEATER_CHASE || currentPatInt == FADE)
+//        {
+//            vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
+//                                                      index, 0, 0, brightness,
+//                                                      c1, c2, interval, arrayIDs,
+//                                                      arrayLength));
+//        }
+//        else if (currentPatInt == ON_AND_OFF)
+//        {
+//            vectorOfStructs->push_back(LightParameter( pat, dir, startTime, cyc,
+//                                                       index, onTime, offTime,
+//                                                       brightness, c1, 0,
+//                                                       interval, arrayIDs,
+//                                                       arrayLength));
+//        }
+//        else if (currentPatInt == RAINBOW_CYCLE)
+//        {
+//            vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
+//                                                      index, 0, 0, brightness, 0, 0,
+//                                                      interval, arrayIDs,
+//                                                      arrayLength));
+//        }
+//        else
+//        {
+//            vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
+//                                                      index, 0, 0, brightness,
+//                                                      c1, 0, interval, arrayIDs,
+//                                                      arrayLength));
+//        }
 
 
 }

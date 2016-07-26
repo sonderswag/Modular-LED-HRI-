@@ -32,6 +32,9 @@ public:
     void getOrderedLED(LEDLabel* firstLED);
     void enableEditButtons(bool x);
     void selectLED(LEDLabel *desiredLED);
+    void updateDisplay() {dWindow->DisplayInfo();}
+
+    void showBWindow(int groupID) {listBehaviorWindows.at(groupID)->show();}
 
     //unselects all selected LEDs (unshades them and clears the vector)
     void clearSelectedLEDs();
@@ -83,6 +86,7 @@ private slots:
 
     void on_resetGroupsButton_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     QVector<LEDLabel*> LEDs ;
@@ -91,6 +95,7 @@ private:
     int activeLED;
     DisplayWindow *dWindow;
     std::vector<LightParameter> *vectOfData;
+    QVector<BehaviorWindow*> listBehaviorWindows;
  //   BehaviorWindow *bWindow;
  //   QPixmap LEDPic = QPixmap(":/images/LED.png");
 };

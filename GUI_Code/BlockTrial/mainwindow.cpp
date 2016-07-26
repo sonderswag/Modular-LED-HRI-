@@ -617,12 +617,20 @@ void MainWindow::on_addBehaviorButton_clicked()
             return;
         }
     }
-    BehaviorWindow bWindow(vectOfData, selectedLEDs, this);
-    //Can't access MainWindow with bWindow is open:
-    bWindow.setModal(true);
+//    BehaviorWindow bWindow(vectOfData, selectedLEDs, this);
+//    //Can't access MainWindow with bWindow is open:
+//    bWindow.setModal(true);
+//    QPoint here = this->pos();
+//    bWindow.move(here + QPoint((this->width()-bWindow.width())/2, 300));
+//    bWindow.exec();
+
+    BehaviorWindow *bWindow = new BehaviorWindow(vectOfData, selectedLEDs, this);
+    bWindow->setModal(true);
     QPoint here = this->pos();
-    bWindow.move(here + QPoint((this->width()-bWindow.width())/2, 300));
-    bWindow.exec();
+    bWindow->move(here + QPoint((this->width()-bWindow->width())/2, 300));
+    listBehaviorWindows.push_back(bWindow);
+    bWindow->show();
+    //clearSelectedLEDs();
 
 }
 
@@ -639,7 +647,7 @@ void MainWindow::on_displayWindowButton_toggled(bool checked)
 {
     if (checked)
     {
-        dWindow->DisplayInfo();
+        updateDisplay();
         QPoint here = this->pos();
         dWindow->move(here + QPoint(this->width() + 2, 0));
         dWindow->show();
@@ -656,4 +664,7 @@ void MainWindow::setDisplayWindowButton(bool checked)
 void MainWindow::on_resetGroupsButton_clicked()
 {
     vectOfData->clear();
+    updateDisplay();
 }
+
+

@@ -62,6 +62,19 @@
     <string>Create Arduino File</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="createCppCode">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>380</y>
+     <width>211</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Generate C++ Code to Desktop</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>

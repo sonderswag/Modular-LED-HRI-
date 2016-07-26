@@ -5,6 +5,9 @@
 #include "Dependencies/LightParameter.h"
 #include "Dependencies/NeoPixelCodeConverter.h"
 #include <QtAlgorithms>
+#include <iostream>
+#include <fstream>
+
 
 #include <vector>
 
@@ -125,7 +128,7 @@ QString DisplayWindow::getDirection(int dirID)
             return "FORWARD";
             break;
         case REVERSE:
-            return "Reverse";
+            return "REVERSE";
             break;
     }
 }
@@ -195,3 +198,76 @@ void DisplayWindow::on_createArduinoButton_clicked()
 }
 
 
+
+void DisplayWindow::on_createCppCode_clicked()
+{
+    int numberModules = 0;
+    for (int p = 0; p < vecOfStructures->size(); p++)
+    {
+        int groupLength = vecOfStructures->at(p).grouplength;
+        int highestID = vecOfStructures->at(p).group[groupLength-1];
+        if ((highestID+1) > numberModules)
+            numberModules = highestID + 1;
+    }
+
+    qDebug() << "Number of Modules: " << numberModules;
+    ofstream ofile("/home/lwathieu/Desktop/generatedcode.cpp");
+    ofile << "#include <fstream>\n#include <string>\n#include <LightParameter.h>\n#include <NeoPixelCodeConverter.h>\n#include <vector>\n\n";
+    ofile << "using namespace std;\n\n";
+    ofile << "NeoPixelCodeConverter b;\nvector<LightParameter> a;\n\n";
+    ofile << "int main()\n{\n\n";
+    ofile<<"int* ";
+
+    for(int t = 0; t < vecOfStructures->size(); t++)
+    {
+        uint32_t c1 = vecOfStructures->at(t).Color1;
+        uint32_t c2 = vecOfStructures->at(t).Color1;
+
+        ofile<<"arr = new int["<<vecOfStructures->at(t).grouplength<<"] {";
+        for( int j = 0; j < vecOfStructures->at(t).grouplength; j++)
+        {
+            ofile<<vecOfStructures->at(t).group[j]<<", ";
+        }
+        ofile<<"};\n";
+
+        ofile<< "a.push_back(LightParameter(";
+        ofile<< getPattern(vecOfStructures->at(t).pattern).toStdString() << ", ";
+        ofile<< getDirection(vecOfStructures->at(t).direction).toStdString() << ", ";
+        ofile<< vecOfStructures->at(t).startTime << ", ";
+        ofile<< vecOfStructures->at(t).cycles << ", ";
+        ofile<< vecOfStructures->at(t).index << ", ";
+        ofile<< vecOfStructures->at(t).onTime << ", ";
+        ofile<< vecOfStructures->at(t).offTime << ", ";
+        ofile<< vecOfStructures->at(t).brightness << ", ";
+        ofile<< "b.Color(" <<int(Red(c1))<<","<< int(Green(c1))<<","<<int(Blue(c1))<<"), ";
+        ofile<< "b.Color(" <<int(Red(c2))<<","<< int(Green(c2))<<","<<int(Blue(c2))<<"), ";
+        ofile<< vecOfStructures->at(t).interval << ", ";
+        ofile<< "arr, " << vecOfStructures->at(t).grouplength << ");\n";
+        ofile<<"delete [] arr;\n\n";
+    }
+    ofile<< "b.create(a, " << numberModules << ", " << vecOfStructures->size();
+    ofile<< ");\n\n}";
+
+    ofile.close();
+}
+//                 pattern = Pattern;
+//                 direction = dir;
+//                 startTime = start;
+//                 stopTime = 100;
+//                 cycles = cycle;
+//                 index = Index;
+//                 onTime = on;
+//                 offTime = off;
+//                 totalsteps = 255;
+//                 brightness = Brightness;
+//                 Color1 = color1;
+//                 Color2 = color2;
+//                 interval = Interval;
+//                 for( int i = 0; i < length; i++)
+//                 {
+//                     group[i] = g[i];
+//                 }
+//                 grouplength = length;
+//                 lastupdate = 0;
+//                 complete = -1;
+//                 ledstate = false;

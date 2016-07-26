@@ -38,6 +38,8 @@ private slots:
 
     void on_createArduinoButton_clicked();
 
+    void on_createCppCode_clicked();
+
 private:
     Ui::DisplayWindow *ui;
 };
