@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <string>
 #include <LightParameter.h>
 
 /* Name:  create
@@ -10,9 +11,9 @@ Inputs:
 
 */
  //function to create arduino code
-void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)
+void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns, string file)
 {
-    ofstream ofile("test.ino");
+    ofstream ofile(file.c_str());
     ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip(";
     ofile<<no_Leds<<", 6, NEO_GRBW + NEO_KHZ800);\n\nLightParameter Pattern[";
     ofile<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";

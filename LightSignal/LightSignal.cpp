@@ -20,14 +20,17 @@ void LightSignal::Update(LightParameter *a)
             {
                 case RAINBOW_CYCLE:
                     RainbowCycleUpdate(a);
+                    a->totalsteps = 255;
                     a->stopTime = a->startTime + (a->cycles)*(a->interval);
                     break;
                 case THEATER_CHASE:
                     TheaterChaseUpdate(a);
+                    a->totalsteps = 255;
                     a->stopTime = a->startTime + (a->cycles)*(a->interval);
                     break;
                 case COLOR_WIPE:
                     ColorWipeUpdate(a);
+                    a->totalsteps = 255;
                     a->stopTime = a->startTime + ((a->interval)*(a->grouplength));
                     break;
                 case SCANNER:
@@ -37,28 +40,34 @@ void LightSignal::Update(LightParameter *a)
                     break;
                 case FADE:
                     FadeUpdate(a);
+                    a->totalsteps = 0;
                     a->stopTime = a->startTime + (a->cycles)*(a->interval);
                     break;
                 case BLINK:
                     BlinkUpdate(a);
+                    a->totalsteps = 0;
                     a->stopTime = a->startTime + (a->cycles)*2*(a->interval);
                     break;
                 case ON_AND_OFF:
                     OnOffUpdate(a);
+                    a->totalsteps = 0;
                     a->stopTime = a->startTime + (a->cycles)*(a->onTime  + a->offTime);
                     break;
                 case PULSATING:
                     PulsatingUpdate(a);
+                    a->totalsteps = 0;
                     a->stopTime = a->startTime + (a->cycles)*((a->interval)*2*max(max(Red(a->Color1),
                                                                                       Blue(a->Color1)),
                                                                                         Green(a->Color1)));
                     break;
                 case LOADING:
                     LoadingUpdate(a);
-                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength)) + (a->cycles*a->interval);
+                    a->totalsteps = a->grouplength;
+                    a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength));
                     break;
                 case STEP:
                     StepUpdate(a);
+                    a->totalsteps = a->grouplength;
                     a->stopTime = a->startTime + (a->cycles)*((a->interval)*(a->grouplength));
                     break;
                 default:
@@ -106,6 +115,8 @@ void LightSignal::Increment(LightParameter *p)
          if (p->index >= p->totalsteps)
             {
                 p->index = 0;
+                p->ledstate = true;
+
            /*     if (p->totalsteps>=(p->grouplength*p->cycles))
                 {
                     p->complete=OnComplete(p->complete); // call the comlpetion callback
@@ -115,9 +126,10 @@ void LightSignal::Increment(LightParameter *p)
         else // Direction == REVERSE
         {
             --p->index;
-            if (p->index <= 0)
+            if (p->index < 0)
             {
-                p->index = p->grouplength-1;
+                p->index = p->totalsteps-1;
+                p->ledstate = true;
              /*   if (p->totalsteps>=(p->grouplength*p->cycles))
                 {
                     p->complete=OnComplete(p->complete); // call the comlpetion callback
@@ -300,7 +312,7 @@ uint32_t LightSignal::Brightness(uint32_t color1 ,uint32_t intensity)
 //Updates the Pulsating pattern
 void LightSignal::PulsatingUpdate(LightParameter *b)
 {
-    setPixelColor(8,b->Color1);
+    //setPixelColor(8,b->Color1);
    // uint32_t color = getPixelColor(10);
 
     uint32_t min1 = min(min(Red(b->Color1),Blue(b->Color1)),Green(b->Color1));
@@ -336,7 +348,7 @@ void LightSignal::PulsatingUpdate(LightParameter *b)
 //Updates the Loading bar pattern
 void LightSignal::LoadingUpdate(LightParameter *b)                   //function for Loading bar
 {
-    if( b->index < b->grouplength)
+   /* if( b->index < b->grouplength)
     {
     setPixelColor(b->group[b->index], b->Color1);
     show();
@@ -348,18 +360,27 @@ void LightSignal::LoadingUpdate(LightParameter *b)                   //function 
         b->index = 0;
 
         //Increment(b);
-    }
+    }*/
 
+    if( b->ledstate == true)
+    {
+        OnComplete(b);
+        b->ledstate = false;
+    }
+    setPixelColor(b->group[b->index], b->Color1);
+    show();
+    Increment(b);
 }
 
 
 //Updates the step pattern
-void LightSignal::StepUpdate(LightParameter *b)                          //function to turn one LED ON at a time in a group
+//function to turn one LED ON at a time in a group
+void LightSignal::StepUpdate(LightParameter *b)
 {
-    if(b->index >= b->grouplength)
+    /*if(b->index >= b->grouplength)
      {
          b->index = 0;
-     }
+     }*/
      for( int i = 0; i < b->grouplength; i++)
      {
             if( b->index != i)

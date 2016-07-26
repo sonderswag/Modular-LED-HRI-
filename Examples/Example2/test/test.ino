@@ -1,8 +1,11 @@
+/* This is the generated code by the C++ program 
+Program to run 3 patterns simulataneously*/
+
 #include <Adafruit_NeoPixel.h>
 #include <LightSignal.h>
 #include <LightParameter.h>
 
-LightSignal Strip(14, 6, NEO_GRBW + NEO_KHZ800);
+LightSignal Strip(14, 6, NEO_RGBW + NEO_KHZ800);
 
 LightParameter Pattern[3];
 
@@ -21,7 +24,6 @@ delete [] a;
 a = new int[3] {11, 12, 13, };
 Pattern[2].initialize( ON_AND_OFF, FORWARD, 0, 5, 0, 1000, 2500, 255, 3302550, 0, 1000, a, 3);
 delete [] a;
-
 }
 
 void loop() {

@@ -19,8 +19,8 @@ Inputs: 1) Pattern: This variable holds one of the supported patterns.
 
 */
 
-void LightParameter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
-                                int on, int off, int Brightness, uint32_t color1, uint32_t color2,
+void LightParameter::initialize(ActivePattern Pattern, Direction dir, unsigned long start, int cycle, int Index,
+                                unsigned long on, unsigned long off, int Brightness, uint32_t color1, uint32_t color2,
                                 unsigned long Interval, int g[], int length)
 {
     pattern = Pattern;
@@ -31,7 +31,6 @@ void LightParameter::initialize(ActivePattern Pattern, Direction dir, int start,
     index = Index;
     onTime = on;
     offTime = off;
-    totalsteps = 255;
     brightness = Brightness;
     Color1 = color1;
     Color2 = color2;
@@ -49,8 +48,8 @@ void LightParameter::initialize(ActivePattern Pattern, Direction dir, int start,
 LightParameter::LightParameter(){
 }
 
-LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
-                                int on, int off, int Brightness, uint32_t color1, uint32_t color2,
+LightParameter::LightParameter(ActivePattern Pattern, Direction dir, unsigned long start, int cycle, int Index,
+                                unsigned long on, unsigned long off, int Brightness, uint32_t color1, uint32_t color2,
                                 unsigned long Interval, int g[], int length)
 {
     pattern = Pattern;
@@ -66,15 +65,13 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = FORWARD;
             Color1 = 0;
             Color2 = 0;
-            totalsteps = 255;
             break;
         case THEATER_CHASE:
             onTime = 0;
             offTime = 0;
             direction = FORWARD;
             Color1 = color1;
-            Color2 = Color2;
-            totalsteps = 0;
+            Color2 = color2;
             break;
         case COLOR_WIPE:
             onTime = 0;
@@ -82,7 +79,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = dir;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
         case SCANNER:
             onTime = 0;
@@ -90,7 +86,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = dir;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
          case FADE:
             break;
@@ -100,7 +95,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = FORWARD;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
          case ON_AND_OFF:
             onTime = on;
@@ -108,7 +102,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = FORWARD;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
          case PULSATING:
             onTime = 0;
@@ -116,7 +109,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = FORWARD;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
          case LOADING:
             onTime = 0;
@@ -124,7 +116,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = dir;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
          case STEP:
             onTime = 0;
@@ -132,7 +123,6 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, int start, 
             direction = dir;
             Color1 = color1;
             Color2 = 0;
-            totalsteps = 0;
             break;
          default:
             break;
