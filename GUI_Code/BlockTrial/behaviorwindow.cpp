@@ -10,7 +10,7 @@
 
 std::vector<LightParameter> *vectorOfStructs;
 NeoPixelCodeConverter convertColor;
-QVector<int> vectOfIDs;
+
 
 BehaviorWindow::BehaviorWindow(std::vector<LightParameter> *vecOfStruct,
                                QVector<LEDLabel*> orderedLEDs, QWidget *parent):

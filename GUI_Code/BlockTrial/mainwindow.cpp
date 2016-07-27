@@ -623,7 +623,11 @@ void MainWindow::on_addBehaviorButton_clicked()
 //    QPoint here = this->pos();
 //    bWindow.move(here + QPoint((this->width()-bWindow.width())/2, 300));
 //    bWindow.exec();
-
+    qDebug() << "selectedLEDs: ";
+    for (int i = 0; i < selectedLEDs.size(); i++)
+    {
+        qDebug() << selectedLEDs.at(i)->getID();
+    }
     BehaviorWindow *bWindow = new BehaviorWindow(vectOfData, selectedLEDs, this);
     bWindow->setModal(true);
     QPoint here = this->pos();
