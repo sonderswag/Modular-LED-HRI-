@@ -38,11 +38,11 @@ Copy the "NeoPixelCodeConverter" and "LightParameter" folder into any directory 
 =======
 #1. Arduino Library
 
-Sample programs are provided in the examples/ directory.E.g test.ino demonstrates a pulsating pattern which pulsates with a time interval of 10ms. Other sample codes demonstrate patterns other than pulsating pattern and also few codes demonstrate simulatneous running of multiple patterns at the same time.
+Sample programs are provided in the examples/ directory.E.g Under SIMUL, test.ino will run 3 patterns simultaneously (Here RAINBOW, SCANNER and ON_AND_OFF patterns will run at the same time). Other sample codes demonstrate patterns other than these three patterns. Additionally few codes demonstrate chronological coupled with simultaneous running of multiple patterns at the same time.
 
 #2. C++ Library
 
-Sample programs are provided in the Testcode/ directory.E.g testcode.cpp which uses the NeoPixelCodeConverter Library to create a arduino code to run a pulsating pattern on the LED Modules. 
+Sample programs are provided in the Example/ directory.E.g SIMUL.cpp which uses the NeoPixelCodeConverter Library to create a arduino code to run multiple patterns simultaneously.  
 
 Note: Remember to include the "NeoPixelCodeCoverter.a" and "LightParameter.a" files under the build options before executing any program that uses the "LightParameter" and "NeoPixelCodeConverter" Library. Failing to do so will make the compiler give you an "undefined reference" error.
 
