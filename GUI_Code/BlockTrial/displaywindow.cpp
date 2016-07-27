@@ -23,7 +23,7 @@ DisplayWindow::DisplayWindow(std::vector<LightParameter> *vecofStruct,
 {
     ui->setupUi(this);
     vecOfStructures = vecofStruct;
-
+    this->setWindowTitle("View and Edit Groups");
 
 }
 
@@ -186,12 +186,13 @@ void DisplayWindow::on_createArduinoButton_clicked()
                                                     "/home",
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
+    if (dir == "")
+        return;
     string file = QString(dir + "/ledarduinofile.ino").toStdString();
-   // qDebug() << "file: " << file;
     int size = vecOfStructures->size();
-//    string file = "/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial/testfile/testfile.ino";
+
     codeConverter.create(*vecOfStructures, getNumModules() , size, file);
-    qDebug() << "Made File!!";
+
 }
 
 
@@ -202,8 +203,29 @@ void DisplayWindow::on_createCppCode_clicked()
                                                     "/home",
                                                     QFileDialog::ShowDirsOnly
                                                     | QFileDialog::DontResolveSymlinks);
+    if (dir == "")
+        return;
     string file = QString(dir + "/ledcppfile.cpp").toStdString();
-    ofstream ofile(file.c_str());
+    writeCppFile(file);
+
+}
+
+int DisplayWindow::getNumModules()
+{
+    int numberModules = 0;
+    for (int p = 0; p < vecOfStructures->size(); p++)
+    {
+        int groupLength = vecOfStructures->at(p).grouplength;
+        int highestID = vecOfStructures->at(p).group[groupLength-1];
+        if ((highestID+1) > numberModules)
+            numberModules = highestID + 1;
+    }
+    return numberModules;
+}
+
+void DisplayWindow::writeCppFile(string path)
+{
+    ofstream ofile(path.c_str());
     ofile << "#include <fstream>\n#include <string>\n#include <LightParameter.h>\n#include <NeoPixelCodeConverter.h>\n#include <vector>\n\n";
     ofile << "using namespace std;\n\n";
     ofile << "NeoPixelCodeConverter b;\nvector<LightParameter> a;\n\n";
@@ -241,17 +263,4 @@ void DisplayWindow::on_createCppCode_clicked()
     ofile<< ");\n\n}";
 
     ofile.close();
-}
-
-int DisplayWindow::getNumModules()
-{
-    int numberModules = 0;
-    for (int p = 0; p < vecOfStructures->size(); p++)
-    {
-        int groupLength = vecOfStructures->at(p).grouplength;
-        int highestID = vecOfStructures->at(p).group[groupLength-1];
-        if ((highestID+1) > numberModules)
-            numberModules = highestID + 1;
-    }
-    return numberModules;
 }

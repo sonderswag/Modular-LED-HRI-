@@ -2,6 +2,7 @@
 #define DISPLAYWINDOW_H
 
 #include "Dependencies/LightParameter.h"
+#include "Dependencies/NeoPixelCodeConverter.h"
 #include <QDialog>
 #include <vector>
 #include <QTextCharFormat>
@@ -24,6 +25,7 @@ public:
     void PrintSameLn(QTextCharFormat format, QString printthis);
     QString getPattern(int patternID);
     QString getDirection(int dirID);
+    void writeCppFile(string path);
     int getNumModules();
 
     // Returns the Red component of a 32-bit color

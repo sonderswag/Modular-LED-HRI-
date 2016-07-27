@@ -15,10 +15,10 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="9" column="1">
-     <widget class="QPushButton" name="resetGroupsButton">
+    <item row="7" column="0">
+     <widget class="QPushButton" name="resetID">
       <property name="text">
-       <string>Reset All Groups</string>
+       <string>Reset IDs</string>
       </property>
      </widget>
     </item>
@@ -479,13 +479,6 @@
       </property>
      </widget>
     </item>
-    <item row="8" column="1">
-     <widget class="QPushButton" name="resetID">
-      <property name="text">
-       <string>Reset IDs</string>
-      </property>
-     </widget>
-    </item>
     <item row="3" column="2">
      <widget class="QPushButton" name="selectAllButton">
       <property name="text">
@@ -497,26 +490,6 @@
      <widget class="QPushButton" name="addBehaviorButton">
       <property name="text">
        <string>Add Behavior</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="QPushButton" name="resetColor">
-      <property name="text">
-       <string>Reset Colors</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QPushButton" name="displayWindowButton">
-      <property name="text">
-       <string>Open Display Window</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -3172,6 +3145,33 @@
        </size>
       </property>
      </spacer>
+    </item>
+    <item row="6" column="0">
+     <widget class="QPushButton" name="resetGroupsButton">
+      <property name="text">
+       <string>Reset All Groups</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QPushButton" name="resetColor">
+      <property name="text">
+       <string>Reset Colors</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QPushButton" name="displayWindowButton">
+      <property name="text">
+       <string>Open Display Window</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>

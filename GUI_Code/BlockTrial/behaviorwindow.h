@@ -63,6 +63,7 @@ private:
     QColor color1;
     QColor color2;
     int bWindowID;
+    QVector<int> vectOfIDs;
  //   LightParameter selectedParameters;
 };
 
