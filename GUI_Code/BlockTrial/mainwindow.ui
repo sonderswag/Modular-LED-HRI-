@@ -15,10 +15,37 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="7" column="0">
+    <item row="8" column="2">
      <widget class="QPushButton" name="resetID">
       <property name="text">
        <string>Reset IDs</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QPushButton" name="addBehaviorButton">
+      <property name="text">
+       <string>Add Behavior</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QPushButton" name="resetGroupsButton">
+      <property name="text">
+       <string>Reset All Groups</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QPushButton" name="displayWindowButton">
+      <property name="text">
+       <string>Open Display Window</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
       </property>
      </widget>
     </item>
@@ -483,13 +510,6 @@
      <widget class="QPushButton" name="selectAllButton">
       <property name="text">
        <string>Select All LEDs</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="2">
-     <widget class="QPushButton" name="addBehaviorButton">
-      <property name="text">
-       <string>Add Behavior</string>
       </property>
      </widget>
     </item>
@@ -3146,32 +3166,25 @@
       </property>
      </spacer>
     </item>
-    <item row="6" column="0">
-     <widget class="QPushButton" name="resetGroupsButton">
-      <property name="text">
-       <string>Reset All Groups</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="0">
+    <item row="7" column="2">
      <widget class="QPushButton" name="resetColor">
       <property name="text">
        <string>Reset Colors</string>
       </property>
      </widget>
     </item>
-    <item row="8" column="2">
-     <widget class="QPushButton" name="displayWindowButton">
-      <property name="text">
-       <string>Open Display Window</string>
+    <item row="8" column="1">
+     <spacer name="horizontalSpacer_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
-      <property name="checkable">
-       <bool>true</bool>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>40</width>
+        <height>20</height>
+       </size>
       </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
+     </spacer>
     </item>
    </layout>
   </widget>
