@@ -96,8 +96,8 @@ WARN_LOGFILE            = "C:\Users\tushar\Documents\LightParameter\doxygen\doxy
 # configuration options related to the input files
 #---------------------------------------------------------------------------
 INPUT                  = \
-	"..\LightParameter.h" \
-	"..\LightParameter.cpp" 
+	"..\LightParameter.cpp" \
+	"..\LightParameter.h" 
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          =
 RECURSIVE              = NO

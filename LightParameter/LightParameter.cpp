@@ -92,6 +92,12 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, unsigned lo
             Color2 = 0;
             break;
          case FADE:
+            onTime = 0;
+            offTime = 0;
+            direction = FORWARD;
+            Color1 = color1;
+            Color2 = 0;
+            break;
             break;
          case BLINK:
             onTime = 0;
