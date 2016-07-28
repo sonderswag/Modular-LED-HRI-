@@ -5,13 +5,13 @@ Readme file for our LED Modular System
 GUI interacts with an Arduino, which will control the RGBW LED Strip
 
 #Installation
--Clone it from Github using the command
+* Clone it from Github using the command
 
 ```
 git clone git@github.com:sonderswag/Modular-LED-HRI-.git
 ```
 
--Or download the zip file by clicking on **Clone or Download** and then click on **Download ZIP**
+* Or download the zip file by clicking on **Clone or Download** and then click on **Download ZIP**
 
 #SETUP
 ##Arduino Library
