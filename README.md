@@ -53,7 +53,6 @@ For the header file(.h), the path will be:
 ```
 
 #USAGE
-=======
 #1. Arduino Library
 
 Sample programs are provided in the examples/ directory.E.g Under SIMUL, test.ino will run 3 patterns simultaneously (Here RAINBOW, SCANNER and ON_AND_OFF patterns will run at the same time). Other sample codes demonstrate patterns other than these three patterns. Additionally few codes demonstrate chronological running and also a combination of chronological and simulatneous running of multiple patterns.
