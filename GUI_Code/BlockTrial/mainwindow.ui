@@ -15,6 +15,7 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+<<<<<<< HEAD
     <item row="8" column="2">
      <widget class="QPushButton" name="resetID">
       <property name="text">
@@ -31,8 +32,12 @@
     </item>
     <item row="6" column="2">
      <widget class="QPushButton" name="resetGroupsButton">
+=======
+    <item row="7" column="0">
+     <widget class="QPushButton" name="resetID">
+>>>>>>> b60274128a4d62bf329b2b09e2a495e374c4164c
       <property name="text">
-       <string>Reset All Groups</string>
+       <string>Reset IDs</string>
       </property>
      </widget>
     </item>
@@ -513,6 +518,16 @@
       </property>
      </widget>
     </item>
+<<<<<<< HEAD
+=======
+    <item row="7" column="2">
+     <widget class="QPushButton" name="addBehaviorButton">
+      <property name="text">
+       <string>Add Behavior</string>
+      </property>
+     </widget>
+    </item>
+>>>>>>> b60274128a4d62bf329b2b09e2a495e374c4164c
     <item row="0" column="2">
      <spacer name="verticalSpacer_3">
       <property name="orientation">
@@ -3166,13 +3181,25 @@
       </property>
      </spacer>
     </item>
+<<<<<<< HEAD
     <item row="7" column="2">
+=======
+    <item row="6" column="0">
+     <widget class="QPushButton" name="resetGroupsButton">
+      <property name="text">
+       <string>Reset All Groups</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+>>>>>>> b60274128a4d62bf329b2b09e2a495e374c4164c
      <widget class="QPushButton" name="resetColor">
       <property name="text">
        <string>Reset Colors</string>
       </property>
      </widget>
     </item>
+<<<<<<< HEAD
     <item row="8" column="1">
      <spacer name="horizontalSpacer_3">
       <property name="orientation">
@@ -3185,6 +3212,20 @@
        </size>
       </property>
      </spacer>
+=======
+    <item row="8" column="2">
+     <widget class="QPushButton" name="displayWindowButton">
+      <property name="text">
+       <string>Open Display Window</string>
+      </property>
+      <property name="checkable">
+       <bool>true</bool>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+     </widget>
+>>>>>>> b60274128a4d62bf329b2b09e2a495e374c4164c
     </item>
    </layout>
   </widget>

@@ -6,10 +6,10 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 #include <LightParameter.h>
-//#include <string>
-//#include <math.h>
 
-
+/** \class LightSignal
+ * \brief Consists of different types of patterns that can be used to signal/convey a particular action.
+ */
 
 class LightSignal : public Adafruit_NeoPixel{
 

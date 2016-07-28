@@ -1,0 +1,3 @@
+C:/Users/tushar/Documents/LightParameter/LightParameter.cpp:3: warning: argument 'gLength' of command @param is not found in the argument list of LightParameter::initialize(ActivePattern Pattern, Direction dir, unsigned long start, int Cycle, int Index, unsigned long on, unsigned long off, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int length)
+C:/Users/tushar/Documents/LightParameter/LightParameter.h:68: warning: The following parameters of LightParameter::initialize(ActivePattern Pattern, Direction dir, unsigned long start, int Cycle, int Index, unsigned long on, unsigned long off, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int length) are not documented:
+  parameter 'length'
