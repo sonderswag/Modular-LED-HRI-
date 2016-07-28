@@ -39,7 +39,7 @@ or like this (on Mac and Linux):
   
   The procedure is same as above except instead of copying the whole folder, copy just the .h and .cpp file and put them in a "LightParameter" folder and then follow the above procedure
   
-#C++ Library
+##C++ Library
 
 Copy the "NeoPixelCodeConverter" and "LightParameter" folder into any directory you desire and then indicate the path to .a and the .h file under the linker settings of your C++ IDE.
 
@@ -53,11 +53,11 @@ For the header file(.h), the path will be:
 ```
 
 #USAGE
-#1. Arduino Library
+##1. Arduino Library
 
 Sample programs are provided in the examples/ directory.E.g Under SIMUL, test.ino will run 3 patterns simultaneously (Here RAINBOW, SCANNER and ON_AND_OFF patterns will run at the same time). Other sample codes demonstrate patterns other than these three patterns. Additionally few codes demonstrate chronological running and also a combination of chronological and simulatneous running of multiple patterns.
 
-#2. C++ Library
+##2. C++ Library
 
 Sample programs are provided in the Example/ directory.E.g SIMUL.cpp which uses the NeoPixelCodeConverter Library to create a arduino code to run multiple patterns simultaneously.  
 
