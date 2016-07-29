@@ -35,11 +35,12 @@ void LightParameter::initialize(ActivePattern Pattern, Direction dir, unsigned l
     Color1 = color1;
     Color2 = color2;
     interval = Interval;
+    grouplength = length;
+    group = new int[grouplength];
     for( int i = 0; i < length; i++)
     {
         group[i] = g[i];
     }
-    grouplength = length;
     lastupdate = 0;
     complete = -1;
     ledstate = false;
