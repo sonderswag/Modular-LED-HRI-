@@ -54,7 +54,7 @@ unsigned long lastupdate;   /**< Specifies the time at which the pattern was las
 char complete;              /**<  Specifies whether or not the pattern is completed*/
 bool ledstate;
 
-int group[100];             /**<  Stores the ID's of group of LED's in a pattern*/
+int* group;             /**<  Stores the ID's of group of LED's in a pattern*/
 int grouplength;            /**<  Specifies the number of LED's that are part of a pattern*/
 
 

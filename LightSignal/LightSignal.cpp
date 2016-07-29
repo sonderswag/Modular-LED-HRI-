@@ -274,11 +274,11 @@ void LightSignal::FadeUpdate(LightParameter *b)
  * \return void
  *
  */
-void LightSignal::ColorSet(LightParameter *p)
+void LightSignal::ColorSet(LightParameter *p, uint32_t color)
 {
         for (int i = 0; i < p->grouplength; i++)
         {
-            setPixelColor(p->group[i], p->color);
+            setPixelColor(p->group[i], color);
         }
         show();
 }
@@ -496,10 +496,6 @@ void LightSignal::LoadingUpdate(LightParameter *b)                   //function 
  */
 void LightSignal::StepUpdate(LightParameter *b)
 {
-    /*if(b->index >= b->grouplength)
-     {
-         b->index = 0;
-     }*/
      for( int i = 0; i < b->grouplength; i++)
      {
             if( b->index != i)
@@ -511,8 +507,7 @@ void LightSignal::StepUpdate(LightParameter *b)
                 setPixelColor(b->group[i], b->Color1);
             }
      }
-
-     show();
+    show();
     Increment(b);
 }
 

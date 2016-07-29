@@ -139,6 +139,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, unsigned lo
         }
     brightness = Brightness;
     interval = Interval;
+    group = new int[4];
     for( int i = 0; i < length; i++)
     {
         group[i] = g[i];
