@@ -96,7 +96,7 @@ LightParameter::LightParameter(ActivePattern Pattern, Direction dir, unsigned lo
             offTime = 0;
             direction = FORWARD;
             Color1 = color1;
-            Color2 = 0;
+            Color2 = color2;
             break;
             break;
          case BLINK:
