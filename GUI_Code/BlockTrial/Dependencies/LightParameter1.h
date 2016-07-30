@@ -1,16 +1,12 @@
 #ifndef LIGHTPARAMETER_h
 #define LIGHTPARAMETER_h
 
-
-//#include <Arduino.h>
 #include <stdint.h>
 #include <stddef.h>
 #include <stdlib.h>
 
-
-//using namespace std;
-
-// Pattern types supported:
+/** \brief ActivePattern- Pattern types supported
+ */
 enum  ActivePattern { NO_PAT,
                       RAINBOW_CYCLE,
                       THEATER_CHASE,
@@ -21,75 +17,57 @@ enum  ActivePattern { NO_PAT,
                       ON_AND_OFF,
                       PULSATING,
                       LOADING,
-                      STEP};
+                      STEP
+                      };
 
-// Patern directions supported:
-enum  Direction { FORWARD,
-                  REVERSE };
+/** \brief Direction Pattern directions supported
+ */
+enum  Direction { FORWARD,/**< Forward direction */
+                  REVERSE/**< Reverse direction */
+                  };
 
 
-/* Name:  LightParameter( struct)
-Purpose: Responsible for holding values that define a particular pattern
-Inputs: 1) pattern: This variable holds one of the supported patterns.
-        2) direction: Specifies the direction in which the LED's will glow.
-        3) startTime: Specifies the start time of the pattern.
-        5) stopTime: Specifies the stop time of the pattern( the calculation of stop time varies from pattern to pattern)
-        5) cycle: Specifies the number of times the pattern is supposed to run.
-        6) index: Specifies the Index from which the pattern is suppose to start from
-        6) onTime: This variable is Specifically used for only On_AND_OFF pattern. Specifies the time for which the LED's should be on.
-        7) offTime: This variable is Specifically used for only On_AND_OFF pattern. Specifies the time for which the LED's should be off.
-        8) totalsteps: This variable is used to keep track of the LED brightness and the current color in the RAINBOW_CYCLE pattern.
-        9) brightness: Used to set the brightness of the LED's.
-        10) Color1: Used to set the color of the pattern(used by majority of the patterns).
-        11) Color2: Used to set the 2nd color of the pattern(in this library only THEATER_CHASE uses this parameter).
-        12) interval:  Used to set the time for which 1 cycle will run
-        13) lastupdate: Specifies the time at which the pattern was last updated.
-        14) complete: Specifies whether or not the pattern is completed.
-        15)
-        16) group[100]: Stores the ID's of group of LED's in a pattern.
-        17) grouplength: Specifies the number of LED's that are part of a pattern.
-
-*/
+/** \struct LightParameter
+ * \brief Responsible for holding values that define a particular pattern
+ */
 
 struct LightParameter{
-ActivePattern pattern;
-Direction direction;
+ActivePattern pattern;      /**< This variable holds one of the supported patterns */
+Direction direction;        /**< Specifies the direction in which the pattern will run */
 
-unsigned long startTime;
-unsigned long stopTime;
-unsigned long cycles;             //no of times the pattern should run
+unsigned long startTime;    /**< Specifies the start time of the pattern */
+unsigned long stopTime;     /**< Specifies the stop time of the pattern( the calculation of stop time varies from pattern to pattern) */
+unsigned long cycles;       /**< Specifies the number of times the pattern is supposed to run*/
 
-int index;
-int onTime;
-int offTime;
-int totalsteps;        //no of iterations
-int brightness;          //the current brightness of the LED's
+int index;                  /**< Specifies the Index from which the pattern is suppose to start from */
+unsigned long onTime;       /**< This variable is Specifically used for only On_AND_OFF pattern. Specifies the time for which the LED's should be turned on */
+unsigned long offTime;      /**< This variable is Specifically used for only On_AND_OFF pattern. Specifies the time for which the LED's should be off */
+int totalsteps;             /**< Keeps track of the current color in the RAINBOW_CYCLE pattern and total no of steps in a particular cycle*/
+int brightness;             /**< Used to set the brightness of the LED's */
 
-uint32_t Color1, Color2;    //required colors for the pattern
+uint32_t Color1;            /**< Used to set the color of the pattern(used by majority of the patterns) */
+uint32_t Color2;            /**< Used to set the 2nd color of the pattern(in this library only THEATER_CHASE uses this parameter) */
 
-unsigned long interval;
-unsigned long lastupdate;       //time at which the pattern was last updated
+unsigned long interval;     /**< Used to set the time for which 1 cycle will run */
+unsigned long lastupdate;   /**< Specifies the time at which the pattern was last updated */
 
-//bool status;            //whether or not the pattern is currently running or not
-char complete;         //whether or not the pattern is complete or not
+char complete;              /**<  Specifies whether or not the pattern is completed*/
 bool ledstate;
 
-int group[100];
-int grouplength;        //length of the group
+int group[100];             /**<  Stores the ID's of group of LED's in a pattern*/
+int grouplength;            /**<  Specifies the number of LED's that are part of a pattern*/
 
 
 
 LightParameter();
 
-LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index,
-                                int on, int off, int Brightness, uint32_t color1, uint32_t color2,
+LightParameter(ActivePattern Pattern, Direction dir, unsigned long start, int cycle, int Index,
+                                unsigned long on, unsigned long off, int Brightness, uint32_t color1, uint32_t color2,
                                 unsigned long Interval, int g[], int length);
-/*LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, unsigned long Interval, int g[], int length);
-LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, uint32_t color1, unsigned long Interval, int g[], int length);
-LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int length);
-LightParameter(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int Index, int Brightness, uint32_t color1, unsigned long Interval, int g[], int length);*/
 
-void initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int Index, int on, int off, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval, int g[], int length);
+void initialize(ActivePattern Pattern, Direction dir, unsigned long start, int cycle, int Index,
+                unsigned long on, unsigned long off, int Brightness, uint32_t color1, uint32_t color2, unsigned long Interval,
+                int g[], int length);
 };
 
 

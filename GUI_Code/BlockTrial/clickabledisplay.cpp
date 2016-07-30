@@ -6,11 +6,16 @@
 #include "mainwindow.h"
 
 //How many non-integer characters in "Group n:" line
-const int extraCharacters = 15;
+const int extraCharacters = 25;
+DisplayWindow* parentDWindow;
+MainWindow* grandparentMWindow;
+
 
 ClickableDisplay::ClickableDisplay( QWidget *parent ) : QTextBrowser( parent )
 {
     setReadOnly( true );
+    parentDWindow = ((DisplayWindow*)(this->parentWidget()));
+    grandparentMWindow = ((MainWindow*)(parentDWindow->parentWidget()));
 
 }
 
@@ -34,13 +39,23 @@ void ClickableDisplay::mousePressEvent( QMouseEvent * event )
         qDebug() << "Your Line: " << strLine;
         selectedGroup = getGroupNum(strLine);
     }
-    qDebug() << "Selected Group: " << selectedGroup;
-    if (selectedGroup >= 0)
+    if (strWord == "DELETE")
     {
-        DisplayWindow* parent = ((DisplayWindow*)(this->parentWidget()));
-        MainWindow* grandparent = ((MainWindow*)(parent->parentWidget()));
+        qDebug() << "Clicked Delete!!";
+        tc.select( QTextCursor::LineUnderCursor );
+        QString strLine = tc.selectedText();
+        qDebug() << "Your Line: " << strLine;
+        selectedGroup = getGroupNum(strLine);
+    }
+    qDebug() << "Selected Group: " << selectedGroup;
 
-        grandparent->showBWindow(selectedGroup);
+    if (selectedGroup >= 0 && strWord == "EDIT")
+    {
+        grandparentMWindow->showBWindow(selectedGroup);
+    }
+    else if (selectedGroup >= 0 && strWord == "DELETE")
+    {
+        grandparentMWindow->deleteGroup(selectedGroup);
     }
 
 }

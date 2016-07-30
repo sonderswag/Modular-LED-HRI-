@@ -11,6 +11,10 @@
 
 using namespace std;
 
+/** \class NeoPixelCodeConverter
+ *  \brief Responsible for creating code for the arduino
+ */
+
 class NeoPixelCodeConverter{
 
 public:

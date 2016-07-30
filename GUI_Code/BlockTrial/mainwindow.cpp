@@ -28,7 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->ledNumEdit->setValidator(new QIntValidator(0, 99, this));
+    ui->ledNumEdit->setValidator(new QIntValidator(0, 999, this));
+    ui->lowerBoundSelectLabel->setValidator(new QIntValidator(0, 999, this));
+    ui->upperBoundSelectLabel->setValidator(new QIntValidator(0, 999, this));
     setMinimumSize(200, 200);
     setAcceptDrops(true);
 
@@ -63,9 +65,12 @@ MainWindow::~MainWindow()
         delete LEDs.at(n);
 
     }
+    delete vectOfData;
+    delete dWindow;
     LEDs.clear();
     selectedLEDs.clear();
     orderedLEDs.clear();
+    clearGroups();
 }
 
 
@@ -73,7 +78,7 @@ void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs
 {
     for (int p = 0; p < n; p++)
     {
-        if (getNumLEDs() < 99)
+        if (getNumLEDs() < 999)
         {
             LEDLabel *ledIcon = new LEDLabel(ledCount, this);
             LEDs.push_back(ledIcon);
@@ -109,30 +114,18 @@ void MainWindow::deleteNumLEDs(int n)
 //Selects or de-selects specified LED
 void MainWindow::selectLED(LEDLabel *desiredLED)
 {
-    qDebug() << "Got here1";
-    qDebug() << selectedLEDs;
-
     for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
-        qDebug() << "Got here2";
-        qDebug() << selectedLEDs;
         if (selectedLEDs.at(m) == desiredLED)
         {
 
             desiredLED->setShade(false);
             selectedLEDs.erase(selectedLEDs.begin() + m);
-            qDebug() << "Got here3";
-            qDebug() << selectedLEDs;
             return;
         }
     }
-    qDebug() << "Got here4";
-    qDebug() << selectedLEDs;
-
     desiredLED->setShade(true);
     selectedLEDs.push_back(desiredLED);
-    qDebug() << "Got here5";
-    qDebug() << selectedLEDs;
 }
 
 
@@ -148,7 +141,7 @@ void MainWindow::clearSelectedLEDs()      //un-selects all selected LEDs
         qDebug() << "Im Here " << m;
     }
     qDebug() << "got out!!";
-    qDebug() << selectedLEDs;
+ //   qDebug() << selectedLEDs;
     selectedLEDs.clear();
 }
 
@@ -362,14 +355,11 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
     double firstx = firstLED->x();
     double firsty = firstLED->y();
 
-    qDebug() << "orderedLEDs: " << orderedLEDs;
-    qDebug() << "selectedLEDs: " << selectedLEDs;
-
     selectLED(firstLED);
 
     orderedLEDs.push_back(firstLED);
-    qDebug() << "orderedLEDs: " << orderedLEDs;
-    qDebug() << "selectedLEDs: " << selectedLEDs;
+//    qDebug() << "orderedLEDs: " << orderedLEDs;
+//    qDebug() << "selectedLEDs: " << selectedLEDs;
     LEDLabel* closestLED;
     double smallestDistance;
 
@@ -382,7 +372,7 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
         {
             double distance = qSqrt(qPow(selectedLEDs.at(m)->x()-firstx, 2) +
                                     qPow(selectedLEDs.at(m)->y()-firsty, 2));
-            qDebug() << distance;
+ //           qDebug() << distance;
 
 
             if (distance < smallestDistance && distance != 0)
@@ -392,15 +382,15 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
             }
         }
 
-        qDebug() << "smallest distance: " << smallestDistance;
+ //       qDebug() << "smallest distance: " << smallestDistance;
 
         orderedLEDs.push_back(closestLED);
 
         selectLED(closestLED);
 
-        qDebug() << "ClosestLED: " << closestLED;
-        qDebug() << "orderedLEDs: " << orderedLEDs;
-        qDebug() << "selectedLEDs" << selectedLEDs;
+//        qDebug() << "ClosestLED: " << closestLED;
+//        qDebug() << "orderedLEDs: " << orderedLEDs;
+//        qDebug() << "selectedLEDs" << selectedLEDs;
 
         firstx = closestLED->x();
         firsty = closestLED->y();
@@ -434,7 +424,6 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
     {
         if (ui->actionSelect_Mode->isChecked())
         {
-
         clearSelectedLEDs();
         }
         return;
@@ -632,18 +621,9 @@ void MainWindow::on_addBehaviorButton_clicked()
     bWindow->setModal(true);
     QPoint here = this->pos();
     bWindow->move(here + QPoint((this->width()-bWindow->width())/2, 300));
-    listBehaviorWindows.push_back(bWindow);
     bWindow->show();
     //clearSelectedLEDs();
 
-}
-
-void MainWindow::on_resetColor_clicked()
-{
-    for (int y = 0; y < LEDs.size(); y++)
-    {
-        LEDs.at(y)->setLEDColor(QColor(255, 255, 255), LEDs.at(y)->getID());
-    }
 }
 
 
@@ -667,8 +647,156 @@ void MainWindow::setDisplayWindowButton(bool checked)
 
 void MainWindow::on_resetGroupsButton_clicked()
 {
-    vectOfData->clear();
+    clearGroups();
     updateDisplay();
 }
 
+void MainWindow::clearGroups()
+{
+    for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
+    {
+        deleteGroup(m);
+    }
+    for (int y = 0; y < LEDs.size(); y++)
+    {
+        LEDs.at(y)->setLEDColor(QColor(255, 255, 255), LEDs.at(y)->getID());
+    }
+    listBehaviorWindows.clear();
+    vectOfData->clear();
+}
 
+void MainWindow::deleteGroup(int groupID)
+{
+    vectOfData->erase(vectOfData->begin() + groupID);
+    delete listBehaviorWindows.at(groupID);
+    listBehaviorWindows.erase(listBehaviorWindows.begin() + groupID);
+    for (int p = groupID; p < listBehaviorWindows.size(); p++)
+    {
+        listBehaviorWindows.at(p)->setID(p);
+    }
+    qDebug() << "Changin ID to " << groupID;
+    updateDisplay();
+}
+
+long MainWindow::getStopTime(ActivePattern pattern, int startTime,
+                                  int cycles, int interval, int onTime,
+                                  int offTime, int grouplength, uint32_t color1)
+{
+    long stopTime;
+    switch(pattern)
+    {
+        case RAINBOW_CYCLE:
+            stopTime = startTime + (cycles)*(interval);
+            break;
+        case THEATER_CHASE:
+            stopTime = startTime + (cycles)*(interval);
+            break;
+        case COLOR_WIPE:
+            stopTime = startTime + ((interval)*(grouplength));
+            break;
+        case SCANNER:
+            stopTime = startTime + (cycles)*((interval)*(grouplength-1)*2);
+            break;
+        case FADE:
+            stopTime = startTime + (cycles)*(interval);
+            break;
+        case BLINK:
+            stopTime = startTime + (cycles)*2*(interval);
+            break;
+        case ON_AND_OFF:
+            stopTime = startTime + (cycles)*(onTime  + offTime);
+            break;
+        case PULSATING:
+            stopTime = startTime + (cycles)*((interval)*2*
+                       max(max(Red(color1),Blue(color1)),Green(color1)));
+            break;
+        case LOADING:
+            stopTime = startTime + (cycles)*((interval)*(grouplength));
+            break;
+        case STEP:
+            stopTime = startTime + (cycles)*((interval)*(grouplength));
+            break;
+        default:
+            break;
+    }
+    return stopTime;
+}
+
+long MainWindow::getStopTime(LightParameter struc)
+{
+    long stopTime;
+    switch(struc.pattern)
+    {
+        case RAINBOW_CYCLE:
+            stopTime = struc.startTime + (struc.cycles)*(struc.interval);
+            break;
+        case THEATER_CHASE:
+            stopTime = struc.startTime + (struc.cycles)*(struc.interval);
+            break;
+        case COLOR_WIPE:
+            stopTime = struc.startTime + ((struc.interval)*(struc.grouplength));
+            break;
+        case SCANNER:
+            stopTime = struc.startTime + (struc.cycles)*((struc.interval)*(struc.grouplength-1)*2);
+            break;
+        case FADE:
+            stopTime = struc.startTime + (struc.cycles)*(struc.interval);
+            break;
+        case BLINK:
+            stopTime = struc.startTime + (struc.cycles)*2*(struc.interval);
+            break;
+        case ON_AND_OFF:
+            stopTime = struc.startTime + (struc.cycles)*(struc.onTime  + struc.offTime);
+            break;
+        case PULSATING:
+            stopTime = struc.startTime + (struc.cycles)*((struc.interval)*2*
+                       max(max(Red(struc.Color1),Blue(struc.Color1)),Green(struc.Color1)));
+            break;
+        case LOADING:
+            stopTime = struc.startTime + (struc.cycles)*((struc.interval)*(struc.grouplength));
+            break;
+        case STEP:
+            stopTime = struc.startTime + (struc.cycles)*((struc.interval)*(struc.grouplength));
+            break;
+        default:
+            break;
+    }
+    return stopTime;
+}
+
+void MainWindow::on_selectRangeButton_clicked()
+{
+    QString lowText = ui->lowerBoundSelectLabel->text();
+    QString upText = ui->upperBoundSelectLabel->text();
+    //Check if Range is valid
+    if ((!(lowText.isEmpty()) && !(upText.isEmpty())) &&
+            (upText.toInt() > lowText.toInt()))
+    {
+        int upInt = upText.toInt();
+        int lowInt = lowText.toInt();
+        if (upInt > orderedLEDs.size()-1)
+        {
+            QMessageBox::warning(this, "Warning", "Upper Range is Too High");
+            return;
+        }
+        qDebug() << "Range is Valid";
+        clearSelectedLEDs();
+        for (int p = lowInt; p <= upInt; p++)
+        {
+            bool selected = false;
+            for (int t = 0; t < selectedLEDs.size(); t++)
+            {
+                if (selectedLEDs.at(t) == orderedLEDs.at(p))
+                {
+                    selected = true;
+                }
+            }
+            if (selected == false)
+            {
+                selectLED(orderedLEDs.at(p));
+            }
+        }
+    }
+    ui->lowerBoundSelectLabel->clear();
+    ui->upperBoundSelectLabel->clear();
+}

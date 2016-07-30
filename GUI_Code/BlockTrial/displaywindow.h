@@ -28,20 +28,13 @@ public:
     void writeCppFile(string path);
     int getNumModules();
 
-    // Returns the Red component of a 32-bit color
-    uint8_t Red(uint32_t color) { return (color >> 16) & 0xFF; }
-    // Returns the Green component of a 32-bit color
-    uint8_t Green(uint32_t color) { return (color >> 8) & 0xFF; }
-    // Returns the Blue component of a 32-bit color
-    uint8_t Blue(uint32_t color) { return color & 0xFF; }
-
 
 private slots:
-    void on_refreshButton_clicked();
-
     void on_createArduinoButton_clicked();
 
     void on_createCppCode_clicked();
+
+    void on_closeDisplay_clicked();
 
 private:
     Ui::DisplayWindow *ui;

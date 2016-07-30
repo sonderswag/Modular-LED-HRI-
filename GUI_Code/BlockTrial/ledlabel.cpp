@@ -79,10 +79,6 @@ void LEDLabel::setLEDColor(QColor color, int id)
     }
     setPixmap(*myPix);
     show();
-
 }
-//QColor LEDLabel::getIdealTextColor
-//{
 
-//}
 

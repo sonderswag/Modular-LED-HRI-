@@ -23,8 +23,10 @@ public:
     QColor getColor2() {return color2; }
     void setColor(int whichLED, QColor desiredColor);
 //    void setSliders(QColor c);
-    void UpdateVect();
+    bool UpdateVect();
     void EnableInput(bool enabled, QLineEdit *thisone);
+    void setID(int ID) { bWindowID = ID; }
+    bool PatternAllowed(LightParameter strucToAdd);
 //    void EnableSliders(bool enabled);
 
     ~BehaviorWindow();
@@ -56,6 +58,8 @@ private slots:
     void on_color1Button_clicked();
 
     void on_color2Button_clicked();
+
+    void on_calcStopTimeLabel_clicked();
 
 private:
     Ui::BehaviorWindow *ui;

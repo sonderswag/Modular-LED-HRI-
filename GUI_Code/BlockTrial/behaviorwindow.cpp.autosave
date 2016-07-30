@@ -340,6 +340,7 @@ void BehaviorWindow::EnableInput(bool enabled, QLineEdit *thisone)
     if (enabled)
     {
         thisone->setReadOnly(false);
+        thisone->setText("0");
     }
     else
     {

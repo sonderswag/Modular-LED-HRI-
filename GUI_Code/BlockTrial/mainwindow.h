@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QtWidgets>
 #include "ledlabel.h"
-#include <behaviorwindow.h>
+#include "behaviorwindow.h"
 #include "Dependencies/LightParameter.h"
 #include "displaywindow.h"
 
@@ -33,14 +33,27 @@ public:
     void enableEditButtons(bool x);
     void selectLED(LEDLabel *desiredLED);
     void updateDisplay() {dWindow->DisplayInfo();}
-
     void showBWindow(int groupID) {listBehaviorWindows.at(groupID)->show();}
-
+    void clearGroups();
+    void deleteGroup(int groupID);
     //unselects all selected LEDs (unshades them and clears the vector)
     void clearSelectedLEDs();
     void setDisplayWindowButton(bool checked);
+    long getStopTime(ActivePattern pattern, int startTime,
+                                      int cycles, int interval, int onTime,
+                                      int offTime, int grouplength, uint32_t color1);
+    long getStopTime(LightParameter struc);
 
+    void pushVecOfBWindows(BehaviorWindow *bWindow)
+        {listBehaviorWindows.push_back(bWindow);}
     QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
+    // Returns the Red component of a 32-bit color
+     uint8_t Red(uint32_t color) { return (color >> 16) & 0xFF; }
+     // Returns the Green component of a 32-bit color
+    uint8_t Green(uint32_t color) { return (color >> 8) & 0xFF; }
+    // Returns the Blue component of a 32-bit color
+    uint8_t Blue(uint32_t color) { return color & 0xFF; }
+
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event);// Q_DECL_OVERRIDE;
@@ -80,12 +93,12 @@ private slots:
 
     void on_addBehaviorButton_clicked();
 
-    void on_resetColor_clicked();
-
     void on_displayWindowButton_toggled(bool checked);
 
     void on_resetGroupsButton_clicked();
 
+
+    void on_selectRangeButton_clicked();
 
 private:
     Ui::MainWindow *ui;

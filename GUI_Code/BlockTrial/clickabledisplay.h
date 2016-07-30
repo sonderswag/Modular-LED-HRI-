@@ -3,6 +3,7 @@
 
 #include <QTextBrowser>
 #include <QMouseEvent>
+//#include "mainwindow.h"
 
 class ClickableDisplay : public QTextBrowser
 {
@@ -15,6 +16,9 @@ class ClickableDisplay : public QTextBrowser
 
     protected:
         virtual void mousePressEvent( QMouseEvent * event );
+
+    private:
+
 };
 
 

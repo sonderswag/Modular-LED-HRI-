@@ -2,17 +2,21 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <Dependencies/LightParameter.h>
+#include <string>
 
-/* Name:  create
-Purpose:
-Inputs:
-
-*/
- //function to create arduino code
-void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns)
+ /** \brief Function to create arduino code
+  *
+  * The create() function creates a ".ino" file, to which it writes the relevant code to run all the patterns on the LED's using the arduino
+  * \param a List of all the patterns
+  * \param no_Leds Total no. of modules/LED's being used
+  * \param no_Patterns  Total no. of patterns
+  * \param file Specifies the path and name of the file (after the file name please include .ino)
+  * \return void
+  *
+  */
+ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no_Patterns, string file)
 {
-    ofstream ofile("/home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial3/testfile/testfile.ino");
+    ofstream ofile(file.c_str());
     ofile<<"#include <Adafruit_NeoPixel.h>\n#include <LightSignal.h>\n#include <LightParameter.h>\n\nLightSignal Strip(";
     ofile<<no_Leds<<", 6, NEO_GRBW + NEO_KHZ800);\n\nLightParameter Pattern[";
     ofile<<no_Patterns<<"];\n\nvoid setup() {\nSerial.begin(115200);\nStrip.begin();\n\n";
@@ -87,116 +91,37 @@ void NeoPixelCodeConverter::create(vector<LightParameter> a, int no_Leds, int no
         ofile<<"a, ";
         ofile<<a[i].grouplength<<");\n";
         ofile<<"delete [] a;\n\n";
-
-        //ofile<<"Pattern["<<i<<"].stopTime = Pattern["<<i<<"].cycles*Pattern["<<i<<"].Interval;\n\n";
     }
     ofile<<"}\n\nvoid loop() {\nfor(int i = 0; i < "<<no_Patterns<<"; i++){\n    Strip.mainLoop(&Pattern[i]);\n }\n}";
 
     ofile.close();
 }
 
+/** \brief Converts RGB values to a 32 bit unsigned integer
+ *
+ * \param r Value of the Red color (b/w 0-255)
+ * \param g Value of the Green color (b/w 0-255)
+ * \param b Value of the Blue color (b/w 0-255)
+ * \return uint32_t
+ *
+ */
+
 uint32_t NeoPixelCodeConverter::Color(uint8_t r, uint8_t g, uint8_t b) {
   return ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }
 
+/** \brief Converts RGBW values to a 32 bit unsigned integer
+ *
+ * \param r Value of the Red color (b/w 0-255)
+ * \param g Value of the Green color (b/w 0-255)
+ * \param b Value of the Blue color (b/w 0-255)
+ * \param w Value of the White color (b/w 0-255)
+ * \return uint32_t
+ *
+ */
 uint32_t NeoPixelCodeConverter::Color(uint8_t r, uint8_t g, uint8_t b, uint8_t w) {
   return ((uint32_t)w << 24) | ((uint32_t)r << 16) | ((uint32_t)g <<  8) | b;
 }
 
 
-
-
-
-
-
-
-
-
-/*UpdateData NeoPixelCodeConverter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[],int length)              //initialization function(overloaded)
-{
-    UpdateData c;
-
-    c.pattern = Pattern;
-    cout<<c.pattern<<"y\n";
-    c.direction = dir;
-    c.startTime = start;
-    c.cycles = cycle;
-    c.Index = index;
-    c.brightness = brightness;
-    c.totalsteps = totalsteps;
-    //c.status = false;
-    c.complete = false;
-    c.Interval = interval;
-    c.Color1 = color1;
-    c.Color2 = 0;
-    c.lastUpdate = 0;
-    c.groupLength = length;
-    cout<<sizeof(g)<<"\n"<<g[3]<<"\n";
-    for( int i=0; i < c.groupLength; i++)
-    {
-        c.group[i] = g[i];
-    }
-
-
-    return c;
-}
-
-UpdateData NeoPixelCodeConverter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int index, int totalsteps, int brightness, uint32_t color1, uint32_t color2, unsigned long interval, int g[], int length)              //initialization function(overloaded)
-{
-    UpdateData c;
-
-    c.pattern = Pattern;
-    cout<<c.pattern;
-    c.direction = dir;
-    c.startTime = start;
-    c.cycles = cycle;
-    c.Index = index;
-    c.brightness = brightness;
-    c.totalsteps = totalsteps;
-    //c.status = false;
-    c.complete = false;
-    c.Interval = interval;
-    c.Color1 = color1;
-    c.Color2 = color2;
-    c.lastUpdate = 0;
-    c.groupLength = length;
-    cout<<sizeof(g)<<"\n"<<g[3]<<"\n";
-    for( int i=0; i < c.groupLength; i++)
-    {
-        c.group[i] = g[i];
-    }
-
-
-    return c;
-}
-UpdateData NeoPixelCodeConverter::initialize(ActivePattern Pattern, Direction dir, int start, int cycle, int on, int off, int index, int totalsteps, int brightness, uint32_t color1, unsigned long interval, int g[], int length)
-{
-    UpdateData c;
-
-    c.pattern = Pattern;
-    cout<<c.pattern;
-    c.direction = dir;
-    c.startTime = start;
-    c.cycles = cycle;
-    c.Index = index;
-    c.brightness = brightness;
-    c.totalsteps = totalsteps;
-    //c.status = false;
-    c.complete = false;
-    c.Interval = interval;
-    c.Color1 = color1;
-    c.Color2 = 0;
-    c.lastUpdate = 0;
-    c.on_time = on;
-    c.off_time = off;
-    c.groupLength = length;
-    cout<<sizeof(g)<<"\n"<<g[3]<<"\n";
-    for( int i=0; i < c.groupLength; i++)
-    {
-        c.group[i] = g[i];
-    }
-
-
-    return c;
-}*/
 
