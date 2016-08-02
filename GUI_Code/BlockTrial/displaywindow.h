@@ -27,6 +27,7 @@ public:
     QString getDirection(int dirID);
     void writeCppFile(string path);
     int getNumModules();
+    void reject();
 
 
 private slots:

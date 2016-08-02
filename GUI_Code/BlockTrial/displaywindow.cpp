@@ -267,5 +267,13 @@ void DisplayWindow::writeCppFile(string path)
 
 void DisplayWindow::on_closeDisplay_clicked()
 {
-    close();
+    hide();
+    parentForDWin->CheckDWinButton(false);
 }
+void DisplayWindow::reject()
+{
+    hide();
+    parentForDWin->CheckDWinButton(false);
+  //  QDialog::reject();
+}
+

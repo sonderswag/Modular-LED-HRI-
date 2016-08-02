@@ -142,10 +142,10 @@ void BehaviorWindow::on_setButton_clicked()
         for (int i = 0; i < listLEDs.size(); i++)
         {
             listLEDs.at(i)->setLEDColor(color1, listLEDs.at(i)->getID());
-            //listLEDs.at(i)->setShade(true);
         }
         parentForBWin->clearSelectedLEDs();
         parentForBWin->updateDisplay();
+        parentForBWin->updateTimeline();
         close();
     }
 }
@@ -234,7 +234,7 @@ bool BehaviorWindow::UpdateVect()
     qDebug() << "index: " << index;
     qDebug() << "brightness: " << brightness;
 
-    if(!PatternAllowed(LightParameter(pat , dir, startTime, cyc,
+    if(!PatternAllowed(bWindowID, LightParameter(pat , dir, startTime, cyc,
                                          index, onTime, offTime,
                                          brightness, c1, c2, interval,
                                          arrayIDs, arrayLength)))
@@ -247,7 +247,8 @@ bool BehaviorWindow::UpdateVect()
         vectorOfStructs->push_back(LightParameter(pat , dir, startTime, cyc,
                                                   index, onTime, offTime,
                                                   brightness, c1, c2, interval,
-                                                  arrayIDs, arrayLength));\
+                                                  arrayIDs, arrayLength));
+       // parentForBWin->
         qDebug() << "Finished Pushing Back vectorOfStructs";
         qDebug() << "about to parentForBWin->pushVecOfBWindows";
         parentForBWin->pushVecOfBWindows(this);
@@ -387,19 +388,23 @@ void BehaviorWindow::on_calcStopTimeLabel_clicked()
 }
 
 //Checks for Overlap errors
-bool BehaviorWindow::PatternAllowed(LightParameter strucToAdd)
+bool BehaviorWindow::PatternAllowed(int currentID, LightParameter strucToAdd)
 {
-    //assume that the pattern is allowed
+    //First assume that the pattern is allowed
     bool patternAllowed = true;
 
     for (int patToTest = 0; patToTest < vectorOfStructs->size(); patToTest++)
     {
+        //dont check for overlap if it is window being edited
+        if (patToTest == currentID)
+            break;
         bool oneLEDInCommon = false;
         for (int i = 0; i < strucToAdd.grouplength; i++)
         {
             for (int p = 0; p < vectorOfStructs->at(patToTest).grouplength; p++)
             {
-                if(strucToAdd.group[i] == vectorOfStructs->at(patToTest).group[p])
+                if(strucToAdd.group[i] ==
+                    vectorOfStructs->at(patToTest).group[p])
                 {
                     oneLEDInCommon = true;
                     break;
@@ -410,7 +415,7 @@ bool BehaviorWindow::PatternAllowed(LightParameter strucToAdd)
         }
         if(oneLEDInCommon)
         {
-            //at least on LED in Common, So now check overlapping ranges of time
+            //at least one LED in Common, now check overlapping ranges of time
             if((strucToAdd.startTime <=
                    parentForBWin->getStopTime(vectorOfStructs->at(patToTest)))
                     && (vectorOfStructs->at(patToTest).startTime <=

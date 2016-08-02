@@ -26,7 +26,7 @@ public:
     bool UpdateVect();
     void EnableInput(bool enabled, QLineEdit *thisone);
     void setID(int ID) { bWindowID = ID; }
-    bool PatternAllowed(LightParameter strucToAdd);
+    bool PatternAllowed(int currentID, LightParameter strucToAdd);
 //    void EnableSliders(bool enabled);
 
     ~BehaviorWindow();

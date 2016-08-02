@@ -54,23 +54,30 @@ MainWindow::MainWindow(QWidget *parent) :
     dWindow = new DisplayWindow(vectOfData , this);
     dWindow->setModal(false);
 
+    timeline = new TimeLine(vectOfData, this);
+    timeline->setModal(false);
 
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+    for (int m = orderedLEDs.size() - 1 ; m >= 0; --m)
+    {
+        deleteGroup(m);
+    }
     for (int n = 0; n < LEDs.size(); n++)
     {
         delete LEDs.at(n);
 
     }
+    listBehaviorWindows.clear();
+    vectOfData->clear();
     delete vectOfData;
     delete dWindow;
     LEDs.clear();
     selectedLEDs.clear();
     orderedLEDs.clear();
-    clearGroups();
 }
 
 
@@ -640,14 +647,11 @@ void MainWindow::on_displayWindowButton_toggled(bool checked)
         dWindow->hide();
 }
 
-void MainWindow::setDisplayWindowButton(bool checked)
-{
-    ui->displayWindowButton->setChecked(checked);
-}
 
 void MainWindow::on_resetGroupsButton_clicked()
 {
     clearGroups();
+    updateTimeline();
     updateDisplay();
 }
 
@@ -676,6 +680,7 @@ void MainWindow::deleteGroup(int groupID)
     }
     qDebug() << "Changin ID to " << groupID;
     updateDisplay();
+    updateTimeline();
 }
 
 long MainWindow::getStopTime(ActivePattern pattern, int startTime,
@@ -774,6 +779,11 @@ void MainWindow::on_selectRangeButton_clicked()
     {
         int upInt = upText.toInt();
         int lowInt = lowText.toInt();
+        if (orderedLEDs.empty())
+        {
+            QMessageBox::warning(this, "Warning", "Must give IDs to LEDs first");
+            return;
+        }
         if (upInt > orderedLEDs.size()-1)
         {
             QMessageBox::warning(this, "Warning", "Upper Range is Too High");
@@ -799,4 +809,28 @@ void MainWindow::on_selectRangeButton_clicked()
     }
     ui->lowerBoundSelectLabel->clear();
     ui->upperBoundSelectLabel->clear();
+}
+
+void MainWindow::on_timelineWindowButton_toggled(bool checked)
+{
+    if (checked)
+    {
+        updateTimeline();
+        QPoint here = this->pos();
+        timeline->move(here + QPoint(this->width() + 2, dWindow->height()+30));
+        timeline->show();
+         //   timeline->move(here + QPoint(this->width() + 2, 500));
+         //   timeline->show();
+     }
+     else
+        timeline->hide();
+    //        timeline->hide();
+}
+void MainWindow::CheckDWinButton(bool toggle)
+{
+    ui->displayWindowButton->setChecked(toggle);
+}
+void MainWindow::CheckTWinButton(bool toggle)
+{
+    ui->timelineWindowButton->setChecked(toggle);
 }

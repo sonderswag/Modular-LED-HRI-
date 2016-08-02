@@ -9,6 +9,7 @@
 #include "behaviorwindow.h"
 #include "Dependencies/LightParameter.h"
 #include "displaywindow.h"
+#include "timeline.h"
 
 
 namespace Ui {
@@ -38,14 +39,18 @@ public:
     void deleteGroup(int groupID);
     //unselects all selected LEDs (unshades them and clears the vector)
     void clearSelectedLEDs();
-    void setDisplayWindowButton(bool checked);
+//    void setDisplayWindowButton(bool checked);
     long getStopTime(ActivePattern pattern, int startTime,
                                       int cycles, int interval, int onTime,
                                       int offTime, int grouplength, uint32_t color1);
     long getStopTime(LightParameter struc);
+    void updateTimeline() {timeline->UpdateTimeline();}
 
     void pushVecOfBWindows(BehaviorWindow *bWindow)
-        {listBehaviorWindows.push_back(bWindow);}
+            {listBehaviorWindows.push_back(bWindow);}
+    void CheckDWinButton(bool toggle);
+    void CheckTWinButton(bool toggle);
+
     QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
     // Returns the Red component of a 32-bit color
      uint8_t Red(uint32_t color) { return (color >> 16) & 0xFF; }
@@ -100,6 +105,8 @@ private slots:
 
     void on_selectRangeButton_clicked();
 
+    void on_timelineWindowButton_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
     QVector<LEDLabel*> LEDs ;
@@ -107,6 +114,7 @@ private:
     QVector<LEDLabel*> orderedLEDs ;
     int activeLED;
     DisplayWindow *dWindow;
+    TimeLine *timeline;
     std::vector<LightParameter> *vectOfData;
     QVector<BehaviorWindow*> listBehaviorWindows;
  //   BehaviorWindow *bWindow;
