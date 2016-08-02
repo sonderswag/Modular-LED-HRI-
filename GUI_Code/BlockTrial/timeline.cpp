@@ -70,6 +70,7 @@ void TimeLine::MakeLine(int groupID, unsigned long start, unsigned long stop,
     VectOfLineLabels.push_back(line);
 }
 
+
 void TimeLine::reject()
 {
     parentOfTWindow->CheckTWinButton(false);

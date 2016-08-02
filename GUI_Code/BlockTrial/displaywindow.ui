@@ -6,50 +6,53 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>716</width>
-    <height>426</height>
+    <width>650</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0" colspan="4">
+   <item row="0" column="0" colspan="4">
     <widget class="ClickableDisplay" name="displayInfo"/>
    </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="label">
-     <property name="maximumSize">
-      <size>
-       <width>100</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="text">
-      <string>Log of Patterns</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="3">
+   <item row="1" column="3">
     <widget class="QPushButton" name="createArduinoButton">
      <property name="text">
       <string>Create Arduino File</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="2">
+   <item row="1" column="2">
     <widget class="QPushButton" name="createCppCode">
      <property name="text">
       <string>Generate C++ Code</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
+   <item row="1" column="0">
     <widget class="QPushButton" name="closeDisplay">
      <property name="text">
       <string>Close</string>
      </property>
     </widget>
+   </item>
+   <item row="1" column="1">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>70</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

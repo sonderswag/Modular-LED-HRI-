@@ -15,7 +15,7 @@ LineWithTime::LineWithTime(int groupID, unsigned long start, unsigned long stop,
     parentForLine = ((TimeLine*)(this->parentWidget()));
     unsigned long maxTime = parentForLine->getMaxStopTime();
 
-    int widthTWindow = 600;
+    int widthTWindow = 650;
     double leftX = ((double)start/maxTime)*widthTWindow;
     double rightX = ((double)stop/maxTime)*widthTWindow;
 
