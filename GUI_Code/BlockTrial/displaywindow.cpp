@@ -178,17 +178,21 @@ QString DisplayWindow::getPattern(int patternID)
 
 void DisplayWindow::on_createArduinoButton_clicked()
 {
-    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-                                                    "/home",
-                                                    QFileDialog::ShowDirsOnly
-                                                    | QFileDialog::DontResolveSymlinks);
-    if (dir == "")
-        return;
-    string file = QString(dir + "/ledarduinofile.ino").toStdString();
+//    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+//                                                    "/home",
+//                                                    QFileDialog::ShowDirsOnly
+//                                                    | QFileDialog::DontResolveSymlinks);
+//    if (dir == "")
+//        return;
+    QDir dir = QDir::current();
+    dir.cdUp();
+    dir.cd("BlockTrial/LEDS/src");
+    QString directory = dir.path();
+    string file = QString(directory + "/ledarduinofile.ino").toStdString();
     int size = vecOfStructures->size();
-
     codeConverter.create(*vecOfStructures, getNumModules() , size, file);
-
+    system("platformio run -d ~/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial/LEDS &");
+    //system("platformio run");
 }
 
 

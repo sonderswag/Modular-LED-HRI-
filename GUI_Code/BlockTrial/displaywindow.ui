@@ -20,7 +20,7 @@
    <item row="1" column="3">
     <widget class="QPushButton" name="createArduinoButton">
      <property name="text">
-      <string>Create Arduino File</string>
+      <string>Upload Pattern to Arduino</string>
      </property>
     </widget>
    </item>
