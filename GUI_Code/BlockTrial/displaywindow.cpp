@@ -185,13 +185,17 @@ void DisplayWindow::on_createArduinoButton_clicked()
 //    if (dir == "")
 //        return;
     QDir dir = QDir::current();
-    dir.cdUp();
-    dir.cd("BlockTrial/LEDS/src");
+    while(dir.dirName() != "GUI_Code")
+    {
+        dir.cdUp();
+    }
+    dir.cd("LEDS/src/ledarduinofile");
     QString directory = dir.path();
     string file = QString(directory + "/ledarduinofile.ino").toStdString();
     int size = vecOfStructures->size();
     codeConverter.create(*vecOfStructures, getNumModules() , size, file);
-    system("platformio run -d ~/Documents/GitHub/Modular-LED-HRI-/GUI_Code/BlockTrial/LEDS &");
+   // system("platformio run -d ~/Documents/GitHub/Modular-LED-HRI-/GUI_Code/LEDS");
+    system("/opt/arduino-1.6.9/arduino --board arduino:avr:mega --port /dev/ttyACM1 --upload /home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/LEDS/src/ledarduinofile/ledarduinofile.ino");
     //system("platformio run");
 }
 

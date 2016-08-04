@@ -1,0 +1,23 @@
+#include <Adafruit_NeoPixel.h>
+#include <LightSignal.h>
+#include <LightParameter.h>
+
+LightSignal Strip(11, 6, NEO_GRBW + NEO_KHZ800);
+
+LightParameter Pattern[1];
+
+void setup() {
+Serial.begin(115200);
+Strip.begin();
+
+int* a = new int[11] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, };
+Pattern[0].initialize( THEATER_CHASE, FORWARD, 0, 1000, 0, 0, 0, 255, 16711680, 4226303, 20, a, 11);
+delete [] a;
+
+}
+
+void loop() {
+for(int i = 0; i < 1; i++){
+    Strip.mainLoop(&Pattern[i]);
+ }
+}

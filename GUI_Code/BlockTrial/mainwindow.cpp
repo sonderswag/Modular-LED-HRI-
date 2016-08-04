@@ -605,13 +605,8 @@ void MainWindow::on_addBehaviorButton_clicked()
     }
     else if (allLEDsHaveIDs == false)
     {
-        QMessageBox::StandardButton query =
-                QMessageBox::question(this, "LED ID Problem",
-                                      "Not all LEDs selected have IDs. Continue?",
-                                      QMessageBox::Yes | QMessageBox::No);
-        if (query == QMessageBox::No){
-            return;
-        }
+        QMessageBox::warning(this, "LED ID Problem", "Not all LEDs selected have IDs. Please assign an ID to all LEDs");
+        return;
     }
 //    BehaviorWindow bWindow(vectOfData, selectedLEDs, this);
 //    //Can't access MainWindow with bWindow is open:
