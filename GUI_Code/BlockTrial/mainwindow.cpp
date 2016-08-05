@@ -57,22 +57,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
 MainWindow::~MainWindow()
 {
-    delete ui;
-    for (int m = orderedLEDs.size() - 1 ; m >= 0; --m)
-    {
-        deleteGroup(m);
-    }
-    for (int n = 0; n < LEDs.size(); n++)
-    {
-        delete LEDs.at(n);
-    }
+    clearGroups();
+    clearSelectedLEDs();
+    dWindow->close();
+    timeline->close();
+    selectedLEDs.clear();
+    orderedLEDs.clear();
+    deleteNumLEDs(getNumLEDs());
     listBehaviorWindows.clear();
     vectOfData->clear();
     delete vectOfData;
-    delete dWindow;
+   // delete dWindow;
+  //  delete timeline;
     LEDs.clear();
-    selectedLEDs.clear();
-    orderedLEDs.clear();
+    delete ui;
 }
 
 //adds n number of LEDs (without IDs), pushes to back of LEDs vector
@@ -625,7 +623,7 @@ void MainWindow::on_resetGroupsButton_clicked()
 
 void MainWindow::clearGroups()
 {
-    for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
+    for (int m = vectOfData->size() - 1 ; m >= 0; --m)
     {
         deleteGroup(m);
     }

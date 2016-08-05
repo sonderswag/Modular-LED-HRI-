@@ -50,8 +50,6 @@ void LEDLabel::setLEDColor(QColor color, int id)
     QPixmap *myPix = new QPixmap(QSize(32,32));
     myPix->fill(Qt::transparent);
     QPainter paint(myPix);
-//   QColor Opp = LEDColor;
-//   Opp.setHsl(Opp.hue() +180, Opp.saturation(), Opp.lightness(), Opp.alpha());
 
     paint.setPen(Qt::black);
     paint.setBrush(LEDColor);
