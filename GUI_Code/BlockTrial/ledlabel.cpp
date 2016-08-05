@@ -24,16 +24,6 @@ LEDLabel::~LEDLabel()
 {
 
 }
-//void LEDLabel::setID(int id)
-//{
-//    ID = id;
-//    QPixmap *myPix = this->pixmap();
-//    QPainter paint(this->pixmap());
-//    paint.drawText(Qt::AlignCenter, QString("%1").arg(id));
-//    setPixmap(this->pixmap());
-//    show();
-
-//}
 
 void LEDLabel::setShade(bool shade)
 {

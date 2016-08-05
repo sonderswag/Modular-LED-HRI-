@@ -12,37 +12,29 @@
 #include <QtMath>
 #include <QMessageBox>
 
-//ledCount is a counter to displace every new ledIcon created.
+//counter to displace every new ledIcon created.
 int ledCount = 0;
 
-//QVector<LightParameter> a;
-//QVector<LightParameter> *vectOfData = new QVector<LightParameter>;
+/*
+ * A Window with Different modes to add, move and select LEDs. Coordinates
+ * BehaviorWindows and DisplayWindows
+ */
 
-//dWindow
-//bWindow = new BehaviorWindow(vectOfData, selectedLEDs, this);
-//NeoPixelCodeConverter b;
-
-
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->ledNumEdit->setValidator(new QIntValidator(0, 999, this));
-    ui->lowerBoundSelectLabel->setValidator(new QIntValidator(0, 999, this));
-    ui->upperBoundSelectLabel->setValidator(new QIntValidator(0, 999, this));
     setMinimumSize(200, 200);
     setAcceptDrops(true);
 
-    //Create the first LED Label
-    LEDLabel *ledIcon = new LEDLabel(ledCount, this);
-    LEDs.push_back(ledIcon);
-
+    //Limits data entered to integers from 0-999
+    ui->ledNumEdit->setValidator(new QIntValidator(0, 999, this));
+    ui->lowerBoundSelectLabel->setValidator(new QIntValidator(0, 999, this));
+    ui->upperBoundSelectLabel->setValidator(new QIntValidator(0, 999, this));
+    //sets up displays and disables
     ui->displayText->setReadOnly(true);
     ui->displayText->setText("Action Information here");
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
-    enableEditButtons(false);
-
     //Set Mode to Move and Add
     ui->actionMove_and_Add_Mode->setChecked(true);
     ui->actionSelect_Mode->setChecked(false);
@@ -50,13 +42,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->menuSetMode->setWindowTitle("Mode: Move and Add");
     enableEditButtons(true);
 
+    //Create the first LED Label, push back LEDs (list of pointers to all LEDs
+    //in the app)
+    LEDLabel *ledIcon = new LEDLabel(ledCount, this);
+    LEDs.push_back(ledIcon);
+
+    //Initialize private member pointer variables vectOfData, dWindow, timeline.
     vectOfData = new std::vector<LightParameter>;
     dWindow = new DisplayWindow(vectOfData , this);
     dWindow->setModal(false);
-
     timeline = new TimeLine(vectOfData, this);
     timeline->setModal(false);
-
 }
 
 MainWindow::~MainWindow()
@@ -69,7 +65,6 @@ MainWindow::~MainWindow()
     for (int n = 0; n < LEDs.size(); n++)
     {
         delete LEDs.at(n);
-
     }
     listBehaviorWindows.clear();
     vectOfData->clear();
@@ -80,8 +75,8 @@ MainWindow::~MainWindow()
     orderedLEDs.clear();
 }
 
-
-void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs
+//adds n number of LEDs (without IDs), pushes to back of LEDs vector
+void MainWindow::addNumLEDs(int n)
 {
     for (int p = 0; p < n; p++)
     {
@@ -91,7 +86,6 @@ void MainWindow::addNumLEDs(int n)                  //adds n number of LEDs
             LEDs.push_back(ledIcon);
         }
     }
-
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
@@ -100,64 +94,55 @@ void MainWindow::deleteNumLEDs(int n)
 {
     for (int p = 0; p < n; p++)
     {
-        if (LEDs.size() == 1){
-            delete LEDs.at(LEDs.size()-1);
-            LEDs.pop_back();
-            ledCount = 0;
-        }
-        else if (LEDs.size() > 1)
+        if (LEDs.size() == 0)
         {
-
-            delete LEDs.at(LEDs.size()-1);
-
-            LEDs.pop_back();
-            --ledCount;
+            ledCount = 0;
+            break;
         }
+        //delete an LED from the back of LEDs
+        delete LEDs.at(LEDs.size()-1);
+        LEDs.pop_back();
+        --ledCount;
     }
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
 
-//Selects or de-selects specified LED
+//Selects or de-selects specified LED (if unselected, selects and vice versa)
+//Includes shading or unshading the LED to indicated if selected
 void MainWindow::selectLED(LEDLabel *desiredLED)
 {
     for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
+        //if LED already selected, unselects it
         if (selectedLEDs.at(m) == desiredLED)
         {
-
             desiredLED->setShade(false);
             selectedLEDs.erase(selectedLEDs.begin() + m);
             return;
         }
     }
+    //if LED not selected, selects it
     desiredLED->setShade(true);
     selectedLEDs.push_back(desiredLED);
 }
 
-
-void MainWindow::clearSelectedLEDs()      //un-selects all selected LEDs
+//unselects all selected LEDs (unshades them and clears the vector)
+void MainWindow::clearSelectedLEDs()
 {
     for (int m = selectedLEDs.size() - 1 ; m >= 0; --m)
     {
-        //selectLED(selectedLEDs.at(m));
-        selectedLEDs.at(m)->setLEDColor(selectedLEDs.at(m)->getLEDColor(),
-                                        selectedLEDs.at(m)->getID());
+        selectedLEDs.at(m)->setShade(false);
         selectedLEDs.at(m)->show();
         selectedLEDs.erase(selectedLEDs.begin() + m);
-        qDebug() << "Im Here " << m;
     }
-    qDebug() << "got out!!";
- //   qDebug() << selectedLEDs;
     selectedLEDs.clear();
 }
 
-
-
 //Menu Items:
-
 void MainWindow::on_actionSelect_Mode_triggered()
 {
+    //if select mode is activated, disable edit buttons and uncheck other modes
     if (ui->actionSelect_Mode->isChecked())
     {
         ui->menuSetMode->setWindowTitle("Mode: Select");
@@ -169,6 +154,7 @@ void MainWindow::on_actionSelect_Mode_triggered()
 
 void MainWindow::on_actionMove_and_Add_Mode_triggered()
 {
+    //if move mode is activated, enable edit buttons and uncheck other modes
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         ui->menuSetMode->setWindowTitle("Mode: Move and Add");
@@ -182,6 +168,7 @@ void MainWindow::on_actionMove_and_Add_Mode_triggered()
 
 void MainWindow::on_actionAssign_IDs_triggered()
 {
+    //if assign ID mode is activated, disable edit buttons and uncheck other modes
     if (ui->actionAssign_IDs->isChecked())
     {
         ui->menuSetMode->setWindowTitle("Mode: Add Connector");
@@ -191,7 +178,7 @@ void MainWindow::on_actionAssign_IDs_triggered()
     }
 }
 
-
+//enables or disables the ability to edit the number of LEDs
 void MainWindow::enableEditButtons(bool x)
 {
     ui->clearLEDs->setEnabled(x);
@@ -199,25 +186,22 @@ void MainWindow::enableEditButtons(bool x)
     ui->deleteFive->setEnabled(x);
     ui->downArrow->setEnabled(x);
     ui->upArrow->setEnabled(x);
+    ui->ledNumEdit->setReadOnly(!x);
 }
 
-
-
-//button functionality functions:
-
- //Deletes all selected LEDs
+//Deletes all selected LEDs
 void MainWindow::on_deleteSelectedButton_clicked()
 {
-
     QString output = "Deleted LEDs: #";
     QString sep = ", #";
-
+    //records index in LEDs Qvector of deleted LEDs
     QVector<int> deletedLEDs;
     //run through selectedLEDs, deallocate the memory and delete index
     for(int m = 0; m < selectedLEDs.size(); m++)
     {
         for(int t = 0;  t < LEDs.size(); t++)
         {
+            //records index of all LEDs that are selected
             if (selectedLEDs.at(m) == LEDs.at(t))
             {
                 deletedLEDs.push_back(t);
@@ -225,16 +209,16 @@ void MainWindow::on_deleteSelectedButton_clicked()
         }
     }
     selectedLEDs.clear();
+    //orders indexes into ascending order
     qSort(deletedLEDs);
-
+    //starting at higher indexes and going down, deallocate and designated
+    //index from LEDs. this makes sure that subsequent LEDs do not shift indexes
     for (int n = deletedLEDs.size()-1 ; n >= 0 ; --n)
     {
         delete LEDs.at(deletedLEDs.at(n));
         LEDs.erase(LEDs.begin() + deletedLEDs.at(n));
-        qDebug() << QString("loop #%1, Deleted ID #%2, LED Size: %3")
-                    .arg(n).arg(deletedLEDs.at(n)).arg(LEDs.size());
     }
-
+    //Add Each LEDs index to output QString
     for(int p = 0; p < deletedLEDs.size(); p++)
     {
         output = QString(output + QString::number(deletedLEDs.at(p)) + sep);
@@ -243,16 +227,11 @@ void MainWindow::on_deleteSelectedButton_clicked()
     output = QString(output + QString(". You have %1 LEDs Left.")
                      .arg(getNumLEDs()));
     ui->displayText->setText(output);
-
     ui->ledNumEdit->setText(QString::number(getNumLEDs()));
     deletedLEDs.clear();
-
 }
 
-
-
-
-
+//When hit up arrow (and in move and add mode), add 1 LED
 void MainWindow::on_upArrow_clicked()
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
@@ -262,6 +241,7 @@ void MainWindow::on_upArrow_clicked()
     }
 }
 
+//When hit down arrow (and in move and add mode), delete 1 LED
 void MainWindow::on_downArrow_clicked()
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
@@ -272,13 +252,13 @@ void MainWindow::on_downArrow_clicked()
     }
 }
 
-
+//QuitApplication when quit button hit
 void MainWindow::on_quitButton_clicked()
 {
     QApplication::quit();
 }
 
-
+//When hit add 5 button (and in move and add mode), add 5 LEDs
 void MainWindow::on_addFive_clicked()
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
@@ -289,6 +269,7 @@ void MainWindow::on_addFive_clicked()
     }
 }
 
+//When hit delete 5 button (and in move and add mode), delete 5 LEDs
 void MainWindow::on_deleteFive_clicked()
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
@@ -299,8 +280,10 @@ void MainWindow::on_deleteFive_clicked()
     }
 }
 
+//When user finishes editing ledNumEdit input
 void MainWindow::on_ledNumEdit_editingFinished()
 {
+    //when add and move mode, add or delete correct number of LEDs
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         QString displayedText = ui->ledNumEdit->displayText();
@@ -312,19 +295,27 @@ void MainWindow::on_ledNumEdit_editingFinished()
             deleteNumLEDs(getNumLEDs() - desiredNumLEDs);
         }
     }
+    //If not add and move mode, change text back to number of LEDs
     else
         ui->ledNumEdit->setText(QString::number(getNumLEDs()));
 }
 
+// hit "CLEAR"- deletes all groups and the LEDs
 void MainWindow::on_clearLEDs_clicked()
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
+        clearGroups();
+        updateTimeline();
+        updateDisplay();
+        selectedLEDs.clear();
+        orderedLEDs.clear();
         deleteNumLEDs(getNumLEDs());
         ui->displayText->setText("Cleared All LEDs");
     }
 }
 
+// hit "Reset IDs"- sets all IDs to -1, which makes them not display
 void MainWindow::on_resetID_clicked()
 {
     for (int i = 0; i < LEDs.size() ; i++)
@@ -334,7 +325,7 @@ void MainWindow::on_resetID_clicked()
     orderedLEDs.clear();
 }
 
-
+//hit "Select all" button- goes through LEDs and sets all to unselected
 void MainWindow::on_selectAllButton_clicked()
 {
     for (int p = 0; p < LEDs.size(); p++)
@@ -342,19 +333,18 @@ void MainWindow::on_selectAllButton_clicked()
         bool selected = false;
         for (int t = 0; t < selectedLEDs.size(); t++)
         {
+            //if selected, do nothing and go onto checking next one
             if (selectedLEDs.at(t) == LEDs.at(p))
             {
                 selected = true;
+                break;
             }
         }
+        //if not selected, select
         if (selected == false)
-        {
             selectLED(LEDs.at(p));
-        }
     }
 }
-
-
 
 
 void MainWindow::getOrderedLED(LEDLabel *firstLED)
@@ -365,40 +355,24 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
     selectLED(firstLED);
 
     orderedLEDs.push_back(firstLED);
-//    qDebug() << "orderedLEDs: " << orderedLEDs;
-//    qDebug() << "selectedLEDs: " << selectedLEDs;
     LEDLabel* closestLED;
     double smallestDistance;
 
     while(selectedLEDs.size() != 0)
     {
         smallestDistance = 10000.0;
-
-
         for (int m = 0; m < selectedLEDs.size(); m++)
         {
             double distance = qSqrt(qPow(selectedLEDs.at(m)->x()-firstx, 2) +
                                     qPow(selectedLEDs.at(m)->y()-firsty, 2));
- //           qDebug() << distance;
-
-
             if (distance < smallestDistance && distance != 0)
             {
                 smallestDistance = distance;
                 closestLED = selectedLEDs.at(m);
             }
         }
-
- //       qDebug() << "smallest distance: " << smallestDistance;
-
         orderedLEDs.push_back(closestLED);
-
         selectLED(closestLED);
-
-//        qDebug() << "ClosestLED: " << closestLED;
-//        qDebug() << "orderedLEDs: " << orderedLEDs;
-//        qDebug() << "selectedLEDs" << selectedLEDs;
-
         firstx = closestLED->x();
         firsty = closestLED->y();
     }
@@ -406,7 +380,6 @@ void MainWindow::getOrderedLED(LEDLabel *firstLED)
     {
         orderedLEDs.at(t)->setLEDColor(orderedLEDs.at(t)->getLEDColor(), t);
     }
-
 }
 
 //START CLICKING AND DRAGGING FUNCTIONS
