@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/neopixeltest.dir/main.cpp.o  -o neopixeltest LightParameter/libLightParameter.a NeoPixelCodeConverter/libNeoPixelCodeConverter.a 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libNeoPixelCodeConverter.a  CMakeFiles/NeoPixelCodeConverter.dir/NeoPixelCodeConverter.cpp.o
-/usr/bin/ranlib libNeoPixelCodeConverter.a
