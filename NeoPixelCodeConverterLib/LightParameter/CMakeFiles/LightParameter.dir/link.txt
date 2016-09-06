@@ -1,0 +1,2 @@
+/usr/bin/ar qc libLightParameter.a  CMakeFiles/LightParameter.dir/LightParameter.cpp.o
+/usr/bin/ranlib libLightParameter.a

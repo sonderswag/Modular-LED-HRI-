@@ -1,9 +1,0 @@
-# depslib dependency file v1.0
-1469818496 source:c:\users\tushar\documents\lightparameter\lightparameter.cpp
-	"LightParameter.h"
-
-1469820821 c:\users\tushar\documents\lightparameter\lightparameter.h
-	<stdint.h>
-	<stddef.h>
-	<stdlib.h>
-

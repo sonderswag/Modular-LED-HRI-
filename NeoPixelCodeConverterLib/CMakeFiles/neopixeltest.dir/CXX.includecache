@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/anurag/code/campus/Modular-LED-HRI-/NeoPixelCodeConverterLib/main.cpp
+iostream
+-
+fstream
+-
+string
+-
+LightParameter.h
+-
+NeoPixelCodeConverter.h
+-
+vector
+-
+
+LightParameter/LightParameter.h
+stdint.h
+-
+stddef.h
+-
+stdlib.h
+-
+
+NeoPixelCodeConverter/NeoPixelCodeConverter.h
+iostream
+-
+fstream
+-
+vector
+-
+string
+-
+LightParameter.h
+-
+
