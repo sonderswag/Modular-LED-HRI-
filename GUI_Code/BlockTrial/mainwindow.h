@@ -44,11 +44,11 @@ public:
     void CheckTWinButton(bool toggle);
 
     int  getNumLEDs(){return LEDs.size();}
-    long getStopTime(ActivePattern pattern, int startTime, int cycles,
+    unsigned long getStopTime(ActivePattern pattern, int startTime, int cycles,
                      int interval, int onTime, int offTime, int grouplength,
                      uint32_t color1);
     int getActiveLED(){return activeLED;}
-    long getStopTime(LightParameter struc);
+    unsigned long getStopTime(LightParameter struc);
     QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
 
     // Returns the Red component of a 32-bit color
@@ -97,11 +97,11 @@ private:
     QVector<LEDLabel*> orderedLEDs ;
     //ID of the LED currently being dragged or clicked on
     int activeLED;
-
+    //pointer to display window and timeline
     DisplayWindow *dWindow;
     TimeLine *timeline;
-    //vector of all LightParameters created inside of BehaviorWindow. Stores all
-    //patterns that will be uploaded to Arduino eventually
+    //vector of all LightParameters that are created inside of BehaviorWindow.
+    //Stores all patterns that will be uploaded to Arduino eventually
     std::vector<LightParameter> *vectOfData;
     //QVector to store all BehaviorsWindows for each pattern. Make multiple
     //BWindows instead of 1 so that windows "remember" past user entries

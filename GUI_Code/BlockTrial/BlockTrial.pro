@@ -33,7 +33,7 @@ HEADERS  += mainwindow.h\
     timeline.h \
     linewithtime.h
 
-RESOURCES   = draggableicons.qrc
+RESOURCES   = modeicons.qrc
 
 FORMS    += mainwindow.ui \
     behaviorwindow.ui \

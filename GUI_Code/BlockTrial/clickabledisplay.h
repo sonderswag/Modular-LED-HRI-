@@ -13,11 +13,8 @@ class ClickableDisplay : public QTextBrowser
         ~ClickableDisplay();
         int getGroupNum( QString line );
 
-
     protected:
         virtual void mousePressEvent( QMouseEvent * event );
-
-    private:
 
 };
 

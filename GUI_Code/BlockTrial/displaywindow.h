@@ -23,18 +23,15 @@ public:
     void PrintNewLn(QString printthis);
     void PrintNewLnTab(QString printthis);
     void PrintSameLn(QTextCharFormat format, QString printthis);
+    int getNumModules();
     QString getPattern(int patternID);
     QString getDirection(int dirID);
     void writeCppFile(string path);
-    int getNumModules();
     void reject();
-
 
 private slots:
     void on_createArduinoButton_clicked();
-
     void on_createCppCode_clicked();
-
     void on_closeDisplay_clicked();
 
 private:

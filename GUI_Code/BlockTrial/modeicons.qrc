@@ -1,6 +1,5 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource prefix="">
-   <file>images/LED.png</file>
    <file>images/selectIcon.png</file>
    <file>images/editIcon.png</file>
    <file>images/addBarIcon.png</file>

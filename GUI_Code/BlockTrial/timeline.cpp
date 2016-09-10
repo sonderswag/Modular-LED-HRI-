@@ -4,19 +4,32 @@
 #include <QVBoxLayout>
 #include "mainwindow.h"
 
+//a Vertical layout
 QVBoxLayout *vbl;
+//pointer to vector of LightParameters. Will be initialized with
+//MainWindow's vector<LightParameter> *vectOfData
 std::vector<LightParameter> *vectOfData;
+//pointer to mainwindow which called this classd
 MainWindow* parentOfTWindow;
+
+/*
+ * A Window that simply displays a LineWithTime object for each pattern group.
+ * Adds each LineWithTime to the bottom of a vertical Layout. Inherits from 
+ * QDialog
+ *
+ */
 
 TimeLine::TimeLine(std::vector<LightParameter> *vecOfStruct, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TimeLine)
 {
-    maxStopTime = 0;
-    vectOfData = vecOfStruct;
     ui->setupUi(this);
     this->setWindowTitle("Timeline of Patterns");
+    //initilize pointer to vector of LightParameters in MainWindow
+    vectOfData = vecOfStruct;
+    //initialize parentOfTWindow as pointer to Mainwindow that called timeline
     parentOfTWindow = ((MainWindow*)(this->parentWidget()));
+    //set up the vertical layout
     vbl = new QVBoxLayout(this);
     vbl->setAlignment(Qt::AlignTop);
 }
@@ -27,19 +40,22 @@ TimeLine::~TimeLine()
     delete ui;
 }
 
+//erases and redraws all lines, with newest vectOfData
 void TimeLine::UpdateTimeline()
 {
+    //clear the window
     DeleteAllLines();
     maxStopTime = 0;
-    //scan through and find largets stopTime
+    //scan through vectOfData and find largest stopTime
     for (int i = 0; i < vectOfData->size(); i++)
     {
+        //update maxStopTime if stopTime of this group is larger
         if (maxStopTime < parentOfTWindow->getStopTime(vectOfData->at(i)))
-        {
             maxStopTime = parentOfTWindow->getStopTime(vectOfData->at(i));
-        }
     }
-
+    
+    //Makes a line for every pattern, passing the ID, startTime, stopTime, and
+    //color
     for (int i = 0; i < vectOfData->size(); i++)
     {
         int red = parentOfTWindow->Red(vectOfData->at(i).Color1);
@@ -51,6 +67,7 @@ void TimeLine::UpdateTimeline()
     }
 }
 
+//deallocates all pointers to LineWithTimes and clears VectOfLineLabels QVector
 void TimeLine::DeleteAllLines()
 {
     for (int i = 0; i < VectOfLineLabels.size(); i++)
@@ -61,6 +78,8 @@ void TimeLine::DeleteAllLines()
     VectOfLineLabels.clear();
 }
 
+//creates a LineWithTime with specified parameters, adds it to vertical layout,
+//shows it, and pushes it to back of QVector of lines
 void TimeLine::MakeLine(int groupID, unsigned long start, unsigned long stop,
                    QColor color)
 {
@@ -70,7 +89,8 @@ void TimeLine::MakeLine(int groupID, unsigned long start, unsigned long stop,
     VectOfLineLabels.push_back(line);
 }
 
-
+//overrides functionality of "close window" small red button to uncheck the
+//Display Timeline button on mainwindow, then close as normal
 void TimeLine::reject()
 {
     parentOfTWindow->CheckTWinButton(false);

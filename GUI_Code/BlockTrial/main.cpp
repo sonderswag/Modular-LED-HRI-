@@ -1,7 +1,5 @@
 #include "mainwindow.h"
-#include "dragwidget.h"
 #include <QApplication>
-#include <QHBoxLayout>
 
 int main(int argc, char *argv[])
 {
@@ -10,6 +8,5 @@ int main(int argc, char *argv[])
     w.setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignLeft,w.size(),
                                       qApp->desktop()->availableGeometry()));
     w.show();
-
     return a.exec();
 }

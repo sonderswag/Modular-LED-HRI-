@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>505</height>
+    <height>587</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -3306,7 +3306,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>20</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSetMode">
@@ -3342,7 +3342,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="draggableicons.qrc">
+    <iconset resource="modeicons.qrc">
      <normaloff>:/images/selectIcon.png</normaloff>:/images/selectIcon.png</iconset>
    </property>
    <property name="text">
@@ -3354,7 +3354,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="draggableicons.qrc">
+    <iconset resource="modeicons.qrc">
      <normaloff>:/images/editIcon.png</normaloff>:/images/editIcon.png</iconset>
    </property>
    <property name="text">
@@ -3366,7 +3366,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="draggableicons.qrc">
+    <iconset resource="modeicons.qrc">
      <normaloff>:/images/addBarIcon.png</normaloff>:/images/addBarIcon.png</iconset>
    </property>
    <property name="text">
@@ -3379,7 +3379,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="draggableicons.qrc"/>
+  <include location="modeicons.qrc"/>
  </resources>
  <connections/>
 </ui>

@@ -24,7 +24,10 @@ public:
 
 private:
     Ui::TimeLine *ui;
+    //QVector list of LineWithTimes to display
     QVector<LineWithTime*> VectOfLineLabels ;
+    //stores the maximum stop time out of all patterns, so all lines can be
+    //scaled to this size
     unsigned long maxStopTime;
 };
 
