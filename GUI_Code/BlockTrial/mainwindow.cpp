@@ -47,12 +47,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     LEDLabel *ledIcon = new LEDLabel(ledCount, this);
     LEDs.push_back(ledIcon);
 
-    //Initialize private member pointer variables vectOfData, dWindow, timeline.
+    //Initialize private member pointer variables vectOfData, dWindow.
     vectOfData = new std::vector<LightParameter>;
     dWindow = new DisplayWindow(vectOfData , this);
     dWindow->setModal(false);
-    timeline = new TimeLine(vectOfData, this);
-    timeline->setModal(false);
 }
 
 MainWindow::~MainWindow()
@@ -60,7 +58,6 @@ MainWindow::~MainWindow()
     clearGroups();
     clearSelectedLEDs();
     dWindow->close();
-    timeline->close();
     selectedLEDs.clear();
     orderedLEDs.clear();
     deleteNumLEDs(getNumLEDs());
@@ -68,7 +65,6 @@ MainWindow::~MainWindow()
     vectOfData->clear();
     delete vectOfData;
    // delete dWindow;
-  //  delete timeline;
     LEDs.clear();
     delete ui;
 }
@@ -304,7 +300,6 @@ void MainWindow::on_clearLEDs_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         clearGroups();
-        updateTimeline();
         updateDisplay();
         selectedLEDs.clear();
         orderedLEDs.clear();
@@ -617,7 +612,6 @@ void MainWindow::on_displayWindowButton_toggled(bool checked)
 void MainWindow::on_resetGroupsButton_clicked()
 {
     clearGroups();
-    updateTimeline();
     updateDisplay();
 }
 
@@ -646,7 +640,6 @@ void MainWindow::deleteGroup(int groupID)
     }
     qDebug() << "Changin ID to " << groupID;
     updateDisplay();
-    updateTimeline();
 }
 
 long MainWindow::getStopTime(ActivePattern pattern, int startTime,
@@ -777,26 +770,8 @@ void MainWindow::on_selectRangeButton_clicked()
     ui->upperBoundSelectLabel->clear();
 }
 
-void MainWindow::on_timelineWindowButton_toggled(bool checked)
-{
-    if (checked)
-    {
-        updateTimeline();
-        QPoint here = this->pos();
-        timeline->move(here + QPoint(this->width() + 2, dWindow->height()+30));
-        timeline->show();
-         //   timeline->move(here + QPoint(this->width() + 2, 500));
-         //   timeline->show();
-     }
-     else
-        timeline->hide();
-    //        timeline->hide();
-}
+
 void MainWindow::CheckDWinButton(bool toggle)
 {
     ui->displayWindowButton->setChecked(toggle);
-}
-void MainWindow::CheckTWinButton(bool toggle)
-{
-    ui->timelineWindowButton->setChecked(toggle);
 }

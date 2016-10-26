@@ -145,7 +145,6 @@ void BehaviorWindow::on_setButton_clicked()
         }
         parentForBWin->clearSelectedLEDs();
         parentForBWin->updateDisplay();
-        parentForBWin->updateTimeline();
         close();
     }
 }

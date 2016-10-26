@@ -9,7 +9,6 @@
 #include "behaviorwindow.h"
 #include "Dependencies/LightParameter.h"
 #include "displaywindow.h"
-#include "timeline.h"
 
 
 namespace Ui {
@@ -37,7 +36,6 @@ public:
     void clearGroups();
     void deleteGroup(int groupID);
     void clearSelectedLEDs();
-    void updateTimeline() {timeline->UpdateTimeline();}
     void pushVecOfBWindows(BehaviorWindow *bWindow)
             {listBehaviorWindows.push_back(bWindow);}
     void CheckDWinButton(bool toggle);
@@ -83,7 +81,6 @@ private slots:
     void on_displayWindowButton_toggled(bool checked);
     void on_resetGroupsButton_clicked();
     void on_selectRangeButton_clicked();
-    void on_timelineWindowButton_toggled(bool checked);
 
 private:
     //pointer to user interface
@@ -99,7 +96,6 @@ private:
     int activeLED;
 
     DisplayWindow *dWindow;
-    TimeLine *timeline;
     //vector of all LightParameters created inside of BehaviorWindow. Stores all
     //patterns that will be uploaded to Arduino eventually
     std::vector<LightParameter> *vectOfData;
