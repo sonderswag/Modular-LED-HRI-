@@ -178,25 +178,20 @@ QString DisplayWindow::getPattern(int patternID)
 
 void DisplayWindow::on_createArduinoButton_clicked()
 {
-//    QString dir = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
-//                                                    "/home",
-//                                                    QFileDialog::ShowDirsOnly
-//                                                    | QFileDialog::DontResolveSymlinks);
-//    if (dir == "")
-//        return;
-    QDir dir = QDir::current();
-    while(dir.dirName() != "GUI_Code")
+    QDir d = QDir::current();
+    while(d.dirName() != "GUI_Code")
     {
-        dir.cdUp();
+        d.cdUp();
     }
-    dir.cd("LEDS/src/ledarduinofile");
-    QString directory = dir.path();
-    string file = QString(directory + "/ledarduinofile.ino").toStdString();
-    int size = vecOfStructures->size();
-    codeConverter.create(*vecOfStructures, getNumModules() , size, file);
-   // system("platformio run -d ~/Documents/GitHub/Modular-LED-HRI-/GUI_Code/LEDS");
-    system("/opt/arduino-1.6.9/arduino --board arduino:avr:mega --port /dev/ttyACM1 --upload /home/lwathieu/Documents/GitHub/Modular-LED-HRI-/GUI_Code/LEDS/src/ledarduinofile/ledarduinofile.ino");
-    //system("platformio run");
+
+    d.cd("../NeoPixelCodeConverterLib/");
+    QString dir = d.path();
+    string file = QString(dir + "/out.cpp").toStdString();
+    writeCppFile(dir, file);
+    dir.append("/upload_linux.sh ");
+    dir.append(d.path());
+    qDebug() << dir;
+    system(dir.toLatin1().data());
 }
 
 
@@ -209,8 +204,8 @@ void DisplayWindow::on_createCppCode_clicked()
                                                     | QFileDialog::DontResolveSymlinks);
     if (dir == "")
         return;
-    string file = QString(dir + "/ledcppfile.cpp").toStdString();
-    writeCppFile(file);
+    string file = QString(dir + "/main.cpp").toStdString();
+    writeCppFile(dir, file);
 
 }
 
@@ -227,7 +222,7 @@ int DisplayWindow::getNumModules()
     return numberModules;
 }
 
-void DisplayWindow::writeCppFile(string path)
+void DisplayWindow::writeCppFile(QString dir, string path)
 {
     ofstream ofile(path.c_str());
     ofile << "#include <fstream>\n#include <string>\n#include <LightParameter.h>\n#include <NeoPixelCodeConverter.h>\n#include <vector>\n\n";
@@ -267,7 +262,8 @@ void DisplayWindow::writeCppFile(string path)
         ofile<< "arr, " << vecOfStructures->at(t).grouplength << "));\n";
         ofile<<"delete [] arr;\n\n";
     }
-    ofile<< "b.create(a, " << getNumModules() << ", " << vecOfStructures->size();
+    ofile<< "b.create(a, " << getNumModules() << ", " << vecOfStructures->size() << ", \"" <<
+            QString(dir + "/out/out.ino").toStdString() << "\"";
     ofile<< ");\n\n}";
 
     ofile.close();

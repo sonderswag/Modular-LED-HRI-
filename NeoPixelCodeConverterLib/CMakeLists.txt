@@ -4,5 +4,5 @@ include_directories ("${PROJECT_SOURCE_DIR}/LightParameter")
 add_subdirectory (LightParameter)
 add_subdirectory (NeoPixelCodeConverter)
 
-add_executable(neopixeltest main.cpp)
+add_executable(neopixeltest out.cpp)
 target_link_libraries (neopixeltest LightParameter NeoPixelCodeConverter)

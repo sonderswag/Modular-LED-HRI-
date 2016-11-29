@@ -25,7 +25,7 @@ public:
     void PrintSameLn(QTextCharFormat format, QString printthis);
     QString getPattern(int patternID);
     QString getDirection(int dirID);
-    void writeCppFile(string path);
+    void writeCppFile(QString dir, string path);
     int getNumModules();
     void reject();
 
