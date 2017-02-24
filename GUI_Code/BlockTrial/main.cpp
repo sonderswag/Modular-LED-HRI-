@@ -10,6 +10,6 @@ int main(int argc, char *argv[])
     w.setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignLeft,w.size(),
                                       qApp->desktop()->availableGeometry()));
     w.show();
-
+    a.setStyle("Plastique");
     return a.exec();
 }

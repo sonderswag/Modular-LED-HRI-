@@ -14,7 +14,7 @@ LEDLabel::LEDLabel(int &LEDCount, QWidget *parent) : QLabel(parent)
 //    this->setID(0);
     //-1 is a flag to clear the text ID
     this->setLEDColor(QColor(255,255,255), -1);
-    this->move(20 + Offset*(LEDCount%15), 70+Offset*(LEDCount/15));
+    this->move(20 + Offset*(LEDCount%15), 78+Offset*(LEDCount/15));
     this->show();
     this->setAttribute(Qt::WA_DeleteOnClose);
     LEDCount++;
