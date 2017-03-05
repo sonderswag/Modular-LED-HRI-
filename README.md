@@ -15,7 +15,7 @@ This includes:
 
 ---
 
-#Installation
+## Installation
 
 To download the very latest source off the Git server do this:
 
