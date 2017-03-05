@@ -1,5 +1,5 @@
 # Modular-Lights
-============
+---
 Modular-Lights is a framework to control LED strips via Arduino. LED strips can be used to display various light patterns.
 
 This includes:
