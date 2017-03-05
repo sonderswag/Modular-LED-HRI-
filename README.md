@@ -71,7 +71,7 @@ Example use of the library to generate the out.ino file in a particular location
 
 The library is initialized using a vector of LightParameter objects. Each LightParameter object represents a group of LEDs along with their assigned Light Pattern behaviour. Currently supported Light Patterns are defined by the ActivePattern enum in LightParameter.h header.
 
-APIs documentation can be found in the two following header files
+APIs documentation can be found in the following header files:
  - NeoPixelCodeConverter/NeoPixelCodeConverter.h
  - LightParameter/LightParameter.h
 
@@ -119,7 +119,7 @@ This should generate the following out.ino file in the example folder
     }
 
 ---
-## Upload to Arduino
+#### Upload to Arduino
 
     $> arduino --upload out.ino --port `$1/find_usbport.sh | grep "Arduino" | awk '{print $1}'`
     
@@ -157,8 +157,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
 
 ---
 
