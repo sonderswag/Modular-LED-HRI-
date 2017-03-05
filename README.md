@@ -67,16 +67,20 @@ Example use of the library to generate the out.ino file in a particular location
                                     10, ledIds, sizeof(ledIds)/sizeof(ledIds[0])));
        neoPixel.create(leds, sizeof(ledIds)/sizeof(ledIds[0]), 1, "out.ino");
     }
-- source-code: /example folder
+- source-code: /NeopixelCodeexample/example folder. The above code is from the example.cpp file.
 
 The library is initialized using a vector of LightParameter objects. Each LightParameter object represents a group of LEDs along with their assigned Light Pattern behaviour. Currently supported Light Patterns are defined by the ActivePattern enum in LightParameter.h header.
+
+APIs documentation can be found in the two following header files
+ - NeoPixelCodeConverter/NeoPixelCodeConverter.h
+ - LightParameter/LightParameter.h
 
 ####Compilation
 
     $/NeoPixelCodeConverterLib/example$ cmake CMakeLists.txt 
     -- Configuring done
     -- Generating done
-    -- Build files have been written to: /home/anurag/code/campus/Modular-LED-HRI/NeoPixelCodeConverterLib/example
+    -- Build files have been written to: XXXX/NeoPixelCodeConverterLib/example
     $/NeoPixelCodeConverterLib/example$ make
     [ 33%] Built target LightParameter
     [ 66%] Built target NeoPixelCodeConverter
@@ -115,8 +119,46 @@ This should generate the following out.ino file in the example folder
     }
 
 ---
+## Upload to Arduino
 
-License Information
+    $> arduino --upload out.ino --port `$1/find_usbport.sh | grep "Arduino" | awk '{print $1}'`
+    
+ Above command tries its best to get port of the connected Arduino. You can also provide the port number directly, for  example:
+ 
+      $> arduino --upload out.ino --port /dev/ttyACM0
+      
+You can also upload the *.ino sketch from the C++ code by using system() function.
+
+    system("arduino --upload out.ino --port /dev/ttyACM0");
+    
+
+---
+
+###License Information
+
+MIT License
+
+Copyright (c) [2017]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
 
 ---
 
