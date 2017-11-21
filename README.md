@@ -75,7 +75,7 @@ APIs documentation can be found in the following header files:
  - NeoPixelCodeConverter/NeoPixelCodeConverter.h
  - LightParameter/LightParameter.h
 
-####Compilation
+#### Compilation
 
     $/NeoPixelCodeConverterLib/example$ cmake CMakeLists.txt 
     -- Configuring done
@@ -91,7 +91,7 @@ APIs documentation can be found in the following header files:
     $/NeoPixelCodeConverterLib/example$ ./neopixelexample 
     $/NeoPixelCodeConverterLib/example$ less out.ino
 
-####Output
+#### Output
 This should generate the following out.ino file in the example folder
 
     #include <Adafruit_NeoPixel.h>
@@ -134,7 +134,7 @@ You can also upload the *.ino sketch from the C++ code by using system() functio
 
 ---
 
-###License Information
+### License Information
 
 MIT License
 
