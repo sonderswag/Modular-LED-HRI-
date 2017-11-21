@@ -14,19 +14,15 @@ public:
     LEDLabel(QWidget *parent = 0);
     LEDLabel(int &LEDCount, QWidget * parent = 0);
     ~LEDLabel();
-    QColor getColor() { return LEDColor; }
+    QColor getLEDColor(){return LEDColor;}
     int getID(){return ID;}
-    void setLED(QColor color, int id);
-    //uses setLED to individually set color or ID
-    void setColor(QColor color) { setLED(color, ID); }
-    void setID(int id) { setLED(LEDColor, id); }
-    
+    void setLEDColor(QColor color, int id); //{LEDColor = color;}
     void setShade(bool shade);
+ //   void setID(int id);
 
 private:
-    //Stores the current LEDLabel's color
+//    QPixmap LEDPic = QPixmap(":/images/LED.png");
     QColor LEDColor;
-    //Stores the current LEDLabel's ID (to be displayed)
     int ID;
 };
 

@@ -9,7 +9,6 @@
 #include "behaviorwindow.h"
 #include "Dependencies/LightParameter.h"
 #include "displaywindow.h"
-#include "timeline.h"
 
 
 namespace Ui {
@@ -37,18 +36,17 @@ public:
     void clearGroups();
     void deleteGroup(int groupID);
     void clearSelectedLEDs();
-    void updateTimeline() {timeline->UpdateTimeline();}
     void pushVecOfBWindows(BehaviorWindow *bWindow)
             {listBehaviorWindows.push_back(bWindow);}
     void CheckDWinButton(bool toggle);
     void CheckTWinButton(bool toggle);
 
     int  getNumLEDs(){return LEDs.size();}
-    unsigned long getStopTime(ActivePattern pattern, int startTime, int cycles,
+    long getStopTime(ActivePattern pattern, int startTime, int cycles,
                      int interval, int onTime, int offTime, int grouplength,
                      uint32_t color1);
     int getActiveLED(){return activeLED;}
-    unsigned long getStopTime(LightParameter struc);
+    long getStopTime(LightParameter struc);
     QVector<LEDLabel*> getListLEDs() {return orderedLEDs;}
 
     // Returns the Red component of a 32-bit color
@@ -83,7 +81,6 @@ private slots:
     void on_displayWindowButton_toggled(bool checked);
     void on_resetGroupsButton_clicked();
     void on_selectRangeButton_clicked();
-    void on_timelineWindowButton_toggled(bool checked);
 
 private:
     //pointer to user interface
@@ -97,11 +94,10 @@ private:
     QVector<LEDLabel*> orderedLEDs ;
     //ID of the LED currently being dragged or clicked on
     int activeLED;
-    //pointer to display window and timeline
+
     DisplayWindow *dWindow;
-    TimeLine *timeline;
-    //vector of all LightParameters that are created inside of BehaviorWindow.
-    //Stores all patterns that will be uploaded to Arduino eventually
+    //vector of all LightParameters created inside of BehaviorWindow. Stores all
+    //patterns that will be uploaded to Arduino eventually
     std::vector<LightParameter> *vectOfData;
     //QVector to store all BehaviorsWindows for each pattern. Make multiple
     //BWindows instead of 1 so that windows "remember" past user entries

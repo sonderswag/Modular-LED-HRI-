@@ -19,9 +19,7 @@ SOURCES += main.cpp\
     displaywindow.cpp \
     clickabledisplay.cpp \
     Dependencies/NeoPixelCodeConverter.cpp \
-    Dependencies/LightParameter.cpp \
-    timeline.cpp \
-    linewithtime.cpp
+    Dependencies/LightParameter.cpp
 
 HEADERS  += mainwindow.h\
     ledlabel.h \
@@ -29,14 +27,11 @@ HEADERS  += mainwindow.h\
     displaywindow.h \
     clickabledisplay.h \
     Dependencies/NeoPixelCodeConverter.h \
-    Dependencies/LightParameter.h \
-    timeline.h \
-    linewithtime.h
+    Dependencies/LightParameter.h
 
-RESOURCES   = modeicons.qrc
+RESOURCES   = draggableicons.qrc
 
 FORMS    += mainwindow.ui \
     behaviorwindow.ui \
-    displaywindow.ui \
-    timeline.ui
+    displaywindow.ui
 

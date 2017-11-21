@@ -17,8 +17,7 @@ int ledCount = 0;
 
 /*
  * A Window with Different modes to add, move and select LEDs. Coordinates
- * BehaviorWindows, DisplayWindow, and TimeLine. Inherited from QMainWindow
- *
+ * BehaviorWindows and DisplayWindows
  */
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
@@ -48,26 +47,24 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     LEDLabel *ledIcon = new LEDLabel(ledCount, this);
     LEDs.push_back(ledIcon);
 
-    //declare private member pointer variables vectOfData, dWindow, timeline.
+    //Initialize private member pointer variables vectOfData, dWindow.
     vectOfData = new std::vector<LightParameter>;
     dWindow = new DisplayWindow(vectOfData , this);
     dWindow->setModal(false);
-    timeline = new TimeLine(vectOfData, this);
-    timeline->setModal(false);
 }
 
-//clears and deallocates everything
 MainWindow::~MainWindow()
 {
     clearGroups();
     clearSelectedLEDs();
     dWindow->close();
-    timeline->close();
+    selectedLEDs.clear();
     orderedLEDs.clear();
     deleteNumLEDs(getNumLEDs());
     listBehaviorWindows.clear();
     vectOfData->clear();
     delete vectOfData;
+   // delete dWindow;
     LEDs.clear();
     delete ui;
 }
@@ -165,8 +162,7 @@ void MainWindow::on_actionMove_and_Add_Mode_triggered()
 
 void MainWindow::on_actionAssign_IDs_triggered()
 {
-    //if assign ID mode is activated, disable edit buttons and uncheck other
-    //modes
+    //if assign ID mode is activated, disable edit buttons and uncheck other modes
     if (ui->actionAssign_IDs->isChecked())
     {
         ui->menuSetMode->setWindowTitle("Mode: Add Connector");
@@ -304,7 +300,6 @@ void MainWindow::on_clearLEDs_clicked()
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
         clearGroups();
-        updateTimeline();
         updateDisplay();
         selectedLEDs.clear();
         orderedLEDs.clear();
@@ -318,7 +313,7 @@ void MainWindow::on_resetID_clicked()
 {
     for (int i = 0; i < LEDs.size() ; i++)
     {
-        LEDs.at(i)->setID(-1);
+        LEDs.at(i)->setLEDColor(LEDs.at(i)->getLEDColor(), -1);
     }
     orderedLEDs.clear();
 }
@@ -344,127 +339,110 @@ void MainWindow::on_selectAllButton_clicked()
     }
 }
 
-// assigns IDs to all selected LEDs with the given first LED. Gives first LED
-// (the one clicked) ID #0, and assigns all LEDs after based on proximity to
-// previous LED
+
 void MainWindow::getOrderedLED(LEDLabel *firstLED)
 {
-    //store x and y of the LED we are working with (current LED)
-    double currentx = firstLED->x();
-    double currenty = firstLED->y();
-    //unselect first LED (because it is part of the selected group)
+    double firstx = firstLED->x();
+    double firsty = firstLED->y();
+
     selectLED(firstLED);
-    //add first LED to vector of LEDs with IDs
+
     orderedLEDs.push_back(firstLED);
-    //pointer that will point to next closest LED after current LED
     LEDLabel* closestLED;
-    //double that will hold the distance from currentLED to closestLED
     double smallestDistance;
 
-    //until all LEDs have been IDed and unselected (loops through each selected
-    //LED)
     while(selectedLEDs.size() != 0)
     {
-        //initialize smallestDistance to something high to make sure it is
-        //bigger than the ACTUAL smallest distance between current LED and
-        //closest LED
-        smallestDistance = 1000000.0;
-        //loops through all selectedLEDS to find the closest to current LED
+        smallestDistance = 10000.0;
         for (int m = 0; m < selectedLEDs.size(); m++)
         {
-            //stores distance between current LED(firstLED) and the selected LED
-            double distance = qSqrt(qPow(selectedLEDs.at(m)->x()-currentx, 2) +
-                                    qPow(selectedLEDs.at(m)->y()-currenty, 2));
-            //checks if that is smallest distance and makes sure distance does
-            //not equal 0, which would mean the selected LED IS the current LED
+            double distance = qSqrt(qPow(selectedLEDs.at(m)->x()-firstx, 2) +
+                                    qPow(selectedLEDs.at(m)->y()-firsty, 2));
             if (distance < smallestDistance && distance != 0)
             {
-                //set smallestDistance and closestLED if the distance is smaller
                 smallestDistance = distance;
                 closestLED = selectedLEDs.at(m);
             }
         }
-        //now that closestLED is determined, push back orderedLEDs with it.
-        //unselect closestLED, and set currentx and currenty to closestLED
-        //position (move on to searching for next closest LED)
         orderedLEDs.push_back(closestLED);
         selectLED(closestLED);
-        currentx = closestLED->x();
-        currenty = closestLED->y();
+        firstx = closestLED->x();
+        firsty = closestLED->y();
     }
-    //set IDs to all orderedLEDs (index of orderedLEDs is ID)
     for (int t = 0; t < orderedLEDs.size(); t++)
     {
-        orderedLEDs.at(t)->setID(t);
+        orderedLEDs.at(t)->setLEDColor(orderedLEDs.at(t)->getLEDColor(), t);
     }
 }
 
 //START CLICKING AND DRAGGING FUNCTIONS
 
-//Triggered when mouse has been clicked (creates a mouse event with position
-//event->pos()). This function senses when you click a LEDLabel, and directs
-//what to do depending on which mode we are in.
+
+ //mouse has been clicked (creates a mouse event with position event->pos()
 void MainWindow::mousePressEvent(QMouseEvent *event)
 {
-    //casts the object that was clicked into an LEDLabel pointer called child
     LEDLabel *child = static_cast<LEDLabel*>(childAt(event->pos()));
-    //checks the class name of the object you pressed
+    // What type of object have you pressed?
     QString PressedClassName = child->metaObject()->className();
+    qDebug() << "type: " << PressedClassName;
     QString QLabelType = "LEDLabel";
-    //Exits if child was not created
+
     if (!child){
+        qDebug() << "Got to !Child";
         return;}
 
-    //Exit if you didn't click a LEDLabel Type. If in select mode, clicking the
-    //background instead of LED Label will clear the selected LEDs
-    if (PressedClassName != QLabelType)
+    //Exit if you didn't click a LEDLabel Type. If you press the background
+    //instead of LED Label, will clear the selected LEDs
+    else if (PressedClassName != QLabelType)
     {
         if (ui->actionSelect_Mode->isChecked())
-            clearSelectedLEDs();
+        {
+        clearSelectedLEDs();
+        }
         return;
     }
-    
-    //check which LED from LEDs was clicked: set activeLED to that index of LEDs
-    //now LEDs.at(getActiveLED()) points to the same LED as child
+
     for (int m = 0; m < LEDs.size(); m++)
     {
         if(LEDs.at(m) == child)
-           setActiveLED(m);   // Which number LED we pressed
+        {
+           setActiveLED(m);   // Which #ID LED we pressed
+        }
     }
     ui->displayText->setText(QString("Selected LED %1").arg(getActiveLED()));
 
+    QPixmap pixmap = *child->pixmap();
+
     //In select mode, any label which we click on will be selected or deselected
     if (ui->actionSelect_Mode->isChecked())
-        selectLED(child);
-
-    // In assign IDs mode, sets LED clicked as ID #0 and sets ID of all other
-    // selected LEDs
-    else if (ui->actionAssign_IDs->isChecked())
     {
-        //User selects 1st LED, and the algorithm finds next ones until end of
-        //selected group. makes sure at least one LED is selected
-        if (selectedLEDs.empty() == false)
-        {
-            //starts algorithm only if child is part of selectedLEDs
-            // (if first LED is selected)
+        selectLED(child);
+    }
+
+    // In this mode, will re-order selectedLEDs in accordance to distance.
+    else if (ui->actionAssign_IDs->isChecked())
+
+    {
+        //User selects 1st LED, and the algorithm
+        //finds next ones until end of selected group.
+        qDebug() << "Got Here";
+        if (selectedLEDs.empty() == false){
             for (int i = 0; i < selectedLEDs.size(); i++)
             {
                 if (child == selectedLEDs.at(i))
                 {
                     getOrderedLED(child);
-                    break;
                 }
             }
         }
     }
 
-    //In move and add mode, a drag is started. Code primarily borrowed from
-    //"Draggable Icons" Qt Example:
+    //In this mode, a drag is started. Code primarily borrowed from "Draggable
+    //Icons" Qt Example:
     //http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
     else if (ui->actionMove_and_Add_Mode->isChecked())
+
     {
-        //initiate a pixmap with child's pixmap
-        QPixmap pixmap = *child->pixmap();
         QByteArray itemData;
         QDataStream dataStream(&itemData, QIODevice::WriteOnly);
         dataStream << pixmap << QPoint(event->pos() - child->pos());
@@ -477,22 +455,20 @@ void MainWindow::mousePressEvent(QMouseEvent *event)
         drag->setPixmap(pixmap);
         drag->setHotSpot(event->pos() - child->pos());
 
-        //shade child while it is being dragged
         child->setShade(true);
-        
-        //if error in drag, show child and change back to original color
+
+
         if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) !=
-                Qt::MoveAction)
-        {
+                Qt::MoveAction) {
             child->show();
             child->setPixmap(pixmap);
+            qDebug() << "didn't work??";
+
         }
     }
 }
 
-//In move and add mode, a drag is started. Code primarily borrowed from
-//"Draggable Icons" Qt Example:
-//http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
+
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
@@ -510,9 +486,6 @@ void MainWindow::dragEnterEvent(QDragEnterEvent *event)
     }
 }
 
-//In move and add mode, a drag is started. Code primarily borrowed from
-//"Draggable Icons" Qt Example:
-//http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
 void MainWindow::dragMoveEvent(QDragMoveEvent *event)
 {
 
@@ -535,15 +508,11 @@ void MainWindow::dragMoveEvent(QDragMoveEvent *event)
     }
 }
 
-//In move and add mode, a drag is started. Code primarily borrowed from
-//"Draggable Icons" Qt Example:
-//http://doc.qt.io/qt-5/qtwidgets-draganddrop-draggableicons-example.html
 void MainWindow::dropEvent(QDropEvent *event)
 {
     if (ui->actionMove_and_Add_Mode->isChecked())
     {
-        if (event->mimeData()->hasFormat("application/x-dnditemdata"))
-        {
+        if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
             QByteArray itemData =
                     event->mimeData()->data("application/x-dnditemdata");
             QDataStream dataStream(&itemData, QIODevice::ReadOnly);
@@ -552,7 +521,7 @@ void MainWindow::dropEvent(QDropEvent *event)
             QPoint offset;
             dataStream >> pixmap >> offset;
 
-            //Update new position for ActiveLED
+            //Update new place for ActiveLED
             int ledtoMove = getActiveLED();
             LEDs.at(ledtoMove)->setPixmap(pixmap);
             LEDs.at(ledtoMove)->move(event->pos() - offset);
@@ -562,64 +531,72 @@ void MainWindow::dropEvent(QDropEvent *event)
                                      .arg(LEDs.at(getActiveLED())->pos().rx())
                                      .arg(LEDs.at(getActiveLED())->pos().ry()));
 
-            if (event->source() == this)
-            {
+            if (event->source() == this) {
                 event->setDropAction(Qt::MoveAction);
                 event->accept();
-            }
-            else
+            } else {
                 event->acceptProposedAction();
-        }
-        else
+            }
+        } else {
+            qDebug() << "didn't work!!!!!";
             event->ignore();
+        }
     }
+
 }
 
 
 
-//When hit add behavior, takes all selected LEDs, check if they have IDs,
-//then add open an BehaviorWindow for the pattern.
+
+
+
+
+
 void MainWindow::on_addBehaviorButton_clicked()
 {
-    //make sure at least 1 LED selected
-    if (selectedLEDs.size() == 0)
-    {
-        QMessageBox::warning(this, "Warning", "Must Select at least 1 LED");
-        return;
-    }
-
-    //first assume all selected LEDs have IDs
+    //Test if all LEDs selected have an ID
     bool allLEDsHaveIDs = true;
-    //loop through selected LEDs, making sure they have a valid ID (>=0)
     for (int m = 0; m < selectedLEDs.size(); m++)
     {
         if (selectedLEDs.at(m)->getID() < 0)
         {
             allLEDsHaveIDs = false;
-            break;
         }
     }
-    //return and display warning if not all LEDs have IDs
-    if (allLEDsHaveIDs == false)
+
+    if (selectedLEDs.size() == 0)
+    {
+        QMessageBox::warning(this, "Warning", "Must Select at least 1 LED");
+        return;
+    }
+    else if (allLEDsHaveIDs == false)
     {
         QMessageBox::warning(this, "LED ID Problem", "Not all LEDs selected have IDs. Please assign an ID to all LEDs");
         return;
     }
-    
-    //create new BehaviorWindow for the selected group of LEDs
-    BehaviorWindow *bWindow = new BehaviorWindow(vectOfData, selectedLEDs,this);
-    //set so only the BehaviorWindow can be used while it is open
+//    BehaviorWindow bWindow(vectOfData, selectedLEDs, this);
+//    //Can't access MainWindow with bWindow is open:
+//    bWindow.setModal(true);
+//    QPoint here = this->pos();
+//    bWindow.move(here + QPoint((this->width()-bWindow.width())/2, 300));
+//    bWindow.exec();
+    qDebug() << "selectedLEDs: ";
+    for (int i = 0; i < selectedLEDs.size(); i++)
+    {
+        qDebug() << selectedLEDs.at(i)->getID();
+    }
+    BehaviorWindow *bWindow = new BehaviorWindow(vectOfData, selectedLEDs, this);
     bWindow->setModal(true);
-    //move BehaviorWindow to good place, and show
     QPoint here = this->pos();
     bWindow->move(here + QPoint((this->width()-bWindow->width())/2, 300));
     bWindow->show();
+    //clearSelectedLEDs();
+
 }
 
-//Called whenever Display Window is selected
+
 void MainWindow::on_displayWindowButton_toggled(bool checked)
 {
-    //if selected (if user wants to display), update text, move, and show
     if (checked)
     {
         updateDisplay();
@@ -627,18 +604,17 @@ void MainWindow::on_displayWindowButton_toggled(bool checked)
         dWindow->move(here + QPoint(this->width() + 2, 0));
         dWindow->show();
     }
-    //if unselected (user does not want to display), hide Display Window
     else
         dWindow->hide();
 }
 
-//whenever reset groups is selected, clears groups, updates timeline+display
+
 void MainWindow::on_resetGroupsButton_clicked()
 {
     clearGroups();
+    updateDisplay();
 }
 
-//clears groups
 void MainWindow::clearGroups()
 {
     for (int m = vectOfData->size() - 1 ; m >= 0; --m)
@@ -647,15 +623,12 @@ void MainWindow::clearGroups()
     }
     for (int y = 0; y < LEDs.size(); y++)
     {
-        LEDs.at(y)->setColor(QColor(255, 255, 255));
+        LEDs.at(y)->setLEDColor(QColor(255, 255, 255), LEDs.at(y)->getID());
     }
     listBehaviorWindows.clear();
     vectOfData->clear();
 }
 
-//with specified groupID, erases that LightParameter from vectOfData,
-//deletes bWindow and erases from listBehaviorWindows, updates IDs of
-//remaining bWindows in listBehaviorWindows, and updates display and timeline
 void MainWindow::deleteGroup(int groupID)
 {
     vectOfData->erase(vectOfData->begin() + groupID);
@@ -665,16 +638,15 @@ void MainWindow::deleteGroup(int groupID)
     {
         listBehaviorWindows.at(p)->setID(p);
     }
+    qDebug() << "Changin ID to " << groupID;
     updateDisplay();
-    updateTimeline();
 }
 
-//calculates stop time based on pattern parameters (overloaded), returns in ms
-unsigned long MainWindow::getStopTime(ActivePattern pattern, int startTime,
+long MainWindow::getStopTime(ActivePattern pattern, int startTime,
                                   int cycles, int interval, int onTime,
                                   int offTime, int grouplength, uint32_t color1)
 {
-    unsigned long stopTime = 0;
+    long stopTime;
     switch(pattern)
     {
         case RAINBOW_CYCLE:
@@ -714,10 +686,9 @@ unsigned long MainWindow::getStopTime(ActivePattern pattern, int startTime,
     return stopTime;
 }
 
-//calculates stop time based on LightParameter (overloaded), returns in ms
-unsigned long MainWindow::getStopTime(LightParameter struc)
+long MainWindow::getStopTime(LightParameter struc)
 {
-    unsigned long stopTime = 0;
+    long stopTime;
     switch(struc.pattern)
     {
         case RAINBOW_CYCLE:
@@ -757,14 +728,11 @@ unsigned long MainWindow::getStopTime(LightParameter struc)
     return stopTime;
 }
 
-//when select Range button pressed, validates the range then selects all LEDS
-//with IDs in that range
 void MainWindow::on_selectRangeButton_clicked()
 {
-    //get lower and upper entries
     QString lowText = ui->lowerBoundSelectLabel->text();
     QString upText = ui->upperBoundSelectLabel->text();
-    //Check if Range is valid (neither are empty, and upper is higher than lower
+    //Check if Range is valid
     if ((!(lowText.isEmpty()) && !(upText.isEmpty())) &&
             (upText.toInt() > lowText.toInt()))
     {
@@ -772,10 +740,9 @@ void MainWindow::on_selectRangeButton_clicked()
         int lowInt = lowText.toInt();
         if (orderedLEDs.empty())
         {
-            QMessageBox::warning(this, "Warning","Must give IDs to LEDs first");
+            QMessageBox::warning(this, "Warning", "Must give IDs to LEDs first");
             return;
         }
-        // check if the upper range is too high
         if (upInt > orderedLEDs.size()-1)
         {
             QMessageBox::warning(this, "Warning", "Upper Range is Too High");
@@ -783,57 +750,28 @@ void MainWindow::on_selectRangeButton_clicked()
         }
         qDebug() << "Range is Valid";
         clearSelectedLEDs();
-        //loop from lower ID to upper ID
         for (int p = lowInt; p <= upInt; p++)
         {
-            //assume currentLED not selected
             bool selected = false;
             for (int t = 0; t < selectedLEDs.size(); t++)
             {
-                //if the ID is selected, set selected to true
-                if (orderedLEDs.at(p) == selectedLEDs.at(t))
+                if (selectedLEDs.at(t) == orderedLEDs.at(p))
                 {
                     selected = true;
-                    break;
                 }
             }
-            //only select if LED is unselected
             if (selected == false)
+            {
                 selectLED(orderedLEDs.at(p));
+            }
         }
     }
-    //clear user entries, for next entry
     ui->lowerBoundSelectLabel->clear();
     ui->upperBoundSelectLabel->clear();
 }
 
-//called whenever open timeline button is toggled
-void MainWindow::on_timelineWindowButton_toggled(bool checked)
-{
-    
-    //if button is checked (user wants timeline) update+move+show timeline
-    if (checked)
-    {
-        updateTimeline();
-        QPoint here = this->pos();
-        timeline->move(here + QPoint(this->width() + 2, dWindow->height()+30));
-        timeline->show();
-    }
-    //if button is un-checked (user does not want timeline), hide timeline.
-    else
-        timeline->hide();
-}
 
-//enables programmer to Check the Dwindow button from another class (for example
-//, from DisplayWindow)
 void MainWindow::CheckDWinButton(bool toggle)
 {
     ui->displayWindowButton->setChecked(toggle);
-}
-
-//enables programmer to Check the timelinewindow button from another class (for example
-//, from TimeLine)
-void MainWindow::CheckTWinButton(bool toggle)
-{
-    ui->timelineWindowButton->setChecked(toggle);
 }

@@ -7,61 +7,38 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>587</height>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>false</bool>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="7" column="2">
-     <spacer name="verticalSpacer_4">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="12" column="1">
-     <spacer name="horizontalSpacer_2">
+    <item row="6" column="1">
+     <widget class="Line" name="line_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>40</width>
-        <height>20</height>
-       </size>
-      </property>
-     </spacer>
+     </widget>
     </item>
-    <item row="12" column="2">
+    <item row="7" column="4">
      <widget class="QPushButton" name="resetGroupsButton">
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
+      </property>
       <property name="text">
        <string>Reset All Groups</string>
       </property>
      </widget>
     </item>
-    <item row="13" column="0">
-     <widget class="QPushButton" name="displayWindowButton">
-      <property name="text">
-       <string>Open Display Window</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="15" column="0">
+    <item row="9" column="0">
      <widget class="QLineEdit" name="displayText">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -81,12 +58,15 @@
         <height>23</height>
        </size>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:#cccccc</string>
+      </property>
       <property name="text">
        <string/>
       </property>
      </widget>
     </item>
-    <item row="15" column="2">
+    <item row="9" column="4">
      <widget class="QPushButton" name="quitButton">
       <property name="palette">
        <palette>
@@ -103,9 +83,9 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -175,18 +155,18 @@
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -240,9 +220,9 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -312,18 +292,18 @@
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -377,9 +357,9 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -449,18 +429,18 @@
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -503,12 +483,115 @@
         </disabled>
        </palette>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
+      </property>
       <property name="text">
        <string>Quit</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="2">
+    <item row="3" column="4">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lowerBoundSelectLabel">
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="upperBoundSelectLabel">
+          <property name="maximumSize">
+           <size>
+            <width>40</width>
+            <height>16777215</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="selectRangeButton">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background:grey;</string>
+        </property>
+        <property name="text">
+         <string>Select Inputted Range</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="8" column="4">
+     <widget class="QPushButton" name="resetID">
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
+      </property>
+      <property name="text">
+       <string>Reset IDs</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="4">
+     <widget class="QPushButton" name="deleteSelectedButton">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
+      </property>
+      <property name="text">
+       <string>Delete Selected</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="3" rowspan="2">
+     <widget class="Line" name="line_4">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="4">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -1850,9 +1933,9 @@
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -1922,18 +2005,18 @@
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -1987,9 +2070,9 @@
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2059,18 +2142,18 @@
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2124,9 +2207,9 @@
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2196,18 +2279,18 @@
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2249,6 +2332,9 @@
              </colorrole>
             </disabled>
            </palette>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background:grey;</string>
           </property>
           <property name="text">
            <string>Add 5</string>
@@ -2272,9 +2358,9 @@
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2344,18 +2430,18 @@
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2409,9 +2495,9 @@
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2481,18 +2567,18 @@
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>255</red>
-                <green>255</green>
-                <blue>255</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2546,9 +2632,9 @@
              <colorrole role="Button">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2618,18 +2704,18 @@
              <colorrole role="Base">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
              <colorrole role="Window">
               <brush brushstyle="SolidPattern">
                <color alpha="255">
-                <red>239</red>
-                <green>235</green>
-                <blue>231</blue>
+                <red>128</red>
+                <green>128</green>
+                <blue>128</blue>
                </color>
               </brush>
              </colorrole>
@@ -2672,6 +2758,9 @@
             </disabled>
            </palette>
           </property>
+          <property name="styleSheet">
+           <string notr="true">background:grey;</string>
+          </property>
           <property name="text">
            <string>Delete 5</string>
           </property>
@@ -2681,7 +2770,14 @@
       </item>
      </layout>
     </item>
-    <item row="2" column="2">
+    <item row="6" column="0">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="4">
      <widget class="QPushButton" name="clearLEDs">
       <property name="palette">
        <palette>
@@ -2698,9 +2794,9 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -2770,18 +2866,18 @@
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -2835,9 +2931,9 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -2907,18 +3003,18 @@
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>255</red>
-            <green>255</green>
-            <blue>255</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -2972,9 +3068,9 @@
          <colorrole role="Button">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -3044,18 +3140,18 @@
          <colorrole role="Base">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
          <colorrole role="Window">
           <brush brushstyle="SolidPattern">
            <color alpha="255">
-            <red>239</red>
-            <green>235</green>
-            <blue>231</blue>
+            <red>128</red>
+            <green>128</green>
+            <blue>128</blue>
            </color>
           </brush>
          </colorrole>
@@ -3098,153 +3194,26 @@
         </disabled>
        </palette>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
+      </property>
       <property name="text">
        <string>CLEAR</string>
       </property>
      </widget>
     </item>
-    <item row="3" column="2">
-     <widget class="QPushButton" name="selectAllButton">
-      <property name="text">
-       <string>Select All LEDs</string>
-      </property>
-     </widget>
-    </item>
-    <item row="8" column="2">
-     <widget class="QPushButton" name="deleteSelectedButton">
-      <property name="enabled">
-       <bool>true</bool>
-      </property>
-      <property name="text">
-       <string>Delete Selected</string>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout_3">
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <spacer name="horizontalSpacer_3">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="lowerBoundSelectLabel">
-          <property name="maximumSize">
-           <size>
-            <width>40</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label">
-          <property name="maximumSize">
-           <size>
-            <width>15</width>
-            <height>15</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>—</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="upperBoundSelectLabel">
-          <property name="maximumSize">
-           <size>
-            <width>40</width>
-            <height>16777215</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <spacer name="horizontalSpacer_4">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QPushButton" name="selectRangeButton">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Select Inputted Range</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_5">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-    <item row="13" column="2">
-     <widget class="QPushButton" name="resetID">
-      <property name="text">
-       <string>Reset IDs</string>
-      </property>
-     </widget>
-    </item>
-    <item row="11" column="2">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Expanding</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>75</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="12" column="0">
+    <item row="7" column="0">
      <widget class="QPushButton" name="addBehaviorButton">
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
+      </property>
       <property name="text">
        <string>Add Behavior</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="0">
-     <spacer name="horizontalSpacer">
+    <item row="7" column="1">
+     <spacer name="horizontalSpacer_2">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
@@ -3256,45 +3225,61 @@
       </property>
      </spacer>
     </item>
-    <item row="4" column="2">
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item row="2" column="4">
+     <widget class="QPushButton" name="selectAllButton">
+      <property name="styleSheet">
+       <string notr="true">background:grey;</string>
       </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>40</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="0" column="2">
-     <spacer name="verticalSpacer_3">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Fixed</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>10</width>
-        <height>50</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="14" column="0">
-     <widget class="QPushButton" name="timelineWindowButton">
       <property name="text">
-       <string>Open Timeline Window</string>
+       <string>Select All LEDs</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" rowspan="6" colspan="2">
+     <widget class="QStackedWidget" name="verticalStackedWidget">
+      <property name="styleSheet">
+       <string notr="true">background:white;border:black;</string>
+      </property>
+      <widget class="QWidget" name="verticalStackedWidgetPage1" native="true">
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QPushButton" name="displayWindowButton">
+      <property name="styleSheet">
+       <string notr="true">background:grey;
+</string>
+      </property>
+      <property name="text">
+       <string>Open Display Window</string>
       </property>
       <property name="checkable">
        <bool>true</bool>
       </property>
       <property name="checked">
        <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3" rowspan="5">
+     <widget class="Line" name="line_6">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </item>
@@ -3306,7 +3291,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuSetMode">
@@ -3342,7 +3327,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="modeicons.qrc">
+    <iconset resource="draggableicons.qrc">
      <normaloff>:/images/selectIcon.png</normaloff>:/images/selectIcon.png</iconset>
    </property>
    <property name="text">
@@ -3354,7 +3339,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="modeicons.qrc">
+    <iconset resource="draggableicons.qrc">
      <normaloff>:/images/editIcon.png</normaloff>:/images/editIcon.png</iconset>
    </property>
    <property name="text">
@@ -3366,7 +3351,7 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset resource="modeicons.qrc">
+    <iconset resource="draggableicons.qrc">
      <normaloff>:/images/addBarIcon.png</normaloff>:/images/addBarIcon.png</iconset>
    </property>
    <property name="text">
@@ -3379,7 +3364,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="modeicons.qrc"/>
+  <include location="draggableicons.qrc"/>
  </resources>
  <connections/>
 </ui>
