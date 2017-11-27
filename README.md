@@ -6,6 +6,7 @@ This includes:
  - Universal IDE to program the Arduino using LED sketch board.
  - Arduino LED Library, It exposes the C++ APIs to be used in other programs. You can initialize the library and generate the *.ino files on runtime.
 
+[!example of the lights] (https://github.com/sonderswag/Modular-LED-HRI-/blob/master/Photos/20160908_171027.jpg) 
 ---
 
 ## Requirements
