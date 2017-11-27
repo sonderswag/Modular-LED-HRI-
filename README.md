@@ -8,6 +8,7 @@ This includes:
  
 
 ![example of the lights](https://github.com/sonderswag/Modular-LED-HRI-/blob/master/Photos/20160908_171027.jpg) 
+![example of hexlights](https://github.com/sonderswag/Modular-LED-HRI-/blob/master/Photos/hexlight1.PNG)
 ---
 
 ## Requirements
